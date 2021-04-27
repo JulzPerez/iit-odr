@@ -5,8 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Document;
+use App\DocRequest;
+
+
 class RequestController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +22,18 @@ class RequestController extends Controller
      */
     public function index()
     {
-        $requests = DB::table('requests');
+        $userid = \Auth::user()->id;
+
+        $all_request = DB::table('requestor')
+            ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
+            ->join('documents', 'documents.id', '=', 'requests.document_id')
+            ->select('requests.*', 'documents.*')
+            ->where('requestor.user_id',$userid)
+            ->get();
+
+        //dd($all_request);
         
-        return view('request.index', compact('requests'));
+        return view('request.index', compact('all_request'));
     }
 
     /**
@@ -26,9 +43,19 @@ class RequestController extends Controller
      */
     public function create()
     {
-        $docs = Document::all();
+        $userid = \Auth::user()->id;
+        
+        if (DB::table('requestor')->where('user_id', $userid )->doesntExist() ) 
+        {
+            return redirect('/requester')->with('message', 'You must fill-in some information first below before you can create the request!');  
+        }
+        else
+        {
+            $docs = Document::all();        
 
-        return view('request.create', compact('docs'));
+            return view('request.create', compact('docs'));
+        }
+        
     }
 
     /**
@@ -39,7 +66,19 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userid = \Auth::user()->id;
+        $requestor_id = DB::table('requestor')
+                        ->where('user_id', $userid)
+                        ->first()->id;
+       // dd($request);
+
+        
+       DocRequest::create([
+            'requestor_id' => $requestor_id,
+            'document_id' => $request['docID']
+        ]); 
+
+        return redirect('/request')->with('success', 'Request added successfully!');
     }
 
     /**

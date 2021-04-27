@@ -22,30 +22,32 @@
       <div class="row ">
         <div class="col-md-12">
             <div class="card">
-            <div class="card-header">
-               Fill-in form:
-            </div>
                 <form method="POST" action="{{ route('request.store') }} ">
                 @csrf
                     <div class="card-body">
-                        <div>
-                            <label class="float-left">Document Name</label>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                              <label>Document to Request</label>
                               <select class="form-control select2bs4" name="docID" style="width: 100%;">
                                 @foreach($docs as $doc)
-                                  <option value="{{$doc->id}}"> {{$doc->docName}} </option>
+                                  <option value="{{$doc->id}}"> {{$doc->docName.' '.$doc->docParticular}} </option>
                                 @endforeach
                               </select>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                    <!-- /.card-body -->
+
                     <div class="card-footer">
-                      <button type="submit" class="btn btn-primary">Add</button>
+                      <button type="submit" class="btn btn-primary">Add Request</button>
                     </div>
-                </form>
+                    
+                  </form>
                 
             </div>
             <!-- /.card -->
-          </div>
+        </div>
       </div>    
 
 </div>

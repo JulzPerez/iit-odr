@@ -17,6 +17,8 @@ class CreateRequestsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('requestor_id');
             $table->unsignedBigInteger('document_id');
+            $table->string('request_status')->default('pending');     
+
             $table->timestamps();
 
             $table->foreign('requestor_id')->references('id')->on('requestor')->onDelete('cascade');

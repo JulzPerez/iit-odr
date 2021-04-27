@@ -9,7 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>DCFI | Web Application</title>
+  <title>MSU-IIT | ODR</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="/css/app.css">
 
@@ -105,7 +105,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <a href="index3.html" class="brand-link">
      <!--  <img src="./img/logo.png" alt="Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8"> -->
-      <span class="brand-text font-weight-light user-center">MSU-IIT ORD</span>
+      <span class="brand-text font-weight-light user-center">MSU-IIT <br> Online Document Request</span>
     </a>
 
     <!-- Sidebar -->
@@ -131,23 +131,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                with font-awesome or any other icon font library -->
 
           <li class="nav-item">
-            <a href="/home" class="nav-link">
+            <a href="/" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>
-                Home
-           
+                Request           
               </p>
             </a>
           </li>
+
           <li class="nav-item">
-            <a href="{{route('request.index') }}" class="nav-link">
-              <i class="nav-icon fas fa-home"></i>
+            <a href="/requester" class="nav-link">
+              <i class="nav-icon fas fa-info-circle"></i>
               <p>
-                Requests
-           
+                Requester Information          
               </p>
             </a>
           </li>
+         
           <li class="nav-item ">
             <a href="{{route('document.index') }}" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>
@@ -159,15 +159,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
           </li>
 
-          <!-- <li class="nav-item ">
-            <a href="{{route('docParticular.index') }}" class="nav-link ">
-              <i class="nav-icon fas fa-copy"></i>
+          <li class="nav-item ">
+            <a href="/assessment" class="nav-link ">
+              <i class="nav-icon fas fa-comments-dollar"></i>
               <p>
-                Document Particulars              
+                Assessment of Fees              
+                
               </p>
             </a>
             
-          </li> -->
+          </li>
             
           <li class="nav-item">
                 <a class="nav-link" href="{{ route('logout') }}"
@@ -226,5 +227,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 @endauth
 
 <script src="/js/app.js"></script>
+<script src="{{ mix('js/popper.js') }}"></script>
 </body>
 </html>

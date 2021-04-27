@@ -16,10 +16,20 @@
         <div class="col-md-12">
             <div class="card">
             <div class="card-header">
-                Document List
                 <a href="{{route('document.create') }}">
-                    <button  type="button" class="btn btn-primary float-right">New Document</button>
+                    <button  type="button" class="btn btn-primary float-left">New Document</button>
                 </a>
+            
+                <form class="form-inline ml-3 float-right">
+                    <div class="input-group input-group-sm ">
+                        <input class="form-control form-control-navbar " type="search" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                        <button class="btn btn-navbar" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        </div>
+                    </div>
+                </form>
             </div>
                 
                 <div class="card-body"  >
@@ -28,8 +38,8 @@
                         <thead>
                             <tr>
                                 <th style="width:10%">ID</th>
-                                <th style="width:40%"> Name</th>     
-                                <th style="width:40%"> Particular</th> 
+                                <th style="width:80%"> Name</th>     
+                                
                                 <th style="width:10%" colspan = 2>Actions</th>                 
                             </tr>
                         </thead>
@@ -38,8 +48,8 @@
                                 @foreach($docs as $doc)
                                 <tr>
                                     <td>{{$doc->id}}</td>
-                                    <td>{{$doc->docName}}</td>
-                                    <td>{{$doc->docParticular}}</td>
+                                    <td>{{$doc->docName.' '.$doc->docParticular}}</td>
+                                   
                                     <td>
                                         <a href="{{ route('document.edit',$doc->id)}}" class="btn btn-primary">Edit
                                         <!-- <i class="fas fa-edit"></i> -->
