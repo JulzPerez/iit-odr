@@ -59,15 +59,83 @@ class RequesterController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->validate($request, [
+            'first_name' => 'required|string|max:191',
+            'middle_name' => 'required|string|max:191',
+            'last_name' => 'required|string|max:191',
+            //'id_no' => 'required|string|max:191',
+            'contact_no' => 'required|string|max:191',
+            'home_address' => 'required|string|max:191',
+            'requestor_type' => 'required',
+            //'mailing_address' => 'required|string|max:191',
+            'degree' => 'required|string|max:191',
+            'option' => 'required|string|max:191',
+            //'honor' => 'required|string|max:191',
+            'graduation_date' => 'required',
+            'highschool_graduated' => 'required|string|max:191',
+            'highschool_address' => 'required|string',
+            'last_sem_attended' => 'required|string|max:191',
+            'last_AY_attended' => 'required|string|max:191',
+            //'transferee_last_school' => 'required|string|max:191',
+            //'last_AY_attended' => 'required|string|max:191',
+            'request_purpose' => 'required|string|max:191',
+            'sex' => 'required|string|max:191',
+            'birthdate' => 'required',
+            'religion' => 'required|string|max:191',
+            'birth_place' => 'required|string|max:191',
+            'citizenship' => 'required|string|max:191',
+            'civil_status' => 'required|string|max:191',
+            //'spouse_name' => 'required|string|max:191',
+            //'father_fullname' => 'required|string|max:191',
+            //'mother_fullmaidenname' => 'required|string|max:191',
+            //'parents_address' => 'required|string|max:191',
+            //'authorized_person' => 'required|string|max:191',
+        ], 
+            [
+            'first_name.required' => 'required',
+            'middle_name.required' => 'required',
+            'last_name.required' => 'required',
+            //'id_no.required' => 'required|string|max:191',
+            'contact_no.required' => 'required',
+            'home_address.required' => 'required',
+            'requestor_type' => 'required',
+            //'mailing_address' => 'required|string|max:191',
+            'degree.required' => 'required',
+            'option.required' => 'required',
+            //'honor' => 'required|string|max:191',
+            'graduation_date.required' => 'required',
+            'highschool_graduated.required' => 'required',
+            'highschool_address.required' => 'required',
+            'last_sem_attended.required' => 'required',
+            'last_AY_attended.required' => 'required',
+            //'transferee_last_school' => 'required|string|max:191',
+            //'last_AY_attended' => 'required|string|max:191',
+            'request_purpose.required' => 'required',
+            'sex.required' => 'required',
+            'birthdate.required' => 'required',
+            'religion.required' => 'required',
+            'birth_place.required' => 'required',
+            'citizenship.required' => 'required',
+            'civil_status.required' => 'required',
+            //'spouse_name' => 'required|string|max:191',
+            //'father_fullname' => 'required|string|max:191',
+            //'mother_fullmaidenname' => 'required|string|max:191',
+            //'parents_address' => 'required|string|max:191',
+            //'authorized_person' => 'required|string|max:191',
+            ]
+        );
+
         $userid = \Auth::user()->id;
 
         Requestor::create([
             'user_id' => $userid,
             'first_name' => $request['first_name'],
-            'last_name' => $request['middle_name'],
-            'middle_name' => $request['last_name'],
+            'middle_name' => $request['middle_name'],
+            'last_name' => $request['last_name'],
             //'maiden_name' => $request['docname'],
             'id_no' => $request['id_no'],
+            'requestor_type' => $request['requestor_type'],
             'contact_no' => $request['contact_no'],
             'home_address' => $request['home_address'], 
             'mailing_address' => $request['mailing_address'],
@@ -80,7 +148,7 @@ class RequesterController extends Controller
             'last_sem_attended' => $request['last_sem_attended'],
             'last_sem_AY' => $request['last_AY_attended'], 
             'last_university_attended' => $request['transferee_last_school'],
-            'request_purpose' => $request['request_purpose'],
+            'purpose_of_request' => $request['request_purpose'],
             'sex' => $request['sex'],
             'date_of_birth' => $request['birthdate'], 
             'religion' => $request['religion'], 
@@ -117,7 +185,9 @@ class RequesterController extends Controller
      */
     public function edit($id)
     {
-        //
+        $requester = Requestor::find($id);
+
+        return view('requestor.edit', compact('requester'));
     }
 
     /**
@@ -129,7 +199,112 @@ class RequesterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+            //validation
+            $this->validate($request, [
+                'first_name' => 'required|string|max:191',
+                'middle_name' => 'required|string|max:191',
+                'last_name' => 'required|string|max:191',
+                //'id_no' => 'required|string|max:191',
+                'contact_no' => 'required|string|max:191',
+                'home_address' => 'required|string|max:191',
+                'requestor_type' => 'required',
+                //'mailing_address' => 'required|string|max:191',
+                'degree' => 'required|string|max:191',
+                'option' => 'required|string|max:191',
+                //'honor' => 'required|string|max:191',
+                'graduation_date' => 'required',
+                'highschool_graduated' => 'required|string|max:191',
+                'highschool_address' => 'required|string',
+                'last_sem_attended' => 'required|string|max:191',
+                'last_AY_attended' => 'required|string|max:191',
+                //'transferee_last_school' => 'required|string|max:191',
+                //'last_AY_attended' => 'required|string|max:191',
+                'request_purpose' => 'required|string|max:191',
+                'sex' => 'required|string|max:191',
+                'birthdate' => 'required',
+                'religion' => 'required|string|max:191',
+                'birth_place' => 'required|string|max:191',
+                'citizenship' => 'required|string|max:191',
+                'civil_status' => 'required|string|max:191',
+                //'spouse_name' => 'required|string|max:191',
+                //'father_fullname' => 'required|string|max:191',
+                //'mother_fullmaidenname' => 'required|string|max:191',
+                //'parents_address' => 'required|string|max:191',
+                //'authorized_person' => 'required|string|max:191',
+            ], 
+                [
+                'first_name.required' => 'required',
+                'middle_name.required' => 'required',
+                'last_name.required' => 'required',
+                //'id_no.required' => 'required|string|max:191',
+                'contact_no.required' => 'required',
+                'home_address.required' => 'required',
+                'requestor_type' => 'required',
+                //'mailing_address' => 'required|string|max:191',
+                'degree.required' => 'required',
+                'option.required' => 'required',
+                //'honor' => 'required|string|max:191',
+                'graduation_date.required' => 'required',
+                'highschool_graduated.required' => 'required',
+                'highschool_address.required' => 'required',
+                'last_sem_attended.required' => 'required',
+                'last_AY_attended.required' => 'required',
+                //'transferee_last_school' => 'required|string|max:191',
+                //'last_AY_attended' => 'required|string|max:191',
+                'request_purpose.required' => 'required',
+                'sex.required' => 'required',
+                'birthdate.required' => 'required',
+                'religion.required' => 'required',
+                'birth_place.required' => 'required',
+                'citizenship.required' => 'required',
+                'civil_status.required' => 'required',
+                //'spouse_name' => 'required|string|max:191',
+                //'father_fullname' => 'required|string|max:191',
+                //'mother_fullmaidenname' => 'required|string|max:191',
+                //'parents_address' => 'required|string|max:191',
+                //'authorized_person' => 'required|string|max:191',
+                ]
+            );
+    
+
+            $req = Requestor::find($id);
+
+            $req->first_name = $request['first_name'];
+            $req->middle_name = $request['middle_name'];
+            $req->last_name = $request['last_name'];
+            //'maiden_name' = $request['docname'];
+            $req->id_no = $request['id_no'];
+            $req->requestor_type = $request['requestor_type'];
+            $req->contact_no = $request['contact_no'];
+            $req->home_address = $request['home_address']; 
+            $req->mailing_address = $request['mailing_address'];
+            $req->degree = $request['degree'];
+            $req->major_option = $request['option'];
+            $req->academic_distinction = $request['honor'];
+            $req->date_of_graduation = $request['graduation_date'];
+            $req->highschool_graduated = $request['highschool_graduated']; 
+            $req->highschool_address = $request['highschool_address'];
+            $req->last_sem_attended = $request['last_sem_attended'];
+            $req->last_sem_AY = $request['last_AY_attended']; 
+            $req->last_university_attended = $request['transferee_last_school'];
+            $req->purpose_of_request = $request['request_purpose'];
+            $req->sex = $request['sex'];
+            $req->date_of_birth = $request['birthdate']; 
+            $req->religion = $request['religion']; 
+            $req->place_of_birth = $request['birth_place']; 
+            $req->citizenship = $request['citizenship'];
+            $req->civil_status = $request['civil_status']; 
+            $req->spouse = $request['spouse_name']; 
+            $req->name_of_father = $request['father_fullname']; 
+            $req->maiden_name_of_mother = $request['mother_fullmaidenname']; 
+            $req->address_of_parents = $request['parents_address']; 
+            $req->authorized_person = $request['authorized_person'];
+
+            $req->save();
+
+            //dd($req);
+
+            return redirect('/requester')->with('success', 'Record updated successfully!');
     }
 
     /**

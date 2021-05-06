@@ -31,6 +31,7 @@
                             <label class="float-left">Name</label>
                             <input  type="text" class="form-control" placeholder="Enter value here" name="docname">
                         </div>
+                        <br>
                         <div>
                             <label class="float-left">Particular</label>
                             <input  type="text" class="form-control" placeholder="Enter value here" name="particular">

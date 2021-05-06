@@ -41,7 +41,7 @@
                                 <th style="width:30%"> Document</th>   
                                 <th style="width:25%"> Request Date</th>  
                                 <th style="width:20%"> Status</th> 
-                                <th style="width:20%"> Remarks</th> 
+                                <th style="width:20%"> Assessment</th> 
                                                  
                             </tr>
                         </thead>
@@ -54,7 +54,11 @@
                                 <td>{{$request->docName.' '.$request->docParticular}}</td>
                                 <td>{{$request->created_at}}</td>
                                 <td>{{$request->request_status}} </td>
-                                <td></td>
+                                <td>
+                                        <a href="#" class="btn btn-primary btn-sm">View Assessment
+                                        <!-- <i class="fas fa-edit"></i> -->
+                                        </a>
+                                </td>
                                
                             </tr>                            
                             @endforeach

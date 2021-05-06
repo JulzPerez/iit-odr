@@ -9,21 +9,37 @@ require('./bootstrap');
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
-import'admin-lte/plugins/select2/js/select2.full.min.js';
-/* import'admin-lte/plugins/inputmask.js'; */
+import 'admin-lte/plugins/jquery/jquery.js';
+import 'admin-lte/plugins/select2/js/select2.full.min.js';
+import 'admin-lte/plugins/daterangepicker/daterangepicker';
 
 //Initialize Select2 Elements
-$('.select2').select2()
+$('.select2').select2();
 
 //Initialize Select2 Elements
 $('.select2bs4').select2({
     theme: 'bootstrap4'
-})
+});
 
-//Datemask dd/mm/yyyy
+$( "#datepicker" ).datepicker({
+    format: "mm/dd/yy",
+    weekStart: 0,
+    calendarWeeks: true,
+    autoclose: true,
+    todayHighlight: true,
+    rtl: true,
+    orientation: "auto"
+});
+    
+
+/* //Datemask dd/mm/yyyy
 $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
 //Datemask2 mm/dd/yyyy
+$('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+//Money Euro
+$('[data-mask]').inputmask() */
 
+ 
 
 window.Vue = require('vue');
 

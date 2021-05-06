@@ -51,7 +51,7 @@
                                     <td>{{$doc->docName.' '.$doc->docParticular}}</td>
                                    
                                     <td>
-                                        <a href="{{ route('document.edit',$doc->id)}}" class="btn btn-primary">Edit
+                                        <a href="{{ route('document.edit',$doc->id)}}" class="btn btn-primary btn-sm">Edit
                                         <!-- <i class="fas fa-edit"></i> -->
                                         </a>
                                     </td>
@@ -59,7 +59,7 @@
                                         <form action="{{ route('document.destroy', $doc->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                                         </form>
                                     </td>
                                 </tr>                            

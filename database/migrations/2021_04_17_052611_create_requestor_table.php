@@ -40,7 +40,7 @@ class CreateRequestorTable extends Migration
             $table->string('purpose_of_request')->nullable();
 
             $table->string('sex')->nullable();
-            $table->string('date_of_birth')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->string('religion')->nullable();
             $table->string('place_of_birth')->nullable();
             $table->string('citizenship')->nullable();

@@ -40,12 +40,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
       border: 1px solid #ddd;
     }
 
-    th, td {
+    th {
       text-align: left;
+      color:white;
+      background-color:black;
     }    
 
     tr:nth-child(odd) {
       background-color: #ADD8E6;
+    }
+
+    td.first
+    {
+        background-color: #ffe9ec ;
+        color: black;
+    }
+    td.second
+    {
+        background-color: white;
+        color: black;
     }
 
     .btn-sq {
@@ -77,7 +90,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li class="nav-item dropdown">
               
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    {{ Auth::user()->first_name.' '.Auth::user()->last_name }}<span class="caret"></span>
+                    {{ ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name) }}<span class="caret"></span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -227,6 +240,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 @endauth
 
 <script src="/js/app.js"></script>
-<script src="{{ mix('js/popper.js') }}"></script>
+<script src="/js/popper.js"></script>
 </body>
 </html>

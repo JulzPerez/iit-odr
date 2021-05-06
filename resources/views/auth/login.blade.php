@@ -44,10 +44,18 @@
                   
                   
                     
-                      <div class="form-check">
+                 <!--    <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="exampleCheck2">
                         <label class="form-check-label" for="exampleCheck2">Remember me</label>
-                      </div>
+                    </div> -->
+                    <div>
+                        @if (Route::has('register'))
+                            <p>
+                                Don't have an account yet? 
+                                <a href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </p>
+                        @endif
+                    </div>
                     
                   
                 </div>
