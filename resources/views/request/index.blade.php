@@ -54,11 +54,18 @@
                                 <td>{{$request->docName.' '.$request->docParticular}}</td>
                                 <td>{{$request->created_at}}</td>
                                 <td>{{$request->request_status}} </td>
-                                <td>
-                                        <a href="#" class="btn btn-primary btn-sm">View Assessment
+
+                                @if($request->request_status === 'pending')
+                                    <td>
+                                        <p>Not yet assessed</p>
+                                    </td>                            
+                                @elseif($request->request_status === 'assessed')
+                                    <td>
+                                        <a href="#" class="btn btn-info btn-sm">View Assessment
                                         <!-- <i class="fas fa-edit"></i> -->
                                         </a>
-                                </td>
+                                    </td>
+                                @endif
                                
                             </tr>                            
                             @endforeach

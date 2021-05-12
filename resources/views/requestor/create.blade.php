@@ -39,9 +39,11 @@
                             <label>ID Number</label>
                             <input  type="text" class="form-control" name="id_no" value="{{ old('id_no') }}">
                             
-                            @if ($errors->has('id_no'))
-                              <span class="text-danger">{{ $errors->first('id_no') }}</span>
-                            @endif 
+                            @error('id_no')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror 
 
                           </div>
                         </div>
@@ -72,9 +74,11 @@
                             <label>Last Name</label>
                             <input  type="text" class="form-control"  name="last_name" value="{{ old('last_name') }}">
                             
-                            @if ($errors->has('last_name'))
-                              <span class="text-danger">{{ $errors->first('last_name') }}</span>
-                            @endif 
+                            @error('last_name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror 
                             
                           </div>
                         </div>
@@ -99,7 +103,6 @@
                         <div class="col-md-3">
                           <div class="form-group">
                             <label>Civil Status</label>
-                            <input  type="text" class="form-control" name="civil_status" value="{{ old('civil_status') }}">
                             <select class="form-control select2bs4" name="civil_status" value="{{ old('civil_status') }}"  style="width: 100%;">
                                
                                 <option>Single</option>
@@ -303,7 +306,7 @@
                         <div class="col-md-4">
                           <div class="form-group">
                             <label>Last Academic Year Attended</label>
-                            <input  type="text" class="form-control"  name="last_AY_attended" value="{{ old('last_AY_attended') }}">
+                            <input  type="number" class="form-control"  name="last_AY_attended" value="{{ old('last_AY_attended') }}">
                             
                             @if ($errors->has('last_AY_attended'))
                               <span class="text-danger">{{ $errors->first('last_AY_attended') }}</span>

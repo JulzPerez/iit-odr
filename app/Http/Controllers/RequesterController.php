@@ -76,7 +76,7 @@ class RequesterController extends Controller
             'highschool_graduated' => 'required|string|max:191',
             'highschool_address' => 'required|string',
             'last_sem_attended' => 'required|string|max:191',
-            'last_AY_attended' => 'required|string|max:191',
+            'last_AY_attended' => 'required|number|max:191',
             //'transferee_last_school' => 'required|string|max:191',
             //'last_AY_attended' => 'required|string|max:191',
             'request_purpose' => 'required|string|max:191',

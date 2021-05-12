@@ -30,8 +30,6 @@ class RequestController extends Controller
             ->select('requests.*', 'documents.*')
             ->where('requestor.user_id',$userid)
             ->get();
-
-        //dd($all_request);
         
         return view('request.index', compact('all_request'));
     }
@@ -75,7 +73,8 @@ class RequestController extends Controller
         
        DocRequest::create([
             'requestor_id' => $requestor_id,
-            'document_id' => $request['docID']
+            'document_id' => $request['docID'],
+            'number_of_copy' => $request['copy']
         ]); 
 
         return redirect('/request')->with('success', 'Request added successfully!');

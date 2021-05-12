@@ -21,10 +21,12 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        //
-        //$docs = Document::all()->simplePaginate(5); 
-        $docs = DB::table('documents')->latest()->simplePaginate(5);       
-        return view('document.index', compact('docs'));
+        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+            
+            $docs = DB::table('documents')->latest()->simplePaginate(5);       
+            return view('document.index', compact('docs'));
+        }
+        
     }
 
     /**
@@ -34,8 +36,9 @@ class DocumentController extends Controller
      */
     public function create()
     {
-        //
-        return view('document.create');
+        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+            return view('document.create');
+        }        
     }
 
     /**
@@ -46,18 +49,19 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
-        //
-        $this->validate($request, [
-            'docname' => 'required|string|max:191'
-        ]);
-
-        Document::create([
-            'docName' => $request['docname'],
-            'docParticular' => $request['particular']
-        ]);
-
-        return redirect('/document')->with('success', 'Record added successfully!');
+        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+            $this->validate($request, [
+                'docname' => 'required|string|max:191'
+            ]);
+    
+            Document::create([
+                'docName' => $request['docname'],
+                'docParticular' => $request['particular']
+            ]);
+    
+            return redirect('/document')->with('success', 'Record added successfully!');
+        }
+        
     }
 
     /**
@@ -79,10 +83,12 @@ class DocumentController extends Controller
      */
     public function edit($id)
     {
-        //
-        $doc = Document::find($id);
+        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+            $doc = Document::find($id);
 
-        return view('document.edit', compact('doc'));
+            return view('document.edit', compact('doc'));
+        }
+        
     }
 
     /**
@@ -94,16 +100,17 @@ class DocumentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $this->validate($request, [
-            'docname' => 'required|string|max:191'
-        ]);
-
-        $doc = Document::find($id);
-        $doc->docName = $request->get('docname');
-        $doc->save();
-
-        return redirect('/document')->with('success', 'Record updated successfully!');
+        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+            $this->validate($request, [
+                'docname' => 'required|string|max:191'
+            ]);
+    
+            $doc = Document::find($id);
+            $doc->docName = $request->get('docname');
+            $doc->save();
+    
+            return redirect('/document')->with('success', 'Record updated successfully!');
+        }       
 
     }
 
@@ -115,10 +122,12 @@ class DocumentController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $doc = Document::find($id);
-        $doc->delete();
+        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+            $doc = Document::find($id);
+            $doc->delete();
 
-        return redirect('/document')->with('success', 'Record deleted successfully!');
+            return redirect('/document')->with('success', 'Record deleted successfully!');
+        }
+        
     }
 }

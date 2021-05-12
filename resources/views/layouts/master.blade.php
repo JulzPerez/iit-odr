@@ -67,6 +67,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       font-size: 15px;
     }
 
+    .list-text-color {
+      color:green
+    }
+
 
   </style>
 
@@ -156,36 +160,53 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="/requester" class="nav-link">
               <i class="nav-icon fas fa-info-circle"></i>
               <p>
-                Requester Information          
+                Profile          
               </p>
             </a>
           </li>
-         
+          @canany(['isAdmin', 'isStaff'])
           <li class="nav-item ">
             <a href="{{route('document.index') }}" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Document              
-                
               </p>
-            </a>
-            
+            </a>            
           </li>
 
           <li class="nav-item ">
-            <a href="/assessment" class="nav-link ">
+            <a href="{{route('assessments.index') }}" class="nav-link ">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Assessment            
+              </p>
+            </a>            
+          </li>
+          <li class="nav-item ">
+            <a href="{{route('fees.index') }}" class="nav-link ">
               <i class="nav-icon fas fa-comments-dollar"></i>
               <p>
-                Assessment of Fees              
-                
+                Fees          
               </p>
             </a>
             
           </li>
-            
+          @endcan
+
+          @can('isAdmin')
+          <li class="nav-item ">
+            <a href="{{ route('users.index') }}" class="nav-link ">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Users         
+              </p>
+            </a>
+          </li>
+          @endcan
+
           <li class="nav-item">
                 <a class="nav-link" href="{{ route('logout') }}"
-                onclick="event.preventDefault();
+                  onclick="event.preventDefault();
                               document.getElementById('logout-form').submit();">
                     <i class="nav-icon fa fa-power-off red"></i>
                     <p>

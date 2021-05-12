@@ -51,7 +51,7 @@
                     <div>
                         @if (Route::has('register'))
                             <p>
-                                Don't have an account yet? 
+                                Doesn't have an account yet? 
                                 <a href="{{ route('register') }}">{{ __('Register') }}</a>
                             </p>
                         @endif

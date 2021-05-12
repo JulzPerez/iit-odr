@@ -9,9 +9,12 @@ require('./bootstrap');
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
-import 'admin-lte/plugins/jquery/jquery.js';
+import 'admin-lte/plugins/jquery/jquery.min.js';
+import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js';
 import 'admin-lte/plugins/select2/js/select2.full.min.js';
-import 'admin-lte/plugins/daterangepicker/daterangepicker';
+import 'admin-lte/plugins/daterangepicker/daterangepicker.js';
+import 'admin-lte/plugins/bootstrap4-dualListbox/jquery.bootstrap-duallistbox.min.js';
+import 'admin-lte/dist/js/adminlte.min.js';
 
 //Initialize Select2 Elements
 $('.select2').select2();
@@ -20,6 +23,9 @@ $('.select2').select2();
 $('.select2bs4').select2({
     theme: 'bootstrap4'
 });
+
+//Bootstrap Duallistbox
+$('.duallistbox').bootstrapDualListbox();
 
 $( "#datepicker" ).datepicker({
     format: "mm/dd/yy",
@@ -30,6 +36,8 @@ $( "#datepicker" ).datepicker({
     rtl: true,
     orientation: "auto"
 });
+
+
     
 
 /* //Datemask dd/mm/yyyy

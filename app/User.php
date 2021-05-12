@@ -6,9 +6,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Cmgmyr\Messenger\Traits\Messagable;
+
+
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,Messagable;
 
     protected $table = 'odr_users';
 
@@ -18,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name','last_name', 'email', 'password',
+        'first_name','last_name', 'email', 'user_type','password',
     ];
 
     /**

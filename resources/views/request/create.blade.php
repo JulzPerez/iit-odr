@@ -35,7 +35,13 @@
                                 @endforeach
                               </select>
                           </div>
+                          <div class="form-group">
+                              <label>Number of Copy</label>
+                              <input  type="number" class="form-control" name="copy" value="{{ old('copy') }}">
+                            
+                          </div>
                         </div>
+                        
                       </div>
                     </div>
 

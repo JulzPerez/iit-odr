@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/* Route::get('/', function () {
-    return view('welcome');
-}); */
 
 Auth::routes();
 
@@ -23,3 +20,7 @@ Route::get('/', 'RequestController@index');
 Route::Resource('document', 'DocumentController');
 Route::Resource('request', 'RequestController');
 Route::Resource('requester', 'RequesterController');
+Route::Resource('fees', 'FeesController');
+Route::Resource('users', 'UserController');
+Route::Resource('assessments', 'AssessmentController');
+
