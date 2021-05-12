@@ -20,7 +20,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card card-outline card-primary">
          
                 <form method="POST" action="{{ route('document.update', $doc->id) }} ">
                 @method('PATCH') 

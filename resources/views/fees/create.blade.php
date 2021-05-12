@@ -20,7 +20,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card card-outline card-primary">
             <div class="card-header">
                Fill-in form:
             </div>
@@ -38,11 +38,15 @@
                         </div>
                         <div class="form-group">
                             <label>Unit</label>
-                            <input  type="text" class="form-control" name="unit" value="{{ old('unit') }}">
+                            <select class="form-control select2bs4" name="unit" value="{{ old('unit') }}"  style="width: 100%;">
+                                <option>not applicable</option> 
+                                <option>per page</option>                                                      
+                                
+                              </select>
                             
-                            @if ($errors->has('unit'))
-                              <span class="text-danger">{{ $errors->first('unit') }}</span>
-                            @endif
+                              @if ($errors->has('unit'))
+                                <span class="text-danger">{{ $errors->first('unit') }}</span>
+                              @endif
                         </div>
                         <div class="form-group">
                             <label>Amount</label>

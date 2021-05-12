@@ -20,7 +20,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card card-outline card-primary">
             <div class="card-header">
                Fill-in form:
             </div>

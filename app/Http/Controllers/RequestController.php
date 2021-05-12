@@ -27,7 +27,7 @@ class RequestController extends Controller
         $all_request = DB::table('requestor')
             ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
             ->join('documents', 'documents.id', '=', 'requests.document_id')
-            ->select('requests.*', 'documents.*')
+            ->select('requests.*', 'documents.*','requests.id as request_id', 'requestor.id as requestor_id')
             ->where('requestor.user_id',$userid)
             ->get();
         
@@ -88,7 +88,19 @@ class RequestController extends Controller
      */
     public function show($id)
     {
-        //
+            $request_id = $id;
+
+            $assessments = DB::table('assessment_of_fees')
+            ->leftJoin('fees', 'fees.id', '=', 'assessment_of_fees.fees_id')
+            ->select('fees.id as f_id','fees.fee_name as f_name','fees.unit as f_unit','fees.amount as f_amount', 'assessment_of_fees.*')
+            ->where('assessment_of_fees.requests_id',$id)
+            ->get();
+
+            $total = collect($assessments)->sum('amount');
+
+            return view('request.show', compact('assessments','total'));
+
+            //dd($assessments);
     }
 
     /**

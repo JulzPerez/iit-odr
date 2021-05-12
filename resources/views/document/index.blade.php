@@ -14,7 +14,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card card-outline card-primary">
             <div class="card-header">
                 <a href="{{route('document.create') }}">
                     <button  type="button" class="btn btn-primary float-left">New Document</button>

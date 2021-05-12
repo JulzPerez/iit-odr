@@ -14,7 +14,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card card-outline card-primary">
             <div class="card-header">
                 <a href="{{route('fees.create') }}">
                     <button  type="button" class="btn btn-primary float-left">New Fee</button>
@@ -75,7 +75,10 @@
                 </div>
             </div>
               <!-- /.card-body -->
-              
+             <!--  <div class="overlay">
+                <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+            </div> -->
+     
             <!-- /.card -->
         </div>
     </div> 

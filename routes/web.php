@@ -24,3 +24,6 @@ Route::Resource('fees', 'FeesController');
 Route::Resource('users', 'UserController');
 Route::Resource('assessments', 'AssessmentController');
 
+/* Route::get('/assessment', function(){
+    return view('assessment');
+}); */

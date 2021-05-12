@@ -14,7 +14,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card card-outline card-primary">
                 <div class="card-header">
                     <a href="{{route('request.create') }}">
                         <button  type="button" class="btn btn-primary float-left">Create Request</button>
@@ -61,7 +61,7 @@
                                     </td>                            
                                 @elseif($request->request_status === 'assessed')
                                     <td>
-                                        <a href="#" class="btn btn-info btn-sm">View Assessment
+                                        <a href="{{ route('request.show', $request->request_id) }}" class="btn btn-info btn-sm">View Assessment
                                         <!-- <i class="fas fa-edit"></i> -->
                                         </a>
                                     </td>
