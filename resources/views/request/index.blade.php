@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-center">
+    <div class="row mt-3">
         <div class="col-md-12">
             <div class="card card-outline card-primary">
                 <div class="card-header">

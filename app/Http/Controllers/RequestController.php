@@ -64,12 +64,15 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'docID' => 'required',
+            'copy' => 'required|numeric|gt:0',
+        ]);
+
         $userid = \Auth::user()->id;
         $requestor_id = DB::table('requestor')
                         ->where('user_id', $userid)
                         ->first()->id;
-       // dd($request);
-
         
        DocRequest::create([
             'requestor_id' => $requestor_id,

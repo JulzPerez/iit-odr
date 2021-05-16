@@ -5,62 +5,46 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <a href="{{route('request.create') }}">
-                        <button  type="button" class="btn btn-primary float-left">Create Request</button>
+           
+            <div class="row mb-2 mt-4 ">
+                @can('isAdmin')
+                <div class="col-lg-3 col-6">
+                    <!-- small card -->
+                    <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>Request: {{$request_count}}</h3>
+                        <p>Pending Request for Assessment</p>
+                    </div>
+                    <div class="icon">
+                       <!--  <i class="fas fa-shopping-cart"></i> -->
+                    </div>
+                    <a href="/assessments" class="small-box-footer">
+                        View <i class="fas fa-arrow-circle-right"></i>
                     </a>
-                
-                    <form class="form-inline ml-3 float-right">
-                        <div class="input-group input-group-sm ">
-                            <input class="form-control form-control-navbar " type="search" placeholder="Search" aria-label="Search">
-                            <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
+                @endcan
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small card -->
+                    <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>Request: {{$myrequest_count}}</h3>
 
-                <div class="card-body">
-                <table class="table table-hover table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th style="width:5%">#</th>
-                                    <th style="width:40%"> Document</th>   
-                                    <th style="width:25%"> Request Date</th>  
-                                    <th style="width:20%"> Status</th> 
-                                    <th style="width:10%" colspan = 2>Actions</th>                 
-                                </tr>
-                            </thead>
-                        
-                                <tbody style="line-height: 0.75">
-                                
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            <a href="" class="btn btn-primary">Edit
-                                            <!-- <i class="fas fa-edit"></i> -->
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <form action="" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger" type="submit">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>                            
-                            
-                                </tbody>
-                        
-                        </table>
-                </div>
+                        <p>My Document <br> Request</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="/request" class="small-box-footer">
+                        View/Create <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                    </div>
+                </div>            
             </div>
+            <!-- /.row -->
+
+           
         </div>
     </div>
     

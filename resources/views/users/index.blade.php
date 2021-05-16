@@ -12,9 +12,9 @@
         </div>
     </div>
 
-    <div class="row justify-content-center">
+    <div class="row mt-3">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card card-primary card-outline">
             <div class="card-header">
                 <a href="{{route('users.create') }}">
                     <button  type="button" class="btn btn-primary float-left">New User</button>

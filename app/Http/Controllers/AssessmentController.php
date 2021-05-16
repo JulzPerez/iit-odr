@@ -27,6 +27,7 @@ class AssessmentController extends Controller
             ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
             ->join('documents', 'documents.id', '=', 'requests.document_id')
             ->select('requestor.*','requests.id as request_id','requests.*', 'documents.*')
+            ->where('requests.request_status','pending')
             ->get();
         
             return view('assessment.index', compact('requests'));
@@ -55,22 +56,26 @@ class AssessmentController extends Controller
         //dd($request->all());
         if(\Gate::allows('isAdmin') || \Gate::allows('isStaff'))
         {
-            $request_id = $request['request_id'];
-            $fee_ids = $request['fee_id'];
-            $fees = Fee::whereIn('id',$fee_ids)->get()->toArray();
+            $this->validate($request, [
+                'fee_id' => 'required',
+                'copy' => 'required|numeric|gt:0',
+                'pages' => 'required|numeric|gt:0',               
+    
+            ]);
             
-            $mydata=[];
-            foreach($fees as $fee)
-            {
-                $mydata[] = [
-                    'requests_id' => $request_id,
-                    'fees_id' => $fee['id'],
-                    'number_of_copy' => 1,
-                    'number_of_pages' => 1,
-                    'amount' =>  $fee['amount']
-                ];
-            }           
-            Assessment::insert($mydata);
+            $fee_id = $request['fee_id'];
+            $request_id = $request['request_id'];
+            $fee = Fee::where('id',$fee_id)->first()->toArray();
+                        
+            $subtotal = $request['copy'] * $request['pages'] * $fee['amount'];
+
+            Assessment::create([
+                'fees_id' => $request['fee_id'],
+                'requests_id' => $request['request_id'],
+                'number_of_copy' => $request['copy'],
+                'number_of_pages' => $request['pages'],
+                'amount' => $subtotal
+            ]); 
 
             $request = DocRequest::where('id',$request_id)->first();
             
@@ -95,6 +100,15 @@ class AssessmentController extends Controller
 
             $request_id = $id;
 
+            $request_info = DB::table('requestor')
+            ->join('requests', 'requests.requestor_id','=', 'requestor.id')
+            ->join('documents','requests.document_id','=','documents.id')
+            ->select('requestor.*','requests.*','documents.*')
+            ->where('requests.id',$request_id)
+            ->first();
+
+            //dd($request_info);
+
             $assessments = DB::table('assessment_of_fees')
             ->join('fees', 'fees.id', '=', 'assessment_of_fees.fees_id')
             ->select('fees.id as f_id','fees.fee_name as f_name','fees.unit as f_unit','fees.amount as f_amount', 'assessment_of_fees.*')
@@ -106,7 +120,7 @@ class AssessmentController extends Controller
             
             $total = collect($assessments)->sum('amount');
         
-            return view('assessment.show', compact('assessments','fees','total','request_id' ));
+            return view('assessment.show', compact('request_info','assessments','fees','total','request_id' ));
         } 
     }
 

@@ -18,7 +18,8 @@ class CreateRequestsTable extends Migration
             $table->unsignedBigInteger('requestor_id');
             $table->unsignedBigInteger('document_id');
             $table->smallInteger('number_of_copy');
-            $table->string('request_status')->default('pending');     
+            $table->string('request_status')->default('pending');  
+            $table->string('payment_status')->default('pending');   
 
             $table->timestamps();
 

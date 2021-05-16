@@ -18,10 +18,10 @@
         </div>
       </div>
     </div>
-      <div class="row">
+      <div class="row mt-3">
         <div class="col-md-12">
           <a href="/request">
-            <button type="button" class="btn btn-primary float-right"><i class="fas fa-arrow-left"></i> Back to assessments</button>
+            <button type="button" class="btn btn-primary float-left"><i class="fas fa-arrow-left"></i> Back to requests</button>
           </a>
         </div>
       </div>
@@ -39,38 +39,22 @@
                             <tr>
                                 <th style="width:30%"> Name of Fee</th>  
                                 <th style="width:20%"> Amount</th>  
-                                <!-- <th style="width:10%"> Copy</th>  -->
-                                <th style="width:15%"> Number of Pages</th>  
-                                <th style="width:10%"> Subtotal</th> 
-                                <th style="width:15%"> Action</th>                                          
+                                <th style="width:10%"> Copy</th>  
+                                <th style="width:10%"> Pages</th>
+                                <th style="width:20%"> Subtotal</th> 
+                                                                         
                             </tr>
                         </thead>
                       
                             <tbody style="line-height: 0.75">
                                 @foreach($assessments as $key => $assessment)
-                                <tr>
-                                    
+                                <tr>                                    
                                     <td class="second">{{$assessment->f_name}}</td>
                                     <td class="second">Php {{number_format($assessment->f_amount, 2, '.' , ',') }}</td>
-                                    <!-- <td class="second">{{$assessment->number_of_copy}}</td> -->
-                                    <td class="second">
-                                        <form action="{{ route('assessments.update', $assessment->fees_id)}}" method="post">
-                                        @csrf
-                                        @method('PUT')
-                                            <input  type="number" name="pages" value="{{$assessment->number_of_pages}}" size="5" >
-                                            <button class="btn btn-primary btn-sm" type="submit">Save <i class="fas fa-save"></i></button>
-                                            
-                                        </form>
-                                    </td>
+                                    <td class="second">{{$assessment->number_of_copy}}</td> 
+                                    <td class="second">{{$assessment->number_of_pages}}</td> 
                                     <td class="second"> Php {{number_format($assessment->amount, 2, '.' , ',') }}</td>
-                                    <td>
-                                        <form action="{{ route('assessments.destroy', $assessment->fees_id)}}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            
-                                            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                                        </form>
-                                    </td>
+                                    
                                 </tr>                            
                                 @endforeach
                             </tbody>

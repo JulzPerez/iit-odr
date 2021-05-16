@@ -53,6 +53,9 @@
                             <p>
                                 Doesn't have an account yet? 
                                 <a href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <br>
+                                Forgot Password? 
+                                <a href="#">{{ __('Click Here') }}</a>
                             </p>
                         @endif
                     </div>

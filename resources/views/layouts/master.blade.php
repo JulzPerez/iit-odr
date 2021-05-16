@@ -39,12 +39,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       width: 100%;
       border: 1px solid #ddd;
     }
-
+/*
     th {
       text-align: left;
       color:white;
       background-color:black;
-    }    
+    }   
+
 
     tr:nth-child(odd) {
       background-color: #ADD8E6;
@@ -59,13 +60,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {
         background-color: white;
         color: black;
-    }
+    } */
 
-    .btn-sq {
-      width: 150px !important;
-      height: 150px !important;
-      font-size: 15px;
-    }
+  
 
     .list-text-color {
       color:green
@@ -151,16 +148,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="/" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>
-                Request           
+                Dashboard           
               </p>
             </a>
           </li>
+
+         <!--  <li class="nav-item">
+            <a href="/request" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              <p>
+                Request           
+              </p>
+            </a>
+          </li> -->
 
           <li class="nav-item">
             <a href="/requester" class="nav-link">
               <i class="nav-icon fas fa-info-circle"></i>
               <p>
-                Profile          
+                Requester Profile          
               </p>
             </a>
           </li>
@@ -178,7 +184,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="{{route('assessments.index') }}" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Assessment            
+                Requests            
               </p>
             </a>            
           </li>
