@@ -34,9 +34,9 @@
                       
 
                       <div class="row">
-                      <div class="col-md-3">
+                        <div class="col-md-3">
                           <div class="form-group">
-                            <label>ID Number</label>
+                            <label class="col-form-label">ID Number</label>
                             <input  type="text" class="form-control" name="id_no" value="{{ old('id_no') }}">
                             
                             @error('id_no')
@@ -87,7 +87,7 @@
                       <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
-                              <label>Sex</label>
+                              <label class="col-form-label">Sex</label>
                               <select class="form-control select2bs4" name="sex" value="{{ old('sex') }}" data-placeholder="Select from options below" style="width: 100%;">
                                 <option>Male</option>
                                 <option>Female</option>                             

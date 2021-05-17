@@ -33,7 +33,9 @@
                 </div>
                 
                 <div class="card-body"  >
-                    
+                @if(count($all_request)===0)
+                <p class="text-danger">You have not created a request yet! Click on <strong class="text-info">Create Request</strong> button to create a request.</p>    
+                @else
                     <table class="table table-hover table-bordered table-striped">
                         <thead>
                             <tr>
@@ -71,9 +73,10 @@
                             @endforeach
                         </tbody>
                     
-                    </table>
-                   
+                    </table>  
+                @endif
                 </div>
+
             </div>
               <!-- /.card-body -->
               

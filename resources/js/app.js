@@ -27,6 +27,8 @@ $('.select2bs4').select2({
 //Bootstrap Duallistbox
 $('.duallistbox').bootstrapDualListbox();
 
+$('#reservation').daterangepicker()
+
 $( "#datepicker" ).datepicker({
     format: "mm/dd/yy",
     weekStart: 0,

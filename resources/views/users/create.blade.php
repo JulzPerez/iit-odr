@@ -75,7 +75,7 @@
                             <div class="col-md-6">
                                 <select class="form-control select2bs4" name="user_type" value="{{ old('user_type') }}"  style="width: 100%;">
                                     <option>Staff</option>
-                                    <option>Student</option>
+                                    <option>Requester</option>
                                     <option>Admin</option>                           
                                 </select>
 

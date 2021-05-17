@@ -18,28 +18,28 @@
         </div>
       </div>
     </div>
-      <div class="row">
+      <div class="row mt-1">
         <div class="col-md-12">
           <a href="/assessments">
-            <button type="button" class="btn btn-primary float-left"><i class="fas fa-arrow-left"></i> Back to assessments</button>
+            <button type="button" class="btn btn-default float-left"><i class="fas fa-arrow-left"></i> Back</button>
           </a>
         </div>
       </div>
-      <hr>
+      
         <div class="row ">
           <div class="col-md-4">
             <div class="card card-outline card-primary">
               <div class="header">
-                <p>Request Information</p>
+                <p class="lead">Request Information</p>
               </div>
               <div class="card-body">
                   <div class="form-group">
-                      <label>Requester</label>
-                      <p class="text-info">{{ucfirst($request_info->first_name)}} {{ucfirst($request_info->middle_name)}} {{ucfirst($request_info->last_name)}}</p>
+                      <label class="text-muted">Requester</label>
+                      <h5>{{ucfirst($request_info->first_name)}} {{ucfirst($request_info->middle_name)}} {{ucfirst($request_info->last_name)}}</h5>
                   </div>
                   <div class="form-group">
-                      <label>Requested Document</label>
-                      <p class="text-info">{{ucfirst($request_info->docName)}} {{ucfirst($request_info->docParticular)}} </p>
+                      <label class="text-muted">Requested Document</label>
+                      <h5>{{ucfirst($request_info->docName)}} {{ucfirst($request_info->docParticular)}} </h5>
                   </div>
 
               </div>
@@ -51,7 +51,7 @@
                   <form method="POST" action="{{ route('assessments.store') }} ">
                   @csrf                    
                           <div class="form-group">
-                            <label>Select Name of Fee</label>
+                            <label class="text-muted">Name of Fee</label>
                             <select class="form-control select2bs4" name="fee_id" style="width: 100%;">
                                 @foreach($fees as $key => $fee)
                                   <option value="{{$fee->id}}" class="list-text-color">{{ucwords($fee->fee_name)}} --------- Php{{$fee->amount}} </option>                                  
@@ -59,11 +59,11 @@
                             </select>
                           </div>
                           <div class="form-group">
-                            <label>Number of Copy: </label>
+                            <label class="text-muted">Number of Copy: </label>
                             <input  type="number" name="copy" value="1" size="5">                            
                           </div>
                           <div class="form-group">
-                            <label>Number of pages: </label>
+                            <label class="text-muted">Number of pages: </label>
                             <input  type="number" name="pages" value="1" size="5">                            
                           </div>
                           
@@ -83,7 +83,7 @@
           <div class="col-md-12">
             <div class="card card-outline card-primary">    
             <div class="card-header">
-            ASSESSMENT TOTAL: <h4 style="color:red;"> <strong>Php {{number_format($total, 2, '.' , ',')}}</strong>  </h4>
+            <p class="text-info lead">ASSESSMENT TOTAL:</p> <h4> <strong class="text-danger">Php {{number_format($total, 2, '.' , ',')}}</strong> </h4>
             </div>           
                   <div class="card-body">  
                     <table class="table table-hover table-bordered table-striped">

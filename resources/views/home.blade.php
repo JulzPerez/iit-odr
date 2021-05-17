@@ -18,7 +18,7 @@
                     <div class="icon">
                        <!--  <i class="fas fa-shopping-cart"></i> -->
                     </div>
-                    <a href="/assessments" class="small-box-footer">
+                    <a href="{{route('viewRequestByStatus', 'pending')}}" class="small-box-footer">
                         View <i class="fas fa-arrow-circle-right"></i>
                     </a>
                     </div>

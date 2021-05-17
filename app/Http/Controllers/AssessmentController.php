@@ -23,16 +23,16 @@ class AssessmentController extends Controller
     {
         if(\Gate::allows('isAdmin') || \Gate::allows('isStaff'))
         {
+
             $requests = DB::table('requestor')
             ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
             ->join('documents', 'documents.id', '=', 'requests.document_id')
             ->select('requestor.*','requests.id as request_id','requests.*', 'documents.*')
             ->where('requests.request_status','pending')
-            ->get();
-        
-            return view('assessment.index', compact('requests'));
-        }
-        
+         
+          ->get();
+             return view('assessment.index', compact('requests'));
+        }        
     }
 
     /**

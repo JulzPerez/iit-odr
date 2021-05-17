@@ -27,12 +27,12 @@
                 <form method="POST" action="{{ route('document.store') }} ">
                 @csrf
                     <div class="card-body">
-                        <div>
+                        <div class="form-group">
                             <label class="float-left">Name</label>
                             <input  type="text" class="form-control" placeholder="Enter value here" name="docname">
                         </div>
                         <br>
-                        <div>
+                        <div class="form-group">
                             <label class="float-left">Particular</label>
                             <input  type="text" class="form-control" placeholder="Enter value here" name="particular">
                         </div>

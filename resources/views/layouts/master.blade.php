@@ -164,27 +164,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           <li class="nav-item">
             <a href="/requester" class="nav-link">
-              <i class="nav-icon fas fa-info-circle"></i>
+              <i class="nav-icon fas fa-user-circle"></i>
               <p>
                 Requester Profile          
               </p>
             </a>
           </li>
           @canany(['isAdmin', 'isStaff'])
-          <li class="nav-item ">
-            <a href="{{route('document.index') }}" class="nav-link ">
-              <i class="nav-icon fas fa-copy"></i>
+          <li class="nav-item">
+            <a href="/viewRequests" class="nav-link">
+              <i class="nav-icon fas fa-user-circle"></i>
               <p>
-                Document              
+                View Request        
               </p>
-            </a>            
+            </a>
           </li>
 
-          <li class="nav-item ">
-            <a href="{{route('assessments.index') }}" class="nav-link ">
+          <!-- <li class="nav-item ">
+            <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Requests            
+                Requests      
+                <i class="right fa fa-angle-left"></i>      
+              </p>
+            </a>      
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('assessments.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon text-danger"></i>
+                  <p class="text">For Assessment</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-warning"></i>
+                  <p class="text"> Assessed</p>
+                </a>
+              </li>
+            </ul>      
+          </li> -->
+          <li class="nav-item ">
+            <a href="{{route('document.index') }}" class="nav-link ">
+              <i class="nav-icon far fa-file-alt"></i>
+              <p>
+                Document              
               </p>
             </a>            
           </li>

@@ -36,8 +36,8 @@
                               </select>
                           </div>
                           <div class="form-group">
-                              <label>Number of Copy</label>
-                              <input  type="number" name="copy" value="1" size="5">
+                              <label>Number of Copy: </label>
+                              <input  type="number" name="copy" value="1" size="3">
                             
                           </div>
                         </div>
