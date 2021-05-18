@@ -153,15 +153,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
-         <!--  <li class="nav-item">
-            <a href="/request" class="nav-link">
-              <i class="nav-icon fas fa-home"></i>
-              <p>
-                Request           
-              </p>
-            </a>
-          </li> -->
-
           <li class="nav-item">
             <a href="/requester" class="nav-link">
               <i class="nav-icon fas fa-user-circle"></i>
@@ -175,34 +166,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="/viewRequests" class="nav-link">
               <i class="nav-icon fas fa-user-circle"></i>
               <p>
-                View Request        
+                View Requests        
               </p>
             </a>
           </li>
 
-          <!-- <li class="nav-item ">
-            <a href="#" class="nav-link ">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                Requests      
-                <i class="right fa fa-angle-left"></i>      
-              </p>
-            </a>      
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('assessments.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon text-danger"></i>
-                  <p class="text">For Assessment</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon text-warning"></i>
-                  <p class="text"> Assessed</p>
-                </a>
-              </li>
-            </ul>      
-          </li> -->
+          
           <li class="nav-item ">
             <a href="{{route('document.index') }}" class="nav-link ">
               <i class="nav-icon far fa-file-alt"></i>

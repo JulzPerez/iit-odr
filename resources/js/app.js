@@ -27,7 +27,13 @@ $('.select2bs4').select2({
 //Bootstrap Duallistbox
 $('.duallistbox').bootstrapDualListbox();
 
-$('#reservation').daterangepicker()
+$('#from_date').daterangepicker({
+    singleDatePicker: true,
+});
+
+$('#to_date').daterangepicker({
+    singleDatePicker: true,
+});
 
 $( "#datepicker" ).datepicker({
     format: "mm/dd/yy",

@@ -24,7 +24,7 @@
                                     <div class="form-group">
                                     
                                         <label class="col-form">Request Status</label>
-                                        <select class="form-control" name="request_status" >
+                                        <select class="form-control" name="request_status" value="{{ old('request_status') }}" >
                                             <!-- <option>All</option> -->
                                             <option>pending</option>
                                             <option>assessed</option>
@@ -45,7 +45,7 @@
                                                         <i class="far fa-calendar-alt"></i>
                                                     </span>
                                                     </div>
-                                                    <input type="date" class="form-control" name="from_date" value="{{$from}}">
+                                                    <input type="text" id="from_date" class="form-control" name="from_date"  >
                                                 
                                                 </div>
                                             </div>
@@ -59,7 +59,7 @@
                                                         <i class="far fa-calendar-alt"></i>
                                                     </span>
                                                     </div>
-                                                    <input type="date" class="form-control" name="to_date" value="{{$to}}">
+                                                    <input type="text" id="to_date" class="form-control" name="to_date"  >
                                                     <button type="submit" class="btn btn-primary">Search</button>
                                                 </div>                                   
                                             </div>
@@ -67,60 +67,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="col-4">  
-                                <label>FROM Date</label>
-                                <div class="input-group">
-                                    <div class="form-group"> 
-                                        <select class="form-control" name="day">
-                                            <option>--Month--</option>
-                                            <option>Date</option>
-                                            <option>Alumnus</option>   
-                                        </select>
-                                    </div>
-                                    <div class="form-group"> 
-                                        <select class="form-control" name="day">
-                                            <option>--Day--</option>
-                                            <option>Date</option>
-                                            <option>Alumnus</option>   
-                                        </select>
-                                    </div>
-                                    <div class="form-group"> 
-                                        <select class="form-control" name="day">
-                                            <option>--Year--</option>
-                                            <option>Date</option>
-                                            <option>Alumnus</option>   
-                                        </select>
-                                    </div>
-                                </div>                                                                
-                            </div>
-                            <div class="col-4">  
-                                <label>TO Date</label>
-                                <div class="input-group">
-                                    <div class="form-group"> 
-                                        <select class="form-control" name="day">
-                                            <option>--Month--</option>
-                                            <option>Date</option>
-                                            <option>Alumnus</option>   
-                                        </select>
-                                    </div>
-                                    <div class="form-group"> 
-                                        <select class="form-control" name="day">
-                                            <option>--Day--</option>
-                                            <option>Date</option>
-                                            <option>Alumnus</option>   
-                                        </select>
-                                    </div>
-                                    <div class="form-group"> 
-                                        <select class="form-control" name="day">
-                                            <option>--Year--</option>
-                                            <option>Date</option>
-                                            <option>Alumnus</option>   
-                                        </select>
-                                    </div>
-                                </div>
-                                                                
-                            </div> -->
-                           
+                                                       
                         </div>
                     </form>
                     <hr>
