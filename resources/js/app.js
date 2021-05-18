@@ -29,10 +29,12 @@ $('.duallistbox').bootstrapDualListbox();
 
 $('#from_date').daterangepicker({
     singleDatePicker: true,
+    
 });
 
 $('#to_date').daterangepicker({
     singleDatePicker: true,
+ 
 });
 
 $( "#datepicker" ).datepicker({
@@ -45,7 +47,15 @@ $( "#datepicker" ).datepicker({
     orientation: "auto"
 });
 
+var checkbox = document.querySelector("#fromdate_box");
+var input = document.querySelector("#from_date");
 
+var toogleInput = function(e){
+  input.disabled = !e.target.checked;
+};
+
+toogleInput({target: checkbox});
+checkbox.addEventListener("change", toogleInput);
     
 
 /* //Datemask dd/mm/yyyy

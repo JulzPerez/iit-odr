@@ -41,11 +41,11 @@
                                                 <label>FROM Date</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <i class="far fa-calendar-alt"></i>
-                                                    </span>
+                                                        <span class="input-group-text">
+                                                            <input type="checkbox" name="fromdate_box">
+                                                        </span>
                                                     </div>
-                                                    <input type="text" id="from_date" class="form-control" name="from_date"  >
+                                                    <input type="text" id="from_date" class="form-control" name="from_date">
                                                 
                                                 </div>
                                             </div>
@@ -56,10 +56,10 @@
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                     <span class="input-group-text">
-                                                        <i class="far fa-calendar-alt"></i>
+                                                        <input type="checkbox">
                                                     </span>
                                                     </div>
-                                                    <input type="text" id="to_date" class="form-control" name="to_date"  >
+                                                    <input type="text" id="to_date" class="form-control" name="to_date" >
                                                     <button type="submit" class="btn btn-primary">Search</button>
                                                 </div>                                   
                                             </div>
@@ -77,7 +77,7 @@
                             <!-- <div class="card card-outline card-info">               
                                 <div class="card-body" > -->
                                 @if(count($requests)===0 )
-                                    <p class="text-danger">You may filter by selecting the status and the date!</p>                                
+                                    <p class="text-danger">No Records Found</p>                                
                                 @else
                                     <table class="table table-hover table-bordered">
                                         <thead>
@@ -151,9 +151,7 @@
                 </div>              
             </div> 
         </div>       
-    </div>
-
-    
+    </div>    
 
 </div>
 @endsection

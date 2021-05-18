@@ -255,6 +255,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 @auth
 <script>
     window.user = @json(auth()->user())
+    
+    document.getElementById('fromdate_box').onchange = function() {
+      document.getElementById('from_date').disabled = !this.checked;
+    };
+  });
+
 </script>
 @endauth
 
