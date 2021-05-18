@@ -17,19 +17,19 @@ class ViewRequestController extends Controller
         //dd($request_status);
         if(\Gate::allows('isAdmin') || \Gate::allows('isStaff'))
         {
-          /*  $requests = DB::table('requestor')
+           $requests = DB::table('requestor')
             ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
             ->join('documents', 'documents.id', '=', 'requests.document_id')
             ->select('requestor.*','requests.id as request_id','requests.*', 'documents.*')
             //->where('requests.request_status',$request->request_status)         
-            ->get();  */
+            ->get(); 
 
             $from_date = date('m-d-Y');
             $to_date = date('m-d-Y');
 
             //dd($from);
 
-            $requests = [];
+            //$requests = [];
             return view('Requests', compact('requests','from_date','to_date'));
         }        
     }
