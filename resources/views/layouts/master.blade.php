@@ -256,9 +256,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script>
     window.user = @json(auth()->user())
     
-    document.getElementById('fromdate_box').onchange = function() {
-      document.getElementById('from_date').disabled = !this.checked;
-    };
   });
 
 </script>
@@ -266,5 +263,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script src="/js/app.js"></script>
 <script src="/js/popper.js"></script>
+
 </body>
 </html>

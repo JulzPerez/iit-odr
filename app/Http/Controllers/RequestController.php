@@ -64,20 +64,58 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
+        $docKey = explode(',',$request['docID']);
+        //dd($docKey);
+
         $this->validate($request, [
             'docID' => 'required',
             'copy' => 'required|numeric|gt:0',
+            'file' => 'mimes:zip,pdf,jpg,jpeg,bmp,png,doc,docx,csv,rtf,xlsx,xls,txt',
         ]);
 
+
         $userid = \Auth::user()->id;
+        $user_fname = \Auth::user()->first_name;
+        $user_lname = \Auth::user()->last_name;
+
         $requestor_id = DB::table('requestor')
                         ->where('user_id', $userid)
                         ->first()->id;
         
+        //file upload
+        if($docKey[1]==1)
+        {   
+            $file = $request->file('file');
+
+            if($file != null)
+            {
+                $filename = $user_fname.'_'.$user_lname.'_'.time().'_'.$file->getClientOriginalName();            
+                // File upload location
+                $location = 'files';
+                // Upload file
+                $file->move($location,$filename);
+            }
+            else
+            {
+                $this->validate($request, [
+                    'file' => 'required',
+                ],
+                [
+                    'file.required' => 'Uploading of file is required for this document request!',
+                ]
+                );    
+            }            
+        }
+        else
+        {
+            $filename = '';  
+        }
+        
        DocRequest::create([
             'requestor_id' => $requestor_id,
-            'document_id' => $request['docID'],
-            'number_of_copy' => $request['copy']
+            'document_id' => $docKey[0],
+            'number_of_copy' => $request['copy'],
+            'filename' => $filename
         ]); 
 
         return redirect('/request')->with('success', 'Request added successfully!');
@@ -101,7 +139,13 @@ class RequestController extends Controller
 
             $total = collect($assessments)->sum('amount');
 
-            return view('request.show', compact('assessments','total'));
+            $payment_status = DB::table('requests')
+                ->select('payment_status')
+                ->where('id',$id)->value('payment_status');
+
+            //dd($payment_status);
+
+            return view('request.show', compact('assessments','total','payment_status'));
 
             //dd($assessments);
     }
@@ -139,4 +183,6 @@ class RequestController extends Controller
     {
         //
     }
+
+    
 }

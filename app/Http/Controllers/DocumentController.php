@@ -54,9 +54,14 @@ class DocumentController extends Controller
                 'docname' => 'required|string|max:191'
             ]);
     
+            if($request['requireFileUpload'] == '1')
+                $value = 1;
+            else $value = 0;
+
             Document::create([
                 'docName' => $request['docname'],
-                'docParticular' => $request['particular']
+                'docParticular' => $request['particular'],
+                'require_file_upload' => $value
             ]);
     
             return redirect('/document')->with('success', 'Record added successfully!');

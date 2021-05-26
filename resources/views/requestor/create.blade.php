@@ -52,9 +52,11 @@
                             <label>First Name</label>
                             <input  type="text" class="form-control" name="first_name" value="{{ old('first_name') }}"> 
 
-                            @if ($errors->has('first_name'))
-                              <span class="text-danger">{{ $errors->first('first_name') }}</span>
-                            @endif                          
+                              @error('first_name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                              @enderror                        
 
                           </div>
                         </div>

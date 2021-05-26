@@ -26,8 +26,25 @@
         </div>
       </div>
       <hr>
-      <div class="row ">
-        
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+
+                @if($payment_status === 'pending')
+                  <div class="form-group">
+                      <label>Upload Proof of Payment here </label>
+                      <input type="file" name="file" class="form-control" >
+                      @if ($errors->has('file'))
+                        <span class="text-danger">{{ $errors->first('file') }}</span>
+                      @endif 
+                  </div>
+                @elseif($payment_status === 'paid')              
+                  <p>{{$payment_status}}</p>
+                @endif
+              </div>  
+          </div>
+      </div>
+      <div class="row ">        
           <div class="col-md-12">
             <div class="card card-outline card-primary">    
             <div class="card-header">
@@ -54,12 +71,9 @@
                                     <td class="second">{{$assessment->number_of_copy}}</td> 
                                     <td class="second">{{$assessment->number_of_pages}}</td> 
                                     <td class="second"> Php {{number_format($assessment->amount, 2, '.' , ',') }}</td>
-                                    
                                 </tr>                            
                                 @endforeach
-                            </tbody>
-
-                    
+                            </tbody>                    
                     </table>                    
                   </div>                
                 

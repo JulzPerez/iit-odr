@@ -36,6 +36,10 @@
                             <label class="float-left">Particular</label>
                             <input  type="text" class="form-control" placeholder="Enter value here" name="particular">
                         </div>
+                        <div class="form-check">
+                          <input type="checkbox" name="requireFileUpload" value="1" class="form-check-input" id="exampleCheck1">
+                          <label class="form-check-label" for="exampleCheck1">This document requires file uploading when requested.</label>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">

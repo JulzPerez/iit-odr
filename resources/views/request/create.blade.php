@@ -19,27 +19,38 @@
       </div>
     </div>
     
-      <div class="row ">
+      <div class="row mt-3">
         <div class="col-md-12">
             <div class="card card-outline card-primary">
-                <form method="POST" action="{{ route('request.store') }} ">
+                <form method="POST" action="{{ route('request.store') }} " enctype="multipart/form-data">
                 @csrf
                     <div class="card-body">
                       <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
                               <label>Document to Request</label>
-                              <select class="form-control select2bs4" name="docID" style="width: 100%;">
+                              <select class="form-control select2bs4" name="docID" id="selectDocument" style="width: 100%;">
+                                <!-- <option value="0"> --Document-- </option>   -->
                                 @foreach($docs as $doc)
-                                  <option value="{{$doc->id}}"> {{$doc->docName.' '.$doc->docParticular}} </option>
+                                  <option value="{{$doc->id}},{{$doc->require_file_upload}}"> {{$doc->docName.' '.$doc->docParticular}} </option>
                                 @endforeach
                               </select>
                           </div>
+
                           <div class="form-group">
                               <label>Number of Copy: </label>
-                              <input  type="number" name="copy" value="1" size="3">
+                              <input  type="number" class="form-control" name="copy" value="1">
                             
                           </div>
+
+                          <div class="form-group">
+                              <label>File Upload <strong class="text-danger">(Use only for authentication)</strong></label>
+                              <input type="file" name="file" class="form-control" >
+                              @if ($errors->has('file'))
+                                <span class="text-danger">{{ $errors->first('file') }}</span>
+                              @endif 
+                          </div>
+                                                                        
                         </div>
                         
                       </div>

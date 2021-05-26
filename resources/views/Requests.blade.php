@@ -36,7 +36,7 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="row ml-1 mr-1">
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <div class="form-group">
                                                 <label>FROM Date</label>
                                                 <div class="input-group">
@@ -50,7 +50,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <div class="form-group">
                                                 <label>TO Date</label>
                                                 <div class="input-group">
@@ -60,8 +60,15 @@
                                                     </span>
                                                     </div>
                                                     <input type="text" id="to_date" class="form-control" name="to_date" >
-                                                    <button type="submit" class="btn btn-primary">Search</button>
+                                                    <!-- <button type="submit" class="btn btn-primary">Search</button> -->
                                                 </div>                                   
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>'  '</label>
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                                                                  
                                             </div>
                                         </div>
                                     </div>

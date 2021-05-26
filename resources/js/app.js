@@ -9,63 +9,52 @@ require('./bootstrap');
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
+
 import 'admin-lte/plugins/jquery/jquery.min.js';
 import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js';
 import 'admin-lte/plugins/select2/js/select2.full.min.js';
 import 'admin-lte/plugins/daterangepicker/daterangepicker.js';
 import 'admin-lte/plugins/bootstrap4-dualListbox/jquery.bootstrap-duallistbox.min.js';
+import 'admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js';
 import 'admin-lte/dist/js/adminlte.min.js';
 
-//Initialize Select2 Elements
-$('.select2').select2();
+$(function () {
 
-//Initialize Select2 Elements
-$('.select2bs4').select2({
-    theme: 'bootstrap4'
-});
+        //Initialize Select2 Elements
+    $('.select2').select2()
 
-//Bootstrap Duallistbox
-$('.duallistbox').bootstrapDualListbox();
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+        theme: 'bootstrap4'
+    })
 
-$('#from_date').daterangepicker({
-    singleDatePicker: true,
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    $('#from_date').daterangepicker({
+        singleDatePicker: true,
+        
+    })
+
+    $('#to_date').daterangepicker({
+        singleDatePicker: true,
     
-});
+    })
 
-$('#to_date').daterangepicker({
-    singleDatePicker: true,
- 
-});
+    $('#selectDocument').change(function(){
 
-$( "#datepicker" ).datepicker({
-    format: "mm/dd/yy",
-    weekStart: 0,
-    calendarWeeks: true,
-    autoclose: true,
-    todayHighlight: true,
-    rtl: true,
-    orientation: "auto"
-});
+        var selectVal = $(this).val();
+        console.log(selectVal);
+    })
 
-var checkbox = document.querySelector("#fromdate_box");
-var input = document.querySelector("#from_date");
+})
 
-var toogleInput = function(e){
-  input.disabled = !e.target.checked;
-};
+jQuery(document).ready(function() {
 
-toogleInput({target: checkbox});
-checkbox.addEventListener("change", toogleInput);
-    
 
-/* //Datemask dd/mm/yyyy
-$('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-//Datemask2 mm/dd/yyyy
-$('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-//Money Euro
-$('[data-mask]').inputmask() */
 
- 
+}(jQuery))
+
 
 window.Vue = require('vue');
 

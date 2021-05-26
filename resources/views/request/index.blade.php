@@ -49,8 +49,7 @@
                         </thead>
                       
                         <tbody style="line-height: 0.75">
-                            @foreach($all_request as $key =>$request)
-                            
+                            @foreach($all_request as $key =>$request)                            
                             <tr>
                                 <td>{{ ++$key }}</td>
                                 <td>{{$request->docName.' '.$request->docParticular}}</td>

@@ -21,9 +21,11 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="images/profile.png"
-                       alt="User profile picture">
+                    <a href="#">
+                        <img class="profile-user-img img-fluid img-circle"
+                            src="images/profile.png"
+                            alt="User profile picture">
+                    </a>
                 </div>
 
                 <h3 class="profile-username text-center">{{ucfirst($requester->first_name).' '.ucfirst($requester->last_name)}}</h3>
@@ -34,6 +36,7 @@
                 <a href="{{ route('requester.edit', $requester->id) }}">
                     <button  type="button" class="btn btn-primary ">Edit Info</button>
                 </a>
+               
                 <a href="#">
                     <button  type="button" class="btn btn-primary ">Message</button>
                 </a>
