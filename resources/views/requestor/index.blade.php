@@ -37,7 +37,7 @@
                     <button  type="button" class="btn btn-primary ">Edit Info</button>
                 </a>
                
-                <a href="#">
+                <a href="/messages/create">
                     <button  type="button" class="btn btn-primary ">Message</button>
                 </a>
                 

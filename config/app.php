@@ -165,7 +165,8 @@ return [
         /*
          * Package Service Providers...
          */
-       
+        Cmgmyr\Messenger\MessengerServiceProvider::class,
+               
 
         /*
          * Application Service Providers...
@@ -176,7 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        Cmgmyr\Messenger\MessengerServiceProvider::class,
+        
 
     ],
 

@@ -20,13 +20,16 @@
     </div>
     
       <div class="row mt-3">
-        <div class="col-md-12">
-            <div class="card card-outline card-primary">
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <dic class="card-header">
+                    Request
+                </div>
                 <form method="POST" action="{{ route('request.store') }} " enctype="multipart/form-data">
                 @csrf
                     <div class="card-body">
                       <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                           <div class="form-group">
                               <label>Document to Request</label>
                               <select class="form-control select2bs4" name="docID" id="selectDocument" style="width: 100%;">

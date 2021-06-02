@@ -27,10 +27,10 @@
       </div>
       
         <div class="row ">
-          <div class="col-md-4">
-            <div class="card card-outline card-primary">
-              <div class="header">
-                <p class="lead">Request Information</p>
+          <div class="col-md-6">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h6 class="lead">Request Details</h6>
               </div>
               <div class="card-body">
                   <div class="form-group">
@@ -45,8 +45,11 @@
               </div>
             </div>
           </div>
-          <div class="col-md-5">
-            <div class="card card-outline card-primary">
+          <div class="col-md-6">
+            <div class="card card-success">
+                <div class="card-header">
+                  <h6 class="lead">Assign Fees</h6>
+                </div>
                 <div class="card-body"> 
                   <form method="POST" action="{{ route('assessments.store') }} ">
                   @csrf                    
@@ -80,7 +83,7 @@
           </div>
         </div>
         <div class="row">        
-          <div class="col-md-12">
+          <div class="col-md-12 col-sm-12">
             <div class="card card-outline card-primary">    
             <div class="card-header">
             <p class="text-info lead">ASSESSMENT TOTAL:</p> <h4> <strong class="text-danger">Php {{number_format($total, 2, '.' , ',')}}</strong> </h4>

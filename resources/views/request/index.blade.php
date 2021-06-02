@@ -43,8 +43,7 @@
                                 <th style="width:30%"> Document</th>   
                                 <th style="width:25%"> Request Date</th>  
                                 <th style="width:20%"> Status</th> 
-                                <th style="width:20%"> Assessment</th> 
-                                                 
+                                <th style="width:20%"> Assessment</th>                                                  
                             </tr>
                         </thead>
                       
@@ -52,7 +51,19 @@
                             @foreach($all_request as $key =>$request)                            
                             <tr>
                                 <td>{{ ++$key }}</td>
-                                <td>{{$request->docName.' '.$request->docParticular}}</td>
+                                
+                                <td>
+                                @if($request->require_file_upload === 1)
+                                
+                                    <a href="{{ route('payment.show', $request->filename) }}">
+                                        {{$request->docName.' '.$request->docParticular}}
+                                    </a>
+                                
+                                @else
+                                    {{$request->docName.' '.$request->docParticular}} 
+                                @endif 
+                                </td>
+
                                 <td>{{$request->created_at}}</td>
                                 <td>{{$request->request_status}} </td>
 

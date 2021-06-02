@@ -30,6 +30,8 @@ class RequestController extends Controller
             ->select('requests.*', 'documents.*','requests.id as request_id', 'requestor.id as requestor_id')
             ->where('requestor.user_id',$userid)
             ->get();
+
+            //dd($all_request);
         
         return view('request.index', compact('all_request'));
     }
@@ -91,9 +93,9 @@ class RequestController extends Controller
             {
                 $filename = $user_fname.'_'.$user_lname.'_'.time().'_'.$file->getClientOriginalName();            
                 // File upload location
-                $location = 'files';
-                // Upload file
-                $file->move($location,$filename);
+
+                $path = $file->storeAs('authentication', $filename);
+                //dd($path);
             }
             else
             {

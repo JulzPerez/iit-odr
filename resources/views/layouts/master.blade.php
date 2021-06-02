@@ -161,6 +161,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="/request" class="nav-link">
+              <i class="nav-icon fas fa-user-circle"></i>
+              <p>
+                Request          
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/payment" class="nav-link">
+              <i class="nav-icon fas fa-user-circle"></i>
+              <p>
+                Upload Payment          
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="{{route('messages')}}" class="nav-link ">
+              <i class="nav-icon fas fa-comments-dollar"></i>
+              <p>
+                Messages          
+              </p>
+            </a>
+            
+          </li>
           @canany(['isAdmin', 'isStaff'])
           <li class="nav-item">
             <a href="/viewRequests" class="nav-link">
@@ -189,6 +214,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             
           </li>
+          
           @endcan
 
           @can('isAdmin')

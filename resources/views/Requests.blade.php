@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="card-body">
                     
-                    <form method="GET" action="{{ route('filterRequest') }}" >
+                    <!-- <form method="GET" action="{{ route('filterRequest') }}" >
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="card pl-2 pr-2">  
@@ -25,7 +25,7 @@
                                     
                                         <label class="col-form">Request Status</label>
                                         <select class="form-control" name="request_status" value="{{ old('request_status') }}" >
-                                            <!-- <option>All</option> -->
+                                           
                                             <option>pending</option>
                                             <option>assessed</option>
                                             <option>scheduled</option>   
@@ -60,7 +60,7 @@
                                                     </span>
                                                     </div>
                                                     <input type="text" id="to_date" class="form-control" name="to_date" >
-                                                    <!-- <button type="submit" class="btn btn-primary">Search</button> -->
+                                                    
                                                 </div>                                   
                                             </div>
                                         </div>
@@ -77,7 +77,7 @@
                                                        
                         </div>
                     </form>
-                    <hr>
+                    <hr> -->
                     <!--Row for table  -->
                     <div class="row mt-1">
                         <div class="col-md-12">
@@ -89,13 +89,13 @@
                                     <table class="table table-hover table-bordered">
                                         <thead>
                                             <tr>
-                                                <th style="width:5%" class="text-center">#</th>
+                                                <th style="width:2%" class="text-center">#</th>
                                                 <th style="width:15%" class="text-center">Requester</th>
-                                                <th style="width:20%" class="text-center"> Requested Document</th>   
+                                                <th style="width:15%" class="text-center"> Requested Document</th>   
                                                 <th style="width:15%" class="text-center"> Request Date</th>  
-                                                <th style="width:15%" class="text-center"> Request Status</th>  
+                                                <th style="width:10%" class="text-center"> Request Status</th>  
                                                 <!-- <th style="width:15%"> Payment Status</th> -->
-                                                <th style="width:15%" class="text-center"> Action</th>
+                                                <th style="width:25%" class="text-center"> Action</th>
                                                 
                                             </tr>
                                         </thead>
@@ -106,11 +106,20 @@
                                                 <td>{{ ++$key }}</td>
                                                 <td>
                                                     <a href="{{ route('requester.show', $request->requestor_id) }}" >
-                                                    {{ucfirst($request->first_name).' '.ucfirst($request->last_name)}}</td>
+                                                    {{ucfirst($request->first_name).' '.ucfirst($request->last_name)}}
                                                     
                                                     </a>
-                                                
-                                                <td>{{$request->docName.' '.$request->docParticular}}</td>
+                                                </td>
+                                                <!-- <td>{{$request->docName.' '.$request->docParticular}}</td> -->
+                                                <td>
+                                                @if($request->require_file_upload === 1)
+                                                    <a href="{{ route('getFile', $request->filename) }}">
+                                                        {{$request->docName.' '.$request->docParticular}}
+                                                    </a>  
+                                                @else
+                                                    {{$request->docName.' '.$request->docParticular}}                                          
+                                                @endif
+                                                </td>
                                                 <td>{{$request->created_at}}</td>
                                                 <td class="lead text-center">
                                                     <span 
@@ -130,12 +139,26 @@
                                                         Create Assessment
                                                         <!-- <i class="fas fa-edit"></i> -->
                                                         </a>
+                                                        <a href="{{ route('messages.create', $request->requestor_id) }}" class="btn btn-primary btn-sm">
+                                                        Send Message
+                                                        <!-- <i class="fas fa-edit"></i> -->
+                                                        </a>
                                                     </td>                            
                                                 @elseif($request->request_status === 'assessed')
                                                     <td>
+                                                    <span>
                                                         <a href="{{ route('assessments.show', $request->request_id) }}" class="btn btn-info btn-sm">Re-assess
                                                         <!-- <i class="fas fa-edit"></i> -->
                                                         </a>
+                                                    <!-- </td>                                                    
+                                                    <td> -->
+                                                    </span>
+                                                    <span>
+                                                        <a href="{{ route('messages.create', $request->requestor_id) }}" class="btn btn-primary btn-sm">
+                                                        Send Message
+                                                        <!-- <i class="fas fa-edit"></i> -->
+                                                        </a>
+                                                    </span>
                                                     </td>
                                                 @endif
                                                                             

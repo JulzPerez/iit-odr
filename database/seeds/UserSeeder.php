@@ -21,6 +21,15 @@ class UserSeeder extends Seeder
 
         ]);
 
+        DB::table('odr_users')->insert([
+            'first_name' => 'julieto',
+            'last_name' => 'perez',
+            'email' => 'julietoperez@gmail.com',
+            'user_type' => 'requester',
+            'password' => Hash::make('password'),
+
+        ]);
+
        
     }
 }

@@ -66,7 +66,7 @@ class RequesterController extends Controller
             'last_name' => 'required|string|max:191',
             //'id_no' => 'required|string|max:191',
             'contact_no' => 'required|string|max:191',
-            'home_address' => 'required|string|max:191',
+            //'home_address' => 'string|max:191',
             'requestor_type' => 'required',
             //'mailing_address' => 'required|string|max:191',
             'degree' => 'required|string|max:191',
@@ -98,7 +98,7 @@ class RequesterController extends Controller
             'last_name.required' => 'required',
             //'id_no.required' => 'required|string|max:191',
             'contact_no.required' => 'required',
-            'home_address.required' => 'required',
+            //'home_address.required' => 'required',
             'requestor_type' => 'required',
             //'mailing_address' => 'required|string|max:191',
             'degree.required' => 'required',
@@ -305,8 +305,6 @@ class RequesterController extends Controller
             $req->authorized_person = $request['authorized_person'];
 
             $req->save();
-
-            //dd($req);
 
             return redirect('/requester')->with('success', 'Record updated successfully!');
     }

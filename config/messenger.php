@@ -13,9 +13,9 @@ return [
     /**
      * Define custom database table names - without prefixes.
      */
-    'messages_table' => 'messages',
+    'messages_table' => null,
 
-    'participants_table' => 'participants',
+    'participants_table' => null,
 
-    'threads_table' => 'threads',
+    'threads_table' => null,
 ];
