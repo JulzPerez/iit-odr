@@ -170,10 +170,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="/payment" class="nav-link">
+            <a href="/payments" class="nav-link">
               <i class="nav-icon fas fa-user-circle"></i>
               <p>
                 Upload Payment          
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/files" class="nav-link">
+              <i class="nav-icon fas fa-user-circle"></i>
+              <p>
+                Upload File          
               </p>
             </a>
           </li>

@@ -25,7 +25,7 @@
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">Upload Payment </div>
-                <form method="POST" action="{{route('payment.store')}}" enctype="multipart/form-data">
+                <form method="POST" action="{{route('payments.store')}}" enctype="multipart/form-data">
                 @csrf
                     <div class="card-body">
                         <div class="row">
@@ -104,7 +104,7 @@
                             @foreach($payments as $payment)
                             <tr>
                                     <td>
-                                        <a href="{{ route('payment.show', $payment->proof) }}" >
+                                        <a href="{{ route('payments.show', $payment->proof) }}" >
                                             {{$payment->payment_for}}
                                         </a>
                                     </td>

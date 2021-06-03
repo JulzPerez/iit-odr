@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\File;
 use App\Requestor;
-use App\UploadPayment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class UploadPaymentController extends Controller
+class FileUploadController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,26 +23,18 @@ class UploadPaymentController extends Controller
         if($requestor != null)
         {
             $requestor_id = $requestor->id;
-            $payments = DB::table('upload_payment')
+            $files = DB::table('files')
                             ->where('requestor_id', '=', $requestor_id)
                             ->get(); 
 
             //dd($requirements);
-            $documents = DB::table('requests')
-                            ->join('documents','documents.id','=','requests.document_id')
-                            ->select('documents.*')
-                            ->where('requestor_id', $requestor_id)
-                            ->where('request_status', 'assessed')
-                            ->where('payment_status', 'pending')
-                            ->get();
-            //dd($documents);
 
-            return view('payment.index', compact('payments','documents'));
+            return view('upload.index', compact('files'));
         }
         else
         {
-            $payments = null;
-            return view('payment.index', compact('payments'));
+            $files = null;
+            return view('upload.index', compact('files'));
         }
     }
 
@@ -65,8 +57,7 @@ class UploadPaymentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'amount' => 'required|numeric',
-            'payment_for' => 'required|max:191',
+            'doc_name' => 'required',
             'file' => 'required|file|mimes:zip,pdf,jpg,jpeg,bmp,png,doc,docx,csv,rtf,xlsx,xls,txt',
         ]);
 
@@ -76,27 +67,24 @@ class UploadPaymentController extends Controller
                         ->where('user_id', $userid)
                         ->first();
         $requestor_id = $requestor->id;
-        $requestor_name = $requestor->first_name.'_'.$requestor->last_name;
         
             $file = $request->file('file');
 
             if($file != null)
             {
-                $filename = $requestor_name.'_'.time().'_'.$file->getClientOriginalName();          
+                $filename = $requestor_id.'_'.time().'_'.$file->getClientOriginalName();          
                  // Save the file
-                $path = $file->storeAs('payments', $filename);
+                $path = $file->storeAs('files', $filename);
                 //dd($path);
             }           
         
-        UploadPayment::create([
+        File::create([
             'requestor_id' => $requestor_id,
-            'payment_for' => $request['payment_for'],
-            'amount' => $request['amount'],
-            'notes' => $request['notes'],
-            'proof' => $filename
+            'name' => $request['doc_name'],
+            'filename' => $filename
         ]); 
 
-        return redirect('/payment')->with('success', 'Payment uploaded successfully!');
+        return redirect('/files')->with('success', 'File uploaded successfully!');
     }
 
     /**
@@ -107,7 +95,7 @@ class UploadPaymentController extends Controller
      */
     public function show($id)
     {
-        return response()->download(storage_path('app/public/payments/' . $id));
+        return response()->download(storage_path('app/public/files/' . $id));
     }
 
     /**
