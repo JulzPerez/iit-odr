@@ -21,7 +21,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             
             $docs = DB::table('documents')->latest()->simplePaginate(5);       
             return view('document.index', compact('docs'));
@@ -36,7 +36,7 @@ class DocumentController extends Controller
      */
     public function create()
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             return view('document.create');
         }        
     }
@@ -49,7 +49,7 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $this->validate($request, [
                 'docname' => 'required|string|max:191'
             ]);
@@ -88,7 +88,7 @@ class DocumentController extends Controller
      */
     public function edit($id)
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $doc = Document::find($id);
 
             return view('document.edit', compact('doc'));
@@ -105,7 +105,7 @@ class DocumentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $this->validate($request, [
                 'docname' => 'required|string|max:191'
             ]);
@@ -127,7 +127,7 @@ class DocumentController extends Controller
      */
     public function destroy($id)
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $doc = Document::find($id);
             $doc->delete();
 

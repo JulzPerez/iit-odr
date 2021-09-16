@@ -15,16 +15,15 @@ class CreateUploadPaymentTable extends Migration
     {
         Schema::create('upload_payment', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('requestor_id');
+            $table->unsignedBigInteger('request_id');
             $table->string('proof');
             $table->string('payment_for');
             $table->decimal('amount',8,2);
             $table->string('notes')->nullable();
             $table->string('payment_channel')->nullable();
-            $table->string('status')->default('pending');
             $table->timestamps();
 
-            $table->foreign('requestor_id')->references('id')->on('requestor')->onDelete('cascade');
+            $table->foreign('request_id')->references('id')->on('requests')->onDelete('cascade');
         });
     }
 

@@ -16,68 +16,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    
-                    <!-- <form method="GET" action="{{ route('filterRequest') }}" >
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="card pl-2 pr-2">  
-                                    <div class="form-group">
-                                    
-                                        <label class="col-form">Request Status</label>
-                                        <select class="form-control" name="request_status" value="{{ old('request_status') }}" >
-                                           
-                                            <option>pending</option>
-                                            <option>assessed</option>
-                                            <option>scheduled</option>   
-                                        </select>                            
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card">
-                                    <div class="row ml-1 mr-1">
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <label>FROM Date</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            <input type="checkbox" name="fromdate_box">
-                                                        </span>
-                                                    </div>
-                                                    <input type="text" id="from_date" class="form-control" name="from_date">
-                                                
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <label>TO Date</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <input type="checkbox">
-                                                    </span>
-                                                    </div>
-                                                    <input type="text" id="to_date" class="form-control" name="to_date" >
-                                                    
-                                                </div>                                   
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>'  '</label>
-                                                <button type="submit" class="btn btn-primary">Search</button>
-                                                                                  
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                                       
-                        </div>
-                    </form>
-                    <hr> -->
+                
                     <!--Row for table  -->
                     <div class="row mt-1">
                         <div class="col-md-12">
@@ -112,7 +51,7 @@
                                                 </td>
                                                 <!-- <td>{{$request->docName.' '.$request->docParticular}}</td> -->
                                                 <td>
-                                                @if($request->require_file_upload === 1)
+                                                @if($request->filename != '')
                                                     <a href="{{ route('getFile', $request->filename) }}">
                                                         {{$request->docName.' '.$request->docParticular}}
                                                     </a>  
@@ -121,17 +60,11 @@
                                                 @endif
                                                 </td>
                                                 <td>{{$request->created_at}}</td>
-                                                <td class="lead text-center">
-                                                    <span 
-                                                        @if(($request->request_status) === 'pending')
-                                                            class="badge badge-danger text-white">
-                                                        @elseif(($request->request_status) === 'assessed')
-                                                            class="badge badge-success text-white">
-                                                        @endif
-                                                        {{$request->request_status}} 
-                                                    <span>
+                                                <td class="text-center">                                                      
+                                                    {{$request->request_status}} 
+                                                
                                                 </td>
-                                                <!-- <td>{{$request->payment_status}} </td> -->
+                                                
 
                                                 @if($request->request_status === 'pending')
                                                     <td>
@@ -147,7 +80,7 @@
                                                 @elseif($request->request_status === 'assessed')
                                                     <td>
                                                     <span>
-                                                        <a href="{{ route('assessments.show', $request->request_id) }}" class="btn btn-info btn-sm">Re-assess
+                                                        <a href="{{ route('assessments.show', $request->request_id) }}" class="btn btn-info btn-sm">Re-<br>assess 
                                                         <!-- <i class="fas fa-edit"></i> -->
                                                         </a>
                                                     <!-- </td>                                                    
@@ -155,7 +88,16 @@
                                                     </span>
                                                     <span>
                                                         <a href="{{ route('messages.create', $request->requestor_id) }}" class="btn btn-primary btn-sm">
-                                                        Send Message
+                                                        Send <br>Message
+                                                        <!-- <i class="fas fa-edit"></i> -->
+                                                        </a>
+                                                    </span>
+                                                    </td>
+                                                @elseif($request->request_status === 'paid')
+                                                    <td>
+                                                    <span>
+                                                        <a href="{{ route('payments.showRequestorPayments', $request->request_id) }}" class="btn btn-success btn-sm">
+                                                        View <br>Payment
                                                         <!-- <i class="fas fa-edit"></i> -->
                                                         </a>
                                                     </span>

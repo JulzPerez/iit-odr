@@ -5,6 +5,10 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
+use Illuminate\Support\Facades\Auth;
+use App\DbLog;
+use Illuminate\Support\Facades\Log;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -36,7 +40,20 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        parent::report($exception);
+        //parent::report($exception);
+
+         // Some exceptions don't have a message
+      $exception_message = (!empty($exception->getMessage()) ? trim($exception->getMessage()) : 'App Error Exception');
+
+      // Log message
+      $log_message = "\"" . $exception_message . " in file '" . $exception->getFile() . "' on line '" . $exception->getLine() . "'" . "\"";
+
+      if (!config('app.debug')) {
+          Log::error($log_message);
+      } else {
+          parent::report($exception);
+      }
+       
     }
 
     /**
@@ -50,6 +67,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof \App\Exceptions\ExceptionLogData)  {
+           
+            return $exception->render($request, $exception);
+        }
+
         return parent::render($request, $exception);
     }
 }

@@ -17,6 +17,8 @@ class CreateDocumentsTable extends Migration
             $table->id();
             $table->string('docName');
             $table->string('docParticular')->nullable();
+            $table->decimal('doc_fee',8,2);
+            $table->smallInteger('auto_assess')->default('1');
             $table->timestamps();
         });
     }

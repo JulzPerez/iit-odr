@@ -21,7 +21,7 @@ class FeesController extends Controller
      */
     public function index()
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $fees = DB::table('fees')->latest()->simplePaginate(5);
 
             return view('fees.index', compact('fees')); 
@@ -36,7 +36,7 @@ class FeesController extends Controller
      */
     public function create()
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             return view('fees.create');
         }
         
@@ -50,7 +50,7 @@ class FeesController extends Controller
      */
     public function store(Request $request)
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $this->validate($request, [
                 'fee_name' => 'required|string|max:191',
                 'unit' => 'required|string|max:191',
@@ -88,7 +88,7 @@ class FeesController extends Controller
      */
     public function edit($id)
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
 
             $fee = Fee::find($id);
 
@@ -106,7 +106,7 @@ class FeesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $this->validate($request, [
                 'fee_name' => 'required|string|max:191',
                 'unit' => 'required|string|max:191',
@@ -134,7 +134,7 @@ class FeesController extends Controller
      */
     public function destroy($id)
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $fee = Fee::find($id);
             $fee->delete();
 

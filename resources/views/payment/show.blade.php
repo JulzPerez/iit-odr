@@ -3,85 +3,82 @@
 @section('main_content')
 <div class="container-fluid">
     <div class="row ">
-      <div class="col-sm-12">
-        <div>
-          @if ($errors->any())
-            <div class="alert alert-danger">
-              <ul>
-                  @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                  @endforeach
-              </ul>
-            </div><br />
-          @endif
-            
+        <div class="col-sm-12">  
+            @if(session()->get('success'))
+                <div class="alert alert-success">
+                {{ session()->get('success') }}  
+                </div>
+            @endif
         </div>
-      </div>
     </div>
-      <div class="row mt-3">
-        <div class="col-md-12">
-          <a href="/request">
-            <button type="button" class="btn btn-primary float-left"><i class="fas fa-arrow-left"></i> Back to requests</button>
-          </a>
-        </div>
-      </div>
-      <hr>
-      <div class="row">
-          <div class="col-md-12">
-              <div class="card">
+    <br>
 
-                @if($payment_status === 'pending')
-                  <div class="form-group">
-                      <label>Upload Proof of Payment here </label>
-                      <input type="file" name="file" class="form-control" >
-                      @if ($errors->has('file'))
-                        <span class="text-danger">{{ $errors->first('file') }}</span>
-                      @endif 
-                  </div>
-                @elseif($payment_status === 'paid')              
-                  <p>{{$payment_status}}</p>
-                @endif
-              </div>  
-          </div>
-      </div>
-      <div class="row ">        
-          <div class="col-md-12">
-            <div class="card card-outline card-primary">    
-            <div class="card-header">
-            ASSESSMENT TOTAL: <h4 style="color:red;"> <strong>Php {{number_format($total, 2, '.' , ',')}}</strong>  </h4>
-            </div>           
-                  <div class="card-body">  
-                    <table class="table table-hover table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th style="width:30%"> Name of Fee</th>  
-                                <th style="width:20%"> Amount</th>  
-                                <th style="width:10%"> Copy</th>  
-                                <th style="width:10%"> Pages</th>
-                                <th style="width:20%"> Subtotal</th> 
-                                                                         
-                            </tr>
-                        </thead>
-                      
-                            <tbody style="line-height: 0.75">
-                                @foreach($assessments as $key => $assessment)
-                                <tr>                                    
-                                    <td class="second">{{$assessment->f_name}}</td>
-                                    <td class="second">Php {{number_format($assessment->f_amount, 2, '.' , ',') }}</td>
-                                    <td class="second">{{$assessment->number_of_copy}}</td> 
-                                    <td class="second">{{$assessment->number_of_pages}}</td> 
-                                    <td class="second"> Php {{number_format($assessment->amount, 2, '.' , ',') }}</td>
-                                </tr>                            
-                                @endforeach
-                            </tbody>                    
-                    </table>                    
-                  </div>                
+    @if($payments===null)
+    <div class="row">
+        <div class="col-md-6">
+            <p class="text-red"><strong> You cannot upload yet because you dont have record! 
+            <br> Please go to Profile and submit details!</strong></p>
+        </div>
+    </div>
+    @else    
+    <div class="row ">        
+            
+        <div class="col-md-12">   
+            <div class="card card-default ">
+                <div class="card-header">
+                    Uploaded Proof of Payment
+                </div>
+            
+                <div class="card-body">
+    
+                <table class="table table-bordered table-condensed">
                 
-            </div>
-            <!-- /.card -->
-        </div>
-        
-      </div>    
+                @if(count($payments) === 0)
+                        <p>There are no payments made by this requestor yet.<p>
+                @else
+                    <thead>
+                        <tr>
+                            <th style="width:30%"> Name</th>
+                            <th style="width:30%"> Status</th>
+                            <th style="width:30%"> Date Uploaded</th>   
+                            <th style="width:30%"> Action</th> 
+                        </tr>
+                    </thead>
+                    <tbody>                     
 
+                
+                            @foreach($payments as $payment)
+                            <tr>
+                                    <td>
+                                        <a href="{{ route('payments.show', $payment->proof) }}" >
+                                            {{$payment->proof}}
+                                        </a>
+                                    </td>
+                                    <td class="text-olive">{{$payment->payment_status}} </td>
+                                    <td class="text-olive">{{$payment->created_at}} </td>  
+                                    <td>
+                                        <form method="POST" action="{{ route('payments.verify', $request_id ) }} ">
+                                        @csrf
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-primary">Validate</button>
+                                            </div>
+                                        </form> 
+                                    </td>                                                                 
+                                  
+                            </tr>
+                            @endforeach
+                        @endif                        
+                        
+                    </tbody>                        
+                </table>
+                </div> <!--end card-body -->
+              
+            
+            </div>
+          
+        </div>
+    </div>
+    @endif
+        
 </div>
 @endsection

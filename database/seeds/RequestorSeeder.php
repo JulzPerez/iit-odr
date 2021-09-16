@@ -30,9 +30,9 @@ class RequestorSeeder extends Seeder
             'highschool_graduated' => '2010-06-18', 
             'highschool_address' => 'Brgy 3, SFADS',
             'last_sem_attended' => '1st Sem',
-            'last_sem_AY' => '2016', 
+            'last_sem_AY' => '2016-2017', 
             'last_university_attended' => 'MSU Maraw',
-            'purpose_of_request' => 'employment',
+            
             'sex' => 'male',
             'date_of_birth' => '1987-05-28', 
             'religion' => 'roman catholic', 
@@ -43,7 +43,7 @@ class RequestorSeeder extends Seeder
             'name_of_father' => 'deceased', 
             'maiden_name_of_mother' => 'deceased', 
             'address_of_parents' => 'sfads', 
-            'authorized_person' => 'no one'
+           
         ]);
 
     }

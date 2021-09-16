@@ -18,8 +18,10 @@ class CreateRequestsTable extends Migration
             $table->unsignedBigInteger('requestor_id');
             $table->unsignedBigInteger('document_id');
             $table->smallInteger('number_of_copy');
+            $table->decimal('assessment_total',8,2);
             $table->string('request_status')->default('pending');  
             $table->string('payment_status')->default('pending');  
+            $table->string('purpose_of_request');
             $table->timestamps();
 
             $table->foreign('requestor_id')->references('id')->on('requestor')->onDelete('cascade');

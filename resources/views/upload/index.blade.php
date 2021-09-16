@@ -31,7 +31,7 @@
                       <div class="row">
                         <div class="col-md-12">
                           <div class="form-group">
-                              <label>Document Purpose</label>
+                              <label>Document</label>
 
                               <input type="text" name="doc_name" class="form-control" >
                               

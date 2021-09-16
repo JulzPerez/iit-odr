@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Cmgmyr\Messenger\Traits\Messagable;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail 
 {
     use Notifiable,Messagable;
 
@@ -21,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name','last_name', 'email', 'user_type','password',
+        'first_name','middle_name','last_name', 'email', 'user_type','password',
     ];
 
     /**

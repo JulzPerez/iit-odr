@@ -8,5 +8,5 @@ class DocRequest extends Model
 {
     protected $table = 'requests';
 
-    protected $fillable = ['requestor_id', 'document_id','number_of_copy','filename' ];
+    protected $fillable = ['requestor_id', 'document_id','number_of_copy','filename', 'purpose_of_request','payment_status' ];
 }

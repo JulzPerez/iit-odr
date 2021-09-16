@@ -10,50 +10,8 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 
 
-import 'admin-lte/plugins/jquery/jquery.min.js';
-import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js';
-import 'admin-lte/plugins/select2/js/select2.full.min.js';
-import 'admin-lte/plugins/daterangepicker/daterangepicker.js';
-import 'admin-lte/plugins/bootstrap4-dualListbox/jquery.bootstrap-duallistbox.min.js';
-import 'admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js';
-import 'admin-lte/dist/js/adminlte.min.js';
-
-$(function () {
-
-        //Initialize Select2 Elements
-    $('.select2').select2()
-
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-        theme: 'bootstrap4'
-    })
-
-    //Bootstrap Duallistbox
-    $('.duallistbox').bootstrapDualListbox()
-
-    $('#from_date').daterangepicker({
-        singleDatePicker: true,
-        
-    })
-
-    $('#to_date').daterangepicker({
-        singleDatePicker: true,
-    
-    })
-
-    $('#selectDocument').change(function(){
-
-        var selectVal = $(this).val();
-        console.log(selectVal);
-    })
-
-})
-
-jQuery(document).ready(function() {
-
-
-
-}(jQuery))
+import Swal from 'sweetalert2'
+window.Swal = Swal;
 
 
 window.Vue = require('vue');

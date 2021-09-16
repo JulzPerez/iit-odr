@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Requestor;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 
 class RequesterController extends Controller
@@ -70,19 +71,19 @@ class RequesterController extends Controller
             'requestor_type' => 'required',
             //'mailing_address' => 'required|string|max:191',
             'degree' => 'required|string|max:191',
-            'option' => 'required|string|max:191',
+            //'option' => 'required|string|max:191',
             //'honor' => 'required|string|max:191',
-            'graduation_date' => 'required',
+            //'graduation_date' => 'required',
             'highschool_graduated' => 'required|string|max:191',
             'highschool_address' => 'required|string',
             //'last_sem_attended' => 'required|string|max:191',
-            'last_AY_attended' => 'required|numeric',
+            //'last_AY_attended' => 'required|numeric',
             //'transferee_last_school' => 'required|string|max:191',
             //'last_AY_attended' => 'required|string|max:191',
-            'request_purpose' => 'required|string|max:191',
+           
             'sex' => 'required|string|max:191',
             'birthdate' => 'required',
-            'religion' => 'required|string|max:191',
+            //'religion' => 'required|string|max:191',
             'birth_place' => 'required|string|max:191',
             'citizenship' => 'required|string|max:191',
             'civil_status' => 'required|string|max:191',
@@ -93,36 +94,36 @@ class RequesterController extends Controller
             //'authorized_person' => 'required|string|max:191',
         ], 
             [
-            'first_name.required' => 'required',
-            'middle_name.required' => 'required',
-            'last_name.required' => 'required',
+            'first_name.required' => 'First Name is required',
+            'middle_name.required' => 'Middle Name is required',
+            'last_name.required' => 'Last name is required',
             //'id_no.required' => 'required|string|max:191',
-            'contact_no.required' => 'required',
+            'contact_no.required' => 'Contact No. is required',
             //'home_address.required' => 'required',
-            'requestor_type' => 'required',
+            'requestor_type' => 'Please select from list of requestor type.',
             //'mailing_address' => 'required|string|max:191',
-            'degree.required' => 'required',
-            'option.required' => 'required',
+            'degree.required' => 'Degree is required',
+            //'option.required' => 'required',
             //'honor' => 'required|string|max:191',
-            'graduation_date.required' => 'required',
-            'highschool_graduated.required' => 'required',
-            'highschool_address.required' => 'required',
+            //'graduation_date.required' => 'required',
+            'highschool_graduated.required' => 'High School graduated is required',
+            'highschool_address.required' => 'High School graduated is required',
             //'last_sem_attended.required' => 'required',
-            'last_AY_attended.required' => 'required',
+            //'last_AY_attended.required' => 'required',
             //'transferee_last_school' => 'required|string|max:191',
             //'last_AY_attended' => 'required|string|max:191',
-            'request_purpose.required' => 'required',
-            'sex.required' => 'required',
-            'birthdate.required' => 'required',
-            'religion.required' => 'required',
-            'birth_place.required' => 'required',
-            'citizenship.required' => 'required',
-            'civil_status.required' => 'required',
+           
+            'sex.required' => 'Sex field is required',
+            'birthdate.required' => 'Please select date of birth',
+            //'religion.required' => 'required',
+            'birth_place.required' => 'Birthplace field is required',
+            'citizenship.required' => 'Citizenship is required',
+            'civil_status.required' => 'Civil Status is required',
             //'spouse_name' => 'required|string|max:191',
             //'father_fullname' => 'required|string|max:191',
             //'mother_fullmaidenname' => 'required|string|max:191',
             //'parents_address' => 'required|string|max:191',
-            //'authorized_person' => 'required|string|max:191',
+          
             ]
         );
 
@@ -148,7 +149,7 @@ class RequesterController extends Controller
             'last_sem_attended' => $request['last_sem_attended'],
             'last_sem_AY' => $request['last_AY_attended'], 
             'last_university_attended' => $request['transferee_last_school'],
-            'purpose_of_request' => $request['request_purpose'],
+           
             'sex' => $request['sex'],
             'date_of_birth' => $request['birthdate'], 
             'religion' => $request['religion'], 
@@ -159,7 +160,7 @@ class RequesterController extends Controller
             'name_of_father' => $request['father_fullname'], 
             'maiden_name_of_mother' => $request['mother_fullmaidenname'], 
             'address_of_parents' => $request['parents_address'], 
-            'authorized_person' => $request['authorized_person']
+           
         ]);
 
         return redirect('/requester')->with('success', 'Record saved successfully!');
@@ -214,19 +215,19 @@ class RequesterController extends Controller
                 'requestor_type' => 'required',
                 //'mailing_address' => 'required|string|max:191',
                 'degree' => 'required|string|max:191',
-                'option' => 'required|string|max:191',
+                //'option' => 'required|string|max:191',
                 //'honor' => 'required|string|max:191',
-                'graduation_date' => 'required',
+                //'graduation_date' => 'required',
                 'highschool_graduated' => 'required|string|max:191',
                 'highschool_address' => 'required|string',
                 //'last_sem_attended' => 'required|string|max:191',
-                'last_AY_attended' => 'required|string|max:191',
+                //'last_AY_attended' => 'required|string|max:191',
                 //'transferee_last_school' => 'required|string|max:191',
                 //'last_AY_attended' => 'required|string|max:191',
-                'request_purpose' => 'required|string|max:191',
+                
                 'sex' => 'required|string|max:191',
                 'birthdate' => 'required',
-                'religion' => 'required|string|max:191',
+                //'religion' => 'required|string|max:191',
                 'birth_place' => 'required|string|max:191',
                 'citizenship' => 'required|string|max:191',
                 'civil_status' => 'required|string|max:191',
@@ -246,19 +247,19 @@ class RequesterController extends Controller
                 'requestor_type' => 'required',
                 //'mailing_address' => 'required|string|max:191',
                 'degree.required' => 'required',
-                'option.required' => 'required',
+                //'option.required' => 'required',
                 //'honor' => 'required|string|max:191',
-                'graduation_date.required' => 'required',
+                //'graduation_date.required' => 'required',
                 'highschool_graduated.required' => 'required',
                 'highschool_address.required' => 'required',
                 //'last_sem_attended.required' => 'required',
                 'last_AY_attended.required' => 'required',
                 //'transferee_last_school' => 'required|string|max:191',
                 //'last_AY_attended' => 'required|string|max:191',
-                'request_purpose.required' => 'required',
+               
                 'sex.required' => 'required',
                 'birthdate.required' => 'required',
-                'religion.required' => 'required',
+                //'religion.required' => 'required',
                 'birth_place.required' => 'required',
                 'citizenship.required' => 'required',
                 'civil_status.required' => 'required',
@@ -291,7 +292,7 @@ class RequesterController extends Controller
             $req->last_sem_attended = $request['last_sem_attended'];
             $req->last_sem_AY = $request['last_AY_attended']; 
             $req->last_university_attended = $request['transferee_last_school'];
-            $req->purpose_of_request = $request['request_purpose'];
+          
             $req->sex = $request['sex'];
             $req->date_of_birth = $request['birthdate']; 
             $req->religion = $request['religion']; 
@@ -302,7 +303,7 @@ class RequesterController extends Controller
             $req->name_of_father = $request['father_fullname']; 
             $req->maiden_name_of_mother = $request['mother_fullmaidenname']; 
             $req->address_of_parents = $request['parents_address']; 
-            $req->authorized_person = $request['authorized_person'];
+            
 
             $req->save();
 

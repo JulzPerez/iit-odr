@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('odr_users', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('user_type')->default('requester');

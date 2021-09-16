@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 use App\Document;
 use App\DocRequest;
+use App\File;
 
 
 class RequestController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','verified']);
     }
     /**
      * Display a listing of the resource.
@@ -22,18 +25,36 @@ class RequestController extends Controller
      */
     public function index()
     {
-        $userid = \Auth::user()->id;
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff'))
+        {
 
-        $all_request = DB::table('requestor')
-            ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
-            ->join('documents', 'documents.id', '=', 'requests.document_id')
-            ->select('requests.*', 'documents.*','requests.id as request_id', 'requestor.id as requestor_id')
-            ->where('requestor.user_id',$userid)
-            ->get();
+            return view('request.windowStaff');
+        }
 
-            //dd($all_request);
+        if(\Gate::allows('isRequester') )
+        {
+            try{
+                $userid = \Auth::user()->id;
+    
+                $all_request = DB::table('requestor')
+                ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
+                ->join('documents', 'documents.id', '=', 'requests.document_id')
+                ->select('requests.*', 'documents.*','requests.id as request_id', 'requestor.id as requestor_id','requests.created_at as request_date')
+                ->where('requestor.user_id',$userid)
+                ->orderBy('requests.created_at', 'desc')
+                ->get();
+            }
+            catch(\Exception $exception)
+            {
+                throw new \App\Exceptions\ExceptionLogData($exception);
+            }    
+
+            return view('request.index', compact('all_request'));
+        }
+
+             
         
-        return view('request.index', compact('all_request'));
+        
     }
 
     /**
@@ -66,61 +87,120 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
+       
         $docKey = explode(',',$request['docID']);
-        //dd($docKey);
 
-        $this->validate($request, [
-            'docID' => 'required',
-            'copy' => 'required|numeric|gt:0',
-            'file' => 'mimes:zip,pdf,jpg,jpeg,bmp,png,doc,docx,csv,rtf,xlsx,xls,txt',
-        ]);
-
-
-        $userid = \Auth::user()->id;
-        $user_fname = \Auth::user()->first_name;
-        $user_lname = \Auth::user()->last_name;
-
-        $requestor_id = DB::table('requestor')
-                        ->where('user_id', $userid)
-                        ->first()->id;
-        
-        //file upload
         if($docKey[1]==1)
-        {   
-            $file = $request->file('file');
-
-            if($file != null)
-            {
-                $filename = $user_fname.'_'.$user_lname.'_'.time().'_'.$file->getClientOriginalName();            
-                // File upload location
-
-                $path = $file->storeAs('authentication', $filename);
-                //dd($path);
-            }
-            else
-            {
-                $this->validate($request, [
-                    'file' => 'required',
-                ],
-                [
-                    'file.required' => 'Uploading of file is required for this document request!',
-                ]
-                );    
-            }            
-        }
-        else
         {
-            $filename = '';  
+            $validator = Validator::make($request->all(),[
+
+                'copy' => 'required|numeric|gt:0',
+                'request_purpose' => 'required|string|max:255',
+                'filename' => 'required',
+                'filename.*' => 'mimes:pdf',
+            ],
+            [
+                'copy.gt' => "Input must be number greater than 0.",
+                'request_purpose.required' => 'Please write the purpose of request.',
+                'filename.required' => 'Uploading of file is required for this document request!',
+            ]);
+        }
+        else{
+            $validator = Validator::make($request->all(),[
+
+                'copy' => 'required|numeric|gt:0',
+                'request_purpose' => 'required|string|max:255',
+            ],
+            [
+                'copy.gt' => "Input must be number greater than 0.",
+                'request_purpose.required' => 'Please write the purpose of request.',
+            ]);
+        }
+                               
+
+        if(!$validator->passes()){
+            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
+        }
+        else{
+            try
+            {
+                $userid = \Auth::user()->id;
+                $requestor_id = DB::table('requestor')
+                                ->where('user_id', $userid)
+                                ->first()->id;
+
+                if($docKey[3]==1)
+                {
+                    $request_status = 'assessed';
+                }
+                else $request_status = 'pending';
+
+                $requestID = DB::table('requests')->insertGetId(
+                    [
+                        'requestor_id' => 1000,
+                        //'requestor_id' => $requestor_id,
+                        'document_id' => $docKey[0],
+                        'number_of_copy' => $request['copy'],
+                        'assessment_total' => $request['copy'] * $docKey[2],
+                        'purpose_of_request' => $request['request_purpose'],
+                        'request_status' => $request_status,
+                        'created_at' => Carbon::now(),
+                        
+                    ]
+                );
+            
+
+                if($docKey[1]==1)
+                {
+                   
+                    $user_fname = \Auth::user()->first_name;
+                    $user_lname = \Auth::user()->last_name;
+                
+                        if($requestID)
+                        {
+                            if($request->hasfile('filename'))
+                            {
+                                foreach($request->file('filename') as $file)
+                                {
+                                    $fname = $user_fname.'_'.$user_lname.'_'.time().'_'.$file->getClientOriginalName();            
+                                    // File upload location
+
+                                    $path = $file->storeAs('file_upload', $fname);
+                                    //dd($path);
+
+                                    $file_data[] = $fname; 
+                                }
+                            }
+
+                            $dataset = [];
+                            foreach($file_data as $data)
+                            {
+                                $dataset[] = [
+                                    'request_id' => $requestID,
+                                    'filename' => $data,
+                                ];
+                            }
+                            $file_insert = DB::table('request_files')->insert($dataset);
+                        }
+                    
+                }    
+            }
+            catch(\Exception $exception)
+            {
+                throw new \App\Exceptions\ExceptionLogData($exception);
+            }        
+                 
+        }
+
+        if($requestID){
+
+            return response()->json(['status'=>1, 'msg'=>'The request has been successfully added!']);
+        }
+        else{
+            return response()->json(['status'=>0, 'msg'=>'Something went wrong!']);
         }
         
-       DocRequest::create([
-            'requestor_id' => $requestor_id,
-            'document_id' => $docKey[0],
-            'number_of_copy' => $request['copy'],
-            'filename' => $filename
-        ]); 
 
-        return redirect('/request')->with('success', 'Request added successfully!');
     }
 
     /**
@@ -184,6 +264,49 @@ class RequestController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getRequestForAssessment()
+    {
+        try{
+            $pending_requests = DB::table('requestor')
+                ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
+                ->join('documents', 'documents.id', '=', 'requests.document_id')
+                ->select('requestor.*','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
+                ->where('requests.request_status','pending')  
+                ->get(); 
+        }
+        catch(\Exception $exception)
+        {
+            throw new \App\Exceptions\ExceptionLogData($exception);
+        }
+
+        if($pending_requests)
+        {
+            $html = '';
+
+            foreach ($pending_requests as $p_request) 
+            {
+                $html .= '<tr>
+                            <td>'.$p_request->docName." ".$p_request->docParticular.'</td>
+                            <td>'.$p_request->first_name." ".$p_request->last_name.'</td>
+                            <td>'.$p_request->request_date.'</td>                        
+                            <td class="td-actions text-right">
+                                <button type="button" rel="tooltip" class="btn btn-info">
+                                    <i class="material-icons">person</i>
+                                </button>
+                                <button type="button" rel="tooltip" class="btn btn-success">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                <button type="button" rel="tooltip" class="btn btn-danger">
+                                    <i class="material-icons">close</i>
+                                </button>
+                            </td>
+                        </tr>';
+            }
+
+            return response()->json(['html' => $html]);
+        }
     }
 
     

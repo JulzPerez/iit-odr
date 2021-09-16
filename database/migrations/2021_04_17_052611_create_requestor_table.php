@@ -35,9 +35,8 @@ class CreateRequestorTable extends Migration
             $table->string('highschool_graduated')->nullable();
             $table->string('highschool_address')->nullable();
             $table->string('last_sem_attended')->nullable();
-            $table->integer('last_sem_AY')->nullable();
+            $table->string('last_sem_AY')->nullable();
             $table->string('last_university_attended')->nullable();
-            $table->string('purpose_of_request')->nullable();
 
             $table->string('sex')->nullable();
             $table->date('date_of_birth')->nullable();
@@ -49,7 +48,6 @@ class CreateRequestorTable extends Migration
             $table->string('name_of_father')->nullable();
             $table->string('maiden_name_of_mother')->nullable();
             $table->string('address_of_parents')->nullable();
-            $table->string('authorized_person')->nullable();
 
             $table->timestamps();
 

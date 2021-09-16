@@ -8,9 +8,7 @@
           @if ($errors->any())
             <div class="alert alert-danger">
               <ul>
-                  @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                  @endforeach
+                 <p>Error: Please fill in required information.</p>
               </ul>
             </div><br />
           @endif
@@ -36,6 +34,20 @@
                                 <input id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ $user->first_name }}" >
 
                                 @error('first_name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="middle_name" class="col-md-4 col-form-label text-md-right">{{ __('Middle Name') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="middle_name" type="text" class="form-control @error('middle_name') is-invalid @enderror" name="middle_name" value="{{ $user->middle_name }}" >
+
+                                @error('middle_name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -75,13 +87,29 @@
                             <label for="user_type" class="col-md-4 col-form-label text-md-right">{{ __('User Type') }}</label>
 
                             <div class="col-md-6">
-                                <select class="form-control select2bs4" name="user_type" value="{{ $user->user_type }}"  style="width: 100%;">
-                                    <option>Staff</option>
-                                    <option>Student</option>
-                                    <option>Admin</option>                           
+                                <select class="form-control" name="user_type" value="{{ old('user_type',$user->user_type) }}"  style="width: 100%;">
+                                    <option value="">--Select--</option>
+                                    <option  {{ old('user_type',$user->user_type) == 'window staff' ? 'selected' : '' }} value="window staff">Window Staff</option>
+                                    <option {{ old('user_type',$user->user_type) == 'other staff' ? 'selected' : '' }} value="other staff">Other Staff</option>
+                                    <option {{ old('user_type',$user->user_type) == 'requester' ? 'selected' : '' }} value="requester">Requester</option>
+                                    <option {{ old('user_type',$user->user_type) == 'registrar' ? 'selected' : '' }} value="registrar">Registrar</option>
+                                    <option value="admin">Admin</option>                           
                                 </select>
 
                                 @error('user_type')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password',$user->password) }}" required autocomplete="new-password">
+
+                                @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -97,7 +125,7 @@
                       <button type="submit" class="btn btn-primary">Save Changes</button>
 
                       <a href="/users">
-                        <button type="button" class="btn btn-primary float-right">Back to Users</button>
+                        <button type="button" class="btn btn-default float-right">Back to Users</button>
                       </a>
                     </div>
                 </form>

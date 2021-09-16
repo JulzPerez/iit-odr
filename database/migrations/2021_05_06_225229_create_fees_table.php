@@ -18,6 +18,7 @@ class CreateFeesTable extends Migration
             $table->string('fee_name');
             $table->string('unit');
             $table->decimal('amount',8,2);
+            $table->smallInteger('automatic_assessment')->default('1');
             $table->timestamps();
         });
     }

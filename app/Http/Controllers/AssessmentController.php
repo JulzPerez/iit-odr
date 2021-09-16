@@ -21,7 +21,7 @@ class AssessmentController extends Controller
      */
     public function index()
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff'))
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff'))
         {
 
             $requests = DB::table('requestor')
@@ -54,7 +54,7 @@ class AssessmentController extends Controller
     public function store(Request $request)
     {
         //dd($request->all());
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff'))
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff'))
         {
             $this->validate($request, [
                 'fee_id' => 'required',
@@ -96,7 +96,7 @@ class AssessmentController extends Controller
     public function show($id)
     {
         
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
 
             $request_id = $id;
 
@@ -144,11 +144,12 @@ class AssessmentController extends Controller
      */
     public function update(Request $request, $id)
     {
+    
         $request_id = \Request::get('request_id');
         $pages = $request->get('pages');
         $amount = $request->get('amount');
 
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $this->validate($request, [
                 'pages' => 'required|integer|min:1|gt:0',              
     
@@ -172,9 +173,10 @@ class AssessmentController extends Controller
      */
     public function destroy($id)
     {
-        $request_id = \Request::get('request_id');
 
-        if(\Gate::allows('isAdmin') || \Gate::allows('isStaff')){
+        if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
+            $request_id = \Request::get('request_id');
+            
             $fee = Assessment::where('requests_id',$request_id)->where('fees_id',$id)->first();
             //dd($fee);
             $fee->delete();
