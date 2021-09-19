@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'login', 'title' => __('')])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'login', 'title' => __('MSU-IIT Online Document Request')])
 
 @section('content')
 <div class="container">
@@ -89,6 +89,7 @@
           </div>
           <div class="col-md-8 banner-sec">
             <div class="card">
+              <div class="card-body">
                   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                       <ol class="carousel-indicators">
                           <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -127,6 +128,7 @@
                       </div>	   
           
                   </div>
+                </body>
             </div>
           </div>
   </section>      

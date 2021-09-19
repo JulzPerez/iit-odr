@@ -137,8 +137,8 @@ class RequestController extends Controller
 
                 $requestID = DB::table('requests')->insertGetId(
                     [
-                        'requestor_id' => 1000,
-                        //'requestor_id' => $requestor_id,
+                        //'requestor_id' => 1000,
+                        'requestor_id' => $requestor_id,
                         'document_id' => $docKey[0],
                         'number_of_copy' => $request['copy'],
                         'assessment_total' => $request['copy'] * $docKey[2],

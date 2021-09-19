@@ -84,15 +84,15 @@
                                             @if($request->auto_assess === 1)
                                                 <div class="form-row">                                        
                                                         <div class="col" >
-                                                            <h4 class=""><strong style="color:blue">Assessment Fee</strong></h4>
-                                                            <h4 style="color:red">Php {{$request->assessment_total}}</h4>
+                                                            <b>Assessment Fee:</b>
+                                                            <b style="color:red">Php {{$request->assessment_total}}</b>
                                                         </div>
                                                 
                                                 </div>
                                             @else
                                                 <div class="form-row">                                        
                                                         <div class="col" >
-                                                            <h4 class=""><strong style="color:blue">Assessment Fee</strong></h4>
+                                                            <b>Assessment Fee</b>
                                                             <span class="badge bg-danger text-white ">pending for assessment</span>
                                                         </div>                                                
                                                 </div>

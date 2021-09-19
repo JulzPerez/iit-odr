@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => '', 'title' => __('Material Dashboard')])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => '', 'title' => __('MSU-IIT Online Document Request')])
 
 @section('content')
 <div class="container" style="height: auto;">

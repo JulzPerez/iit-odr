@@ -47,7 +47,6 @@
                                                       
                             </div>
 
-                                  
                             <br>
                             <div id="displayUpload" style="display:none;">                            
                               <div class="input-group control-group increment" id="displayUpload" >
@@ -167,7 +166,13 @@
                           });
                       }else{
                           $('#request_form')[0].reset();
-                            //Swal.Fire('Your Post as been submited!','success');
+                      
+                            Swal.fire({
+                                title: 'Info',
+                                text: data.msg,
+                                icon: 'success',      
+                              })
+                        
                             window.location.href = "{{route('request.index')}}";
                           
                       }

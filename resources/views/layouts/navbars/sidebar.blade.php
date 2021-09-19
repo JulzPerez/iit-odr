@@ -9,7 +9,7 @@
       {{ __('ODR') }}
     </a>
   </div>
-  <div class="sidebar-wrapper">
+  <div class="sidebar-wrapper" id="app">
     <ul class="nav">
       
         @can('isRequester')
