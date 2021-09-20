@@ -46,7 +46,6 @@
                                   <span class="text-danger error-text request_purpose_error"></span>
                                                       
                             </div>
-
                             <br>
                             <div id="displayUpload" style="display:none;">                            
                               <div class="input-group control-group increment" id="displayUpload" >
@@ -60,6 +59,9 @@
                               <div>
                                   <span class="text-danger error-text filename_error"></span>
                               </div> 
+                              <div>
+                                  <span class="text-danger error-text mime_error"></span>
+                              </div>
                               <div class="clone" style="display:none">
                                 <div class="control-group input-group" style="margin-top:10px">
                                   <input type="file" name="filename[]" class="form-control">
@@ -97,7 +99,7 @@
 
       $(document).ready(function () {
              
-          $('#selectDocument').on('change',function(e) {
+        $('#selectDocument').on('click',function(e) {
           
           var doc_key = e.target.value;
           console.log(doc_key);
@@ -119,7 +121,7 @@
         });   
 
         $('#selectRequest').on('change',function(e) {
-          
+
           var request_id = e.target.value;
            
           document.getElementById('request_id').value = request_id; 
@@ -163,18 +165,24 @@
                       if(data.status == 0){
                           $.each(data.error, function(prefix, val){
                               $('span.'+prefix+'_error').text(val[0]);
-                          });
-                      }else{
-                          $('#request_form')[0].reset();
-                      
-                            Swal.fire({
-                                title: 'Info',
-                                text: data.msg,
-                                icon: 'success',      
-                              })
-                        
-                            window.location.href = "{{route('request.index')}}";
+                              //console.log(prefix);
+
+                              if(prefix.includes('filename'));
+                              {
+                                $(document).find('span.mime_error').text('File must be a PDF type only');
+                              }
+                          });    
                           
+
+                      }else{
+                        $('#request_form')[0].reset();
+                              Swal.fire({
+                                text: data.msg,
+                                icon: 'success',
+                                showConfirmButton: true,
+                              });
+                              
+                              window.location = "{{route('request.index')}}";                           
                       }
                   }
               });

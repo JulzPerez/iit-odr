@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'request', 'titlePage' => __('Upload Proof of Payment Form')])
+@extends('layouts.app', ['activePage' => 'request', 'titlePage' => 'Welcome, '.ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name.' !') ])
 
 @section('content')
 <div class="content">
@@ -27,7 +27,7 @@
             <div class="col-md-8">
                 <div class="card card-danger">   
                     <div class="card-header">
-                      <h3>Upload Proof of Payment Form</h3>
+                      <h4>Upload Proof of Payment Form</h4>
                     </div>             
                         
                     <form method="POST" action="{{route('payments.store')}}" enctype="multipart/form-data">
@@ -38,7 +38,10 @@
                                     <div class="form-group">
                                         <label>Payment for request</label>
                                         <br>
-                                        <input type="text" name="payment_for" value="{{$docName}}" class="form-control" readonly>
+                                       <h4><strong class="text-info">                                            
+                                           {{$docName}}
+                                        </strong></h4>
+                                        <input type="hidden" name="payment_for" value="{{$docName}}" class="form-control" readonly>
                                         <input type="hidden" name="request_id" value="{{$id}}" class="form-control" >
                                         
                                     </div>
@@ -55,7 +58,7 @@
                                                 <span class="fileinput-exists">Browse File</span>
                                                 <input type="file" name="file" />
                                             </span>
-                                            <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                            <!-- <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a> -->
                                         </div>
                                         @if ($errors->has('file'))
                                             <span class="text-danger">{{ $errors->first('file') }}</span>

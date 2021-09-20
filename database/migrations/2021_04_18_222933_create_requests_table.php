@@ -17,6 +17,7 @@ class CreateRequestsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('requestor_id');
             $table->unsignedBigInteger('document_id');
+            $table->unsignedBigInteger('thread_id')->nullable();
             $table->smallInteger('number_of_copy');
             $table->decimal('assessment_total',8,2);
             $table->string('request_status')->default('pending');  
@@ -26,6 +27,7 @@ class CreateRequestsTable extends Migration
 
             $table->foreign('requestor_id')->references('id')->on('requestor')->onDelete('cascade');
             $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');
+            $table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
         });
     }
 

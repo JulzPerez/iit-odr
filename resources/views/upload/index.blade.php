@@ -91,13 +91,7 @@
                                         </a>
                                     </td>
                                     <td class="text-olive">{{$file->created_at}} </td>
-                                    <!-- <td>
-                                        <form action="{{ route('files.destroy', $file->id)}}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                                        </form>
-                                    </td> -->
+                                  
                             </tr>
                             @endforeach
 

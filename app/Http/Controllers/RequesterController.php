@@ -12,7 +12,7 @@ class RequesterController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','verified']);
     }
     /**
      * Display a listing of the resource.
@@ -23,23 +23,29 @@ class RequesterController extends Controller
     {
         //$docID = \Request::get('docID');
         $userid = \Auth::user()->id;
+
+        try{
+            if (DB::table('requestor')->where('user_id', $userid )->doesntExist() ) 
+            {
         
-        if (DB::table('requestor')->where('user_id', $userid )->doesntExist() ) 
-        {
-            return view('requestor.create');  
+                return view('requestor.create');  
+            }
+            else 
+            {
+                $requester = DB::table('requestor')
+                ->where('user_id', '=', $userid)
+                ->first();
+
+                //dd($requester);
+
+                return view('requestor.index', compact('requester'));
+            } 
         }
-        else 
-        {
-            $requester = DB::table('requestor')
-            ->where('user_id', '=', $userid)
-            ->first();
-
-            //dd($requester);
-
-            return view('requestor.index', compact('requester'));
-        } 
-
-        //return view('requestor.index');
+        catch(\Exception $exception)
+            {
+                throw new \App\Exceptions\ExceptionLogData($exception);
+            }
+      
     }
 
     /**
@@ -107,7 +113,7 @@ class RequesterController extends Controller
             //'honor' => 'required|string|max:191',
             //'graduation_date.required' => 'required',
             'highschool_graduated.required' => 'High School graduated is required',
-            'highschool_address.required' => 'High School graduated is required',
+            'highschool_address.required' => 'Secondary school address is required',
             //'last_sem_attended.required' => 'required',
             //'last_AY_attended.required' => 'required',
             //'transferee_last_school' => 'required|string|max:191',

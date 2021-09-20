@@ -98,9 +98,19 @@
                                                 </div>
                                             @endif
                                         </td>
-                                        
-                                       
+
                                         <td class="td-actions text-right">
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-primary float-right mb-1 mr-1">
+                                                        <i class="material-icons">chat</i>
+                                                        Create Message
+                                                    </button>
+                                                   
+                                                </div>  
+                                                                                      
+                                            </div>
+                                            
                                             <div class="form-row">
                                                 <div class="col">
                                                         @if($request->request_status === 'assessed')
@@ -113,7 +123,7 @@
                                                                     
                                                                     ] 
                                                                 ) }}" >
-                                                                <button type="button" class="btn btn-primary btn-round">
+                                                                <button type="button" class="btn btn-info"><i class="material-icons">file_upload</i>
                                                                  Upload Proof of Payment
                                                                 </button>
                                                             <!-- <i class="fas fa-edit"></i> -->

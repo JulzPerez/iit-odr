@@ -27,7 +27,6 @@ class RequestController extends Controller
     {
         if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff'))
         {
-
             return view('request.windowStaff');
         }
 
@@ -51,10 +50,6 @@ class RequestController extends Controller
 
             return view('request.index', compact('all_request'));
         }
-
-             
-        
-        
     }
 
     /**

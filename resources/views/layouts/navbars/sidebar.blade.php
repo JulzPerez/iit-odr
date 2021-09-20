@@ -6,7 +6,7 @@
   -->
   <div class="logo">
     <a href="https://creative-tim.com/" class="simple-text logo-normal">
-      {{ __('ODR') }}
+      {{ __('Online Document Request') }}
     </a>
   </div>
   <div class="sidebar-wrapper" id="app">
