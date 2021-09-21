@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'request', 'titlePage' => 'Welcome, '.ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name) ])
+@extends('layouts.app', ['activePage' => 'request', 'titlePage' => 'Welcome, '.ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name.'!') ])
 
 @section('content')
 <div class="content">
@@ -43,8 +43,8 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th><strong>Request</strong></th>
-                                        <th><strong>Assessment</strong></th>
+                                        <th><strong>REQUEST</strong></th>
+                                        <th><strong>STATUS</strong></th>
                                        
                                         <th class="text-center"><strong>Actions</strong></th>
                                     </tr>
@@ -71,30 +71,53 @@
                                                 
                                                 </div>                                     
                                             </div>
+                                            
+                                        </td>
+                                        <td>
                                             <div class="form-row">
                                                 <div class="col" >
-                                                    <label>Status </label>
+                                                    <label>Request Status </label>
                                                 </div>
                                                 <div class="col">
                                                     <b>{{$request->request_status}}</b>   
                                                 </div>                                     
                                             </div>
-                                        </td>
-                                        <td>
-                                            @if($request->auto_assess === 1)
+                                            @if($request->auto_assess === 1 OR $request->request_status === 'assessed')
                                                 <div class="form-row">                                        
                                                         <div class="col" >
-                                                            <b>Assessment Fee:</b>
-                                                            <b style="color:red">Php {{$request->assessment_total}}</b>
+                                                            Assessment Fee:                                                            
                                                         </div>
-                                                
+                                                        <div class="col" >                                                           
+                                                            <b style="color:red">Php {{$request->assessment_total}}</b>
+                                                        </div>                                                                                                        
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col" >
+                                                        Assessed By:                                                           
+                                                    </div>
+                                                    <div class="col" >
+                                                       <b> {{$request->assessed_by}}  </b>                                                        
+                                                    </div>
                                                 </div>
                                             @else
                                                 <div class="form-row">                                        
-                                                        <div class="col" >
-                                                            <b>Assessment Fee</b>
-                                                            <span class="badge bg-danger text-white ">pending for assessment</span>
-                                                        </div>                                                
+                                                    <div class="col" >
+                                                        Assessment Fee
+                                                        
+                                                    </div>   
+                                                    <div class="col" >
+                                                        <span class="badge bg-danger text-white ">pending for assessment</span>                                                            
+                                                    </div>                                             
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col" >
+                                                        Assessed By:                                                            
+                                                    </div>
+                                                    @if($request->assessed_by != 'auto assess')
+                                                    <div class="col" >
+                                                        {{$request->assessed_by}}                                                          
+                                                    </div>
+                                                    @endif
                                                 </div>
                                             @endif
                                         </td>
@@ -102,10 +125,19 @@
                                         <td class="td-actions text-right">
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <button type="button" class="btn btn-primary float-right mb-1 mr-1">
-                                                        <i class="material-icons">chat</i>
-                                                        Create Message
-                                                    </button>
+                                                    @if($request->thread_id === null)
+                                                    <a href="{{ route('messages.create', [$request->request_id, $request->requestor_id] ) }}" >
+                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                                                            Create Message
+                                                        </button>
+                                                    </a>
+                                                    @else
+                                                    <a href="{{ route('messages.show', $request->thread_id) }}" >
+                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                                                            Message
+                                                        </button>
+                                                    </a>
+                                                    @endif
                                                    
                                                 </div>  
                                                                                       

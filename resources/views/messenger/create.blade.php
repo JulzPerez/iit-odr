@@ -1,7 +1,8 @@
-@extends('layouts.master')
+@extends('layouts.app', ['activePage' => 'requests', 'titlePage' => 'Welcome, '.ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name.'!') ])
 
-@section('main_content')
-        <div class="col-md-6">
+@section('content')
+<div class="content">
+      <div class="col-md-6">
         <form action="{{ route('messages.store') }}" method="post">
         {{ csrf_field() }}
             <div class="card card-primary card-outline">
@@ -10,10 +11,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <div class="form-group">
-                    <label>To:</label>
-                  <input class="form-control" name="to" placeholder="To:" value="{{$user->first_name.' '.$user->last_name}}">
-                </div>
+               
                 <div class="form-group">
                 <label>Subject:</label>
                   <input class="form-control" name="subject" placeholder="Subject:">
@@ -23,7 +21,8 @@
                       
                     </textarea>
                 </div>
-                <input type="hidden" name="recipient" value="{{$user->id}}">
+                <input type="hidden" name="recipient" value="{{$requestorID}}">
+                <input type="hidden" name="requestID" value="{{$requestID}}">
                 
               </div>
               <!-- /.card-body -->
@@ -39,5 +38,6 @@
             <!-- /.card -->
         </form>
         </div>
+</div>
            
 @stop

@@ -21,14 +21,30 @@ Auth::routes(['verify' => true]);
 
 Route::get('/', 'RequestController@index');
 Route::Resource('document', 'DocumentController');
-Route::Resource('request', 'RequestController');
+//Route::Resource('request', 'RequestController');
 Route::Resource('requester', 'RequesterController');
 Route::Resource('fees', 'FeesController');
 Route::Resource('users', 'UserController');
-Route::Resource('assessments', 'AssessmentController');
+//Route::Resource('assessments', 'AssessmentController');
 //Route::Resource('payments', 'UploadPaymentController');
 Route::Resource('files', 'FileUploadController');
 
+//assessment
+Route::group(['prefix' => 'assessment'], function () {
+	Route::get('/', ['as' => 'getAssessment', 'uses' => 'AssessmentController@getAssessment']);
+	
+
+});
+
+//Request
+Route::group(['prefix' => 'request'], function () {
+	Route::get('/', ['as' => 'request.index', 'uses' => 'RequestController@index']);
+	Route::post('/', ['as' => 'request.store', 'uses' => 'RequestController@store']);
+	Route::get('/create', ['as' => 'request.create', 'uses' => 'RequestController@create']);
+	Route::get('/{status}', ['as' => 'getRequests', 'uses' => 'RequestController@getRequests']);
+    Route::post('/UpdatePages', ['as' => 'updatePages', 'uses' => 'RequestController@updatePages']);
+
+});
 
 //Request
 Route::get('getRequestForAssessment', 'RequestController@getRequestForAssessment')->name('getRequestForAssessment');
@@ -64,51 +80,12 @@ Route::group(['prefix' => 'payments'], function () {
 //for messenger
 Route::group(['prefix' => 'messages'], function () {
     Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
-    Route::get('create/{id}', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
+    Route::get('create/{requestID}/{requestorID}', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
     Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
-    Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
-    Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
+    Route::get('/{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
+    Route::put('/{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
 });
 
 
 
-/* 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-Route::group(['middleware' => 'auth'], function () {
-	Route::get('table-list', function () {
-		return view('pages.table_list');
-	})->name('table');
-
-	Route::get('typography', function () {
-		return view('pages.typography');
-	})->name('typography');
-
-	Route::get('icons', function () {
-		return view('pages.icons');
-	})->name('icons');
-
-	Route::get('map', function () {
-		return view('pages.map');
-	})->name('map');
-
-	Route::get('notifications', function () {
-		return view('pages.notifications');
-	})->name('notifications');
-
-	Route::get('rtl-support', function () {
-		return view('pages.language');
-	})->name('language');
-
-	Route::get('upgrade', function () {
-		return view('pages.upgrade');
-	})->name('upgrade');
-});
-
-Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'UserController', ['except' => ['show']]);
-	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
-	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
-	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
-});
- */

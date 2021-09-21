@@ -18,10 +18,13 @@ class CreateRequestsTable extends Migration
             $table->unsignedBigInteger('requestor_id');
             $table->unsignedBigInteger('document_id');
             $table->unsignedBigInteger('thread_id')->nullable();
-            $table->smallInteger('number_of_copy');
+            $table->smallInteger('number_of_copy')->default(1);
+            $table->smallInteger('number_of_pages')->default(1);
             $table->decimal('assessment_total',8,2);
+            $table->string('assessed_by')->nullable();
+            $table->timestamp('assessed_date')->nullable();
             $table->string('request_status')->default('pending');  
-            $table->string('payment_status')->default('pending');  
+            $table->string('payment_status')->default('unverified');  
             $table->string('purpose_of_request');
             $table->timestamps();
 

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 
+use App\DocRequest;
+
 class MessagesController extends Controller
 {
     /**
@@ -68,19 +70,9 @@ class MessagesController extends Controller
      *
      * @return mixed
      */
-    public function create($id)
+    public function create($requestID,$requestorID)
     {
-
-        $requester_user_id = DB::table('requestor')
-                    //->select('user_id')
-                    ->where('id',$id)
-                    ->first()->user_id;
-
-        $user = DB::table('odr_users')->where('id', $requester_user_id)->first();
-
-        //dd($user);
-
-        return view('messenger.create', compact('user'));
+        return view('messenger.create', compact('requestID','requestorID'));
     }
 
     /* public function create()
@@ -126,8 +118,20 @@ class MessagesController extends Controller
         // Recipient
                
         $thread->addParticipant($input['recipient']);
+
+        try{
+            $updateRequest = DocRequest::find($input['requestID']);
+
+            $updateRequest->thread_id = $thread->id;
+            $updateRequest->save();
+        }
+        catch(\Exception $exception)
+        {
+            throw new \App\Exceptions\ExceptionLogData($exception);
+        } 
+
         
-        return redirect()->route('messages');
+        return redirect()->back();
     }
 
     /**

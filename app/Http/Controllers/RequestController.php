@@ -27,7 +27,8 @@ class RequestController extends Controller
     {
         if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff'))
         {
-            return view('request.windowStaff');
+            $requests = null;
+            return view('request.windowStaff', compact('requests'));
         }
 
         if(\Gate::allows('isRequester') )
@@ -36,12 +37,13 @@ class RequestController extends Controller
                 $userid = \Auth::user()->id;
     
                 $all_request = DB::table('requestor')
-                ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
-                ->join('documents', 'documents.id', '=', 'requests.document_id')
-                ->select('requests.*', 'documents.*','requests.id as request_id', 'requestor.id as requestor_id','requests.created_at as request_date')
-                ->where('requestor.user_id',$userid)
-                ->orderBy('requests.created_at', 'desc')
-                ->get();
+                            ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
+                            ->join('documents', 'documents.id', '=', 'requests.document_id')
+                            ->select('requests.*', 'documents.*','requests.id as request_id', 'requestor.id as requestor_id','requests.created_at as request_date')
+                            ->where('requestor.user_id',$userid)
+                            ->orderBy('requests.created_at', 'desc')
+                            ->get();
+
             }
             catch(\Exception $exception)
             {
@@ -127,9 +129,16 @@ class RequestController extends Controller
                 if($docKey[3]==1)
                 {
                     $request_status = 'assessed';
+                    $assessed_by = 'auto assessed';
+                    $assessed_date = Carbon::now();
                 }
-                else $request_status = 'pending';
-
+                else 
+                {
+                    $request_status = 'pending';
+                    $assessed_by = '';
+                    $assessed_date = null;
+                }
+               
                 $requestID = DB::table('requests')->insertGetId(
                     [
                         //'requestor_id' => 1000,
@@ -137,13 +146,16 @@ class RequestController extends Controller
                         'document_id' => $docKey[0],
                         'number_of_copy' => $request['copy'],
                         'assessment_total' => $request['copy'] * $docKey[2],
+                        'assessed_by' => $assessed_by,
+                        'assessed_date' => $assessed_date,
                         'purpose_of_request' => $request['request_purpose'],
                         'request_status' => $request_status,
                         'created_at' => Carbon::now(),
                         
                     ]
                 );
-            
+
+                        
 
                 if($docKey[1]==1)
                 {
@@ -198,13 +210,61 @@ class RequestController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function getRequests($status)
+    {
+       
+        try{
+            $requests = DB::table('requestor')
+                ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
+                ->join('documents', 'documents.id', '=', 'requests.document_id')
+                ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
+                ->where('requests.request_status',$status)  
+                ->get(); 
+            
+        }
+        catch(\Exception $exception)
+        {
+            throw new \App\Exceptions\ExceptionLogData($exception);
+        }
+
+        return view('request.windowStaff', compact('requests','status'));
+    
+    }
+
+    public function updatePages(Request $request)
+    {
+       //dd($request);
+        try{
+            $updateRequest = DocRequest::find($request['requestID']);
+
+            $copy = $updateRequest->copy;
+            $pages = $request['pages'];
+
+            $updateRequest->number_of_pages = $request['pages'];
+            $updateRequest->assessed_by = \Auth::user()->first_name .' '. \Auth::user()->last_name;
+            $updateRequest->assessed_date = Carbon::now();
+            $updateRequest->assessment_total =  $copy * $pages;
+            $updateRequest->request_status = 'assessed';
+
+            $updateRequest->save();
+        }
+        catch(\Exception $exception)
+        {
+            throw new \App\Exceptions\ExceptionLogData($exception);
+        } 
+
+        if($updateRequest){
+
+            return response()->json(['status'=>1, 'msg'=>'Record updated successfully!']);
+        }
+        else{
+            return response()->json(['status'=>0, 'msg'=>'Something went wrong!']);
+        }
+    }
+
+
+    
+    /* public function show($id)
     {
             $request_id = $id;
 
@@ -225,84 +285,8 @@ class RequestController extends Controller
             return view('request.show', compact('assessments','total','payment_status'));
 
             //dd($assessments);
-    }
+    } */
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    public function getRequestForAssessment()
-    {
-        try{
-            $pending_requests = DB::table('requestor')
-                ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
-                ->join('documents', 'documents.id', '=', 'requests.document_id')
-                ->select('requestor.*','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
-                ->where('requests.request_status','pending')  
-                ->get(); 
-        }
-        catch(\Exception $exception)
-        {
-            throw new \App\Exceptions\ExceptionLogData($exception);
-        }
-
-        if($pending_requests)
-        {
-            $html = '';
-
-            foreach ($pending_requests as $p_request) 
-            {
-                $html .= '<tr>
-                            <td>'.$p_request->docName." ".$p_request->docParticular.'</td>
-                            <td>'.$p_request->first_name." ".$p_request->last_name.'</td>
-                            <td>'.$p_request->request_date.'</td>                        
-                            <td class="td-actions text-right">
-                                <button type="button" rel="tooltip" class="btn btn-info">
-                                    <i class="material-icons">person</i>
-                                </button>
-                                <button type="button" rel="tooltip" class="btn btn-success">
-                                    <i class="material-icons">edit</i>
-                                </button>
-                                <button type="button" rel="tooltip" class="btn btn-danger">
-                                    <i class="material-icons">close</i>
-                                </button>
-                            </td>
-                        </tr>';
-            }
-
-            return response()->json(['html' => $html]);
-        }
-    }
-
+       
     
 }

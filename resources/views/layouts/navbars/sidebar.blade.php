@@ -29,33 +29,29 @@
         @canany(['isAdmin', 'isWindowStaff'])
           <li class="nav-item {{ $activePage == 'requests' ? ' active' : '' }}">
             <a href="{{ route('request.index') }}" class="nav-link">
-            <i class="material-icons">description</i>
+              <i class="material-icons">description</i>
               <p>Requests </p>
             </a>
                   
           </li>
-          @endcan
-        
          
-
-         <!--  @canany(['isAdmin','isWindowStaff'])
-          <li class="nav-item ">
+          <li class="nav-item {{ $activePage == 'documents' ? ' active' : '' }} ">
             <a href="/document" class="nav-link ">
-              <i class="nav-icon fas fa-file-alt"></i>
+              <i class="material-icons">book</i>
               <p>
                 Documents         
               </p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item {{ $activePage == 'fees' ? ' active' : '' }} ">
             <a href="/fees" class="nav-link ">
-              <i class="nav-icon fas fa-comments-dollar"></i>
+              <i class="material-icons">money</i>
               <p>
                 Fees         
               </p>
             </a>
           </li>
-          @endcan -->
+          @endcan
 
           @can('isAdmin')
           <li class="nav-item {{ $activePage == 'users' ? ' active' : '' }}">

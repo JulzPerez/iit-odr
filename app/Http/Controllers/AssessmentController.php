@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Fee;
 use App\Assessment;
 use App\DocRequest;
+use Carbon\Carbon;
 
 class AssessmentController extends Controller
 {
@@ -28,22 +29,38 @@ class AssessmentController extends Controller
             ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
             ->join('documents', 'documents.id', '=', 'requests.document_id')
             ->select('requestor.*','requests.id as request_id','requests.*', 'documents.*')
-            ->where('requests.request_status','pending')
-         
-          ->get();
+            ->where('requests.request_status','pending')         
+            ->get();
+
              return view('assessment.index', compact('requests'));
         }        
     }
+
+    public function getAssessment(Request $request)
+    {   
+        try
+        {
+            $assessments = DB::table('assessment_of_fees')
+                ->where('requests_id',$request['request_id'])
+                ->get();
+
+            return \Response::json($assessments);
+        }
+        catch(\Exception $exception)
+        {
+            throw new \App\Exceptions\ExceptionLogData($exception);
+        }        
+
+    }
+
+        
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -77,9 +94,16 @@ class AssessmentController extends Controller
                 'amount' => $subtotal
             ]); 
 
+
+            //Update request 
             $request = DocRequest::where('id',$request_id)->first();
-            
+        
+            $assessment = $request->assessment_total + $subtotal;
+            $request->assessment_total = $assessment;
+
             $request->request_status = "assessed";
+            $request->assessed_by = \Auth::user()->first_name.' '.\Auth::user()->last_name;
+            $request->assessed_date = Carbon::now();
             $request->save();
             
             return redirect()->route('assessments.show',$request_id);
@@ -124,17 +148,9 @@ class AssessmentController extends Controller
         } 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    //public function
 
+  
     /**
      * Update the specified resource in storage.
      *
@@ -184,4 +200,6 @@ class AssessmentController extends Controller
             return redirect()->route('assessments.show',$request_id);
         }
     }
+
+    
 }
