@@ -17,7 +17,7 @@ class CreateRequestsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('requestor_id');
             $table->unsignedBigInteger('document_id');
-            $table->integer('thread_id')->nullable();
+            $table->unsignedBigInteger('thread_id')->nullable();
             $table->smallInteger('number_of_copy')->default(1);
             $table->smallInteger('number_of_pages')->default(1);
             $table->decimal('assessment_total',8,2);
