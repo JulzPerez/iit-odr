@@ -106,7 +106,6 @@ class UploadPaymentController extends Controller
             try{
                 $request = DocRequest::find($request['request_id']);
                 $request->request_status = 'paid';
-                $request->payment_status = "For verification";
                 $request->save();
             }
             catch(\Exception $exception){
