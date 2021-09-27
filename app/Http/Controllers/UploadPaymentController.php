@@ -32,9 +32,9 @@ class UploadPaymentController extends Controller
                             ->where('requests.request_status','assessed') 
                             ->get(); 
 
-            $request_payments = DB::table('upload_payment')
-                            ->join('requests','upload_payment.request_id','=','requests.id')
-                            ->select('upload_payment.*','requests.*')
+            $request_payments = DB::table('payment_proof')
+                            ->join('requests','payment_proof.request_id','=','requests.id')
+                            ->select('payment_proof.*','requests.*')
                             ->where('requests.requestor_id', '=', $requestor_id)
                             ->get(); 
          
@@ -73,8 +73,8 @@ class UploadPaymentController extends Controller
             {
                 $file=$request->file('file');
 
-                $requestor_name = \Auth::user()->last_name;
-                $filename = $requestor_name.'_'.time().'_'.$file->getClientOriginalName();          
+                //$requestor_name = \Auth::user()->last_name;
+                $filename = time().'_'.$file->getClientOriginalName();          
                     // Save the file
                 $path = $file->storeAs('payments', $filename);
                 //dd($path);
@@ -125,7 +125,28 @@ class UploadPaymentController extends Controller
      */
     public function show($id)
     {
-        return response()->download(storage_path('app/public/payments/' . $id));
+        try{
+            $payment_proof = DB::table('payment_proof')
+                //->select('proof')
+                ->where('request_id',$id)
+                ->first()->proof;
+            
+        }
+        catch(\Exception $exception){
+
+            throw new \App\Exceptions\LogData($exception);                
+        }
+
+        if($payment_proof)
+        {
+            return response()->download(storage_path('app/public/payments/' . $payment_proof));
+        }
+        else
+        {
+            return redirect('/request')->with('error','Something went wrong downloading the file!');
+        }  
+
+        
     }
 
     /**
@@ -138,11 +159,11 @@ class UploadPaymentController extends Controller
     public function showRequestorPayments($id)
     {
         //$request_id = $id; 
-        $payments = DB::table('upload_payment')
-            ->join('requests','upload_payment.request_id','=','requests.id')
-            ->select('upload_payment.*', 'requests.*','requests.id as request_id')
+        $payments = DB::table('payment_proof')
+            ->join('requests','payment_proof.request_id','=','requests.id')
+            ->select('payment_proof.*', 'requests.*','requests.id as request_id')
             ->where('request_id', $id)
-            ->orderByDesc('upload_payment.created_at')
+            ->orderByDesc('payment_proof.created_at')
             ->get();   
         //dd($payments);
         return view('payment.show', compact('payments','request_id'));
@@ -156,11 +177,26 @@ class UploadPaymentController extends Controller
 
     public function verifyPayment($id)
     {
-        $request = DocRequest::find($id);
-        $request->payment_status = 'verified';
-        $request->save();
+        try
+        {
+            $updatePayment = DocRequest::find($id);
+            $updatePayment->request_status = 'verified';
+            $updatePayment->save();
+        }  
+        catch(\Exception $exception){
 
-        return redirect()->back()->with('success', 'Payment for this request has been verified!');
+            throw new \App\Exceptions\LogData($exception);                
+        }
+
+        if($updatePayment)
+        {
+            return redirect('/request')->with('success', 'Payment has been verified!');
+        }
+        else
+        {
+            return redirect('/request')->with('error', 'Something went wrong verifying request!');
+        }
+        
     }
   
 }

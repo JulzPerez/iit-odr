@@ -36,15 +36,55 @@
                               <label class="float-left"> Particular</label>
                               <input  type="text" class="form-control" name="particular" value="{{$doc->docParticular}}"  >
                           </div>
-                          
+                          <br>
+                          <div class="form-group">
+                              <b>Document Fee</b>
+                              <input  type="text" class="form-control"  name="docFee" value="{{$doc->doc_fee}}">
+                          </div>                        
+                           <br>   
+
+                              <table class="table">
+                                <tbody>
+                                  <tr>
+                                    <td>
+                                      <div class="form-check">
+                                        <label class="form-check-label">
+                                          <input class="form-check-input" name="requireFileUpload" type="checkbox" {{  ($doc->require_file_upload == 1 ? ' checked' : '') }}>
+                                          <span class="form-check-sign">
+                                            <span class="check"></span>
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </td>
+                                    <td>This document requires file uploading when requested.</td>
+                                    
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div class="form-check">
+                                        <label class="form-check-label">
+                                          <input class="form-check-input" type="checkbox" name="manualAssess"  {{  ($doc->auto_assess == 1 ? ' checked' : '') }}>
+                                          <span class="form-check-sign">
+                                            <span class="check"></span>
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </td>
+                                    <td>This document requires manual assessment.</td>
+                                    
+                                  </tr>
+                                </tbody>
+                              </table>
                       </div>
                       <!-- /.card-body -->
                       <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        
 
                         <a href="/document">
-                          <button type="button" class="btn btn-primary float-right">Cancel</button>
+                          <button type="button" class="btn btn-secondary pull-right">Back</button>
                         </a>
+
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                       </div>
                   </form>
                   

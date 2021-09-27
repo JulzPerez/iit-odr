@@ -176,12 +176,11 @@
 
                       }else{
                         $('#request_form')[0].reset();
-                              Swal.fire({
+                             /*  Swal.fire({
                                 text: data.msg,
                                 icon: 'success',
                                 showConfirmButton: true,
-                              });
-                              
+                              }); */                              
                               window.location = "{{route('request.index')}}";                           
                       }
                   }

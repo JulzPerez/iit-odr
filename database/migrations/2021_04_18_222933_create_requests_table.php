@@ -24,13 +24,13 @@ class CreateRequestsTable extends Migration
             $table->string('assessed_by')->nullable();
             $table->timestamp('assessed_date')->nullable();
             $table->string('request_status')->default('pending');  
-            $table->string('payment_status')->default('unverified');  
             $table->string('purpose_of_request');
             $table->timestamps();
 
             $table->foreign('requestor_id')->references('id')->on('requestor')->onDelete('cascade');
             $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');
-            //$table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
+            $table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
+         
         });
     }
 

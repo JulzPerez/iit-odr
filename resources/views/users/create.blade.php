@@ -4,26 +4,35 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row ">
-        <div class="col-sm-12">
-            <div>
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                </div><br />
-            @endif
-                
+            <div class="col-sm-12">
+                <div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    </div><br />
+                @endif
+                    
+                </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12">  
+                @if(session()->get('error'))
+                    <div class="alert alert-danger">
+                    {{ session()->get('error') }}  
+                    </div>
+                @endif
+            </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                    Fill-in form:
+                        <h4>New User Form</h4>
                     </div>
                     <form method="POST" action="{{ route('users.store') }} ">
                     @csrf
@@ -116,11 +125,11 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Add</button>
 
-                        <a href="/users">
-                            <button type="button" class="btn btn-default float-right">Cancel</button>
-                        </a>
+                            <a href="/users">
+                                <button type="button" class="btn btn-secondary float-right">Back</button>
+                            </a>
+                            <button type="submit" class="btn btn-primary pull-right">Add</button>
                         </div>
                     </form>
                     

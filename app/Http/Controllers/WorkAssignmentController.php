@@ -12,20 +12,29 @@ class WorkAssignmentController extends Controller
     public function index()
     {
         if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff'))
-        {
-            $users = User::where('user_type','=','other staff')
-                    ->get();
-    
-            $requests = DB::table('requestor')
-            ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
-            ->join('documents', 'documents.id', '=', 'requests.document_id')
-            ->select('requestor.*','requests.id as request_id','requests.*', 'documents.*') 
-            ->where('requests.payment_status','verified')  
-            ->where('requests.request_status','paid')
-            ->get(); 
-             
+        {        
+
+            try
+            {                
+                $requests = DB::table('requestor')
+                        ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
+                        ->join('documents', 'documents.id', '=', 'requests.document_id')
+                        ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
+                        ->where('requests.request_status','verified')  
+                        ->get(); 
+
+                $users = DB::table('odr_users')
+                        ->whereNotIn('user_type',['admin','window staff'])
+                        ->get();
+            
+            }
+            catch(\Exception $exception)
+            {
+                throw new \App\Exceptions\ExceptionLogData($exception);
+            }
+
             return view('workAssignment.index', compact('requests','users'));
-        } 
+        }
     }
 
     public function store(Request $request )

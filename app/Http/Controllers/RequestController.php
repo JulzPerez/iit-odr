@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Document;
 use App\DocRequest;
 use App\File;
+use Session;
 
 
 class RequestController extends Controller
@@ -27,8 +28,31 @@ class RequestController extends Controller
     {
         if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff'))
         {
-            $requests = null;
-            return view('request.windowStaff', compact('requests'));
+
+            try{
+                $requests = DB::table('requestor')
+                    ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
+                    ->join('documents', 'documents.id', '=', 'requests.document_id')
+                    ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
+                    ->where('requests.request_status','pending')  
+                    ->orWhere('requests.request_status','paid')
+                    ->get(); 
+
+                $pendingRequests = $requests->filter(function ($pending) {
+                    return $pending->request_status == 'pending';
+                });
+
+                $paidRequests = $requests->filter(function ($paid) {
+                    return $paid->request_status == 'paid';
+                });
+                
+            }
+            catch(\Exception $exception)
+            {
+                throw new \App\Exceptions\ExceptionLogData($exception);
+            }
+
+            return view('request.windowStaff', compact('requests','pendingRequests','paidRequests'));
         }
 
         if(\Gate::allows('isRequester') )
@@ -44,15 +68,16 @@ class RequestController extends Controller
                             ->orderBy('requests.created_at', 'desc')
                             ->get();
 
+                return view('request.index', compact('all_request'));
+
             }
             catch(\Exception $exception)
             {
                 throw new \App\Exceptions\ExceptionLogData($exception);
-            }    
-
-            return view('request.index', compact('all_request'));
+            }  
         }
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -153,9 +178,7 @@ class RequestController extends Controller
                         'created_at' => Carbon::now(),
                         
                     ]
-                );
-
-                        
+                );                        
 
                 if($docKey[1]==1)
                 {
@@ -201,12 +224,13 @@ class RequestController extends Controller
 
         if($requestID){
 
+            Session::flash('success', 'Request has been successfully added!');
             return response()->json(['status'=>1, 'msg'=>'The request has been successfully added!']);
         }
         else{
+            Session::flash('error', 'Something went wrong!');
             return response()->json(['status'=>0, 'msg'=>'Something went wrong!']);
-        }
-        
+        }        
 
     }
 
@@ -228,22 +252,27 @@ class RequestController extends Controller
         }
 
         return view('request.windowStaff', compact('requests','status'));
-    
+       
     }
 
     public function updatePages(Request $request)
     {
-       //dd($request);
+        $this->validate($request, [
+            'pages' => 'required|numeric|gt:0',
+        ]);
+
+
         try{
             $updateRequest = DocRequest::find($request['requestID']);
 
-            $copy = $updateRequest->copy;
+            $copy = $updateRequest->number_of_copy;
             $pages = $request['pages'];
+            $fee = $request['docFee'];
 
             $updateRequest->number_of_pages = $request['pages'];
             $updateRequest->assessed_by = \Auth::user()->first_name .' '. \Auth::user()->last_name;
             $updateRequest->assessed_date = Carbon::now();
-            $updateRequest->assessment_total =  $copy * $pages;
+            $updateRequest->assessment_total =  $copy * $pages * $fee;
             $updateRequest->request_status = 'assessed';
 
             $updateRequest->save();
@@ -255,15 +284,16 @@ class RequestController extends Controller
 
         if($updateRequest){
 
-            return response()->json(['status'=>1, 'msg'=>'Record updated successfully!']);
+            Session::flash('success', 'Request has been assessed!');
+            return response()->json(['status'=>1, 'msg'=>'Assessed successfully!']);
         }
         else{
+            Session::flash('error', 'Something went wrong!');
             return response()->json(['status'=>0, 'msg'=>'Something went wrong!']);
-        }
+        } 
     }
 
-
-    
+      
     /* public function show($id)
     {
             $request_id = $id;

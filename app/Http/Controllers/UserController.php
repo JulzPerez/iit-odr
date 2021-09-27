@@ -18,9 +18,13 @@ class UserController extends Controller
     {
         if(\Gate::allows('isAdmin') )
         {
-            $users = DB::table('odr_users')->latest()->simplePaginate(5);
+            $users = DB::table('odr_users')->whereNotIn('user_type',['admin'])->latest()->simplePaginate(10);
 
-            return view('users.index', compact('users')); 
+            $all_staff = $users->reject(function ($staff) {
+                return $staff->user_type == 'requester';
+            });
+
+            return view('users.index', compact('users','all_staff')); 
         }
     }
 
@@ -47,24 +51,41 @@ class UserController extends Controller
     {
         if(\Gate::allows('isAdmin') )
         {
+            
             $this->validate($request, [
                 'first_name' => 'required|string|max:191',
                 'last_name' => 'required|string|max:191',
-                'email' => 'required|string|unique:users|max:191',
+                'email' => 'required|string|unique:odr_users|max:191',
                 'password' => 'required|string|min:8|confirmed',
                 'user_type' => 'required|string|max:191',
     
             ]);
+
+            try{
+        
+                $query = DB::table('odr_users')->insert([
+                    'first_name' => $request['first_name'],
+                    'last_name' => $request['last_name'],
+                    'email' => $request['email'],
+                    'user_type' => $request['user_type'],
+                    'password' => Hash::make($request['password']),
+                ]);
+            }
+            catch(\Exception $exception)
+            {
+                throw new \App\Exceptions\ExceptionLogData($exception);
+            } 
+
+            if($query)
+            {
+                return redirect('/users')->with('success', 'User added successfully!');
+            }
+            else 
+            {
+                return redirect('/users')->with('error', 'Something went wrong!');
+            }
     
-            User::create([
-                'first_name' => $request['first_name'],
-                'last_name' => $request['last_name'],
-                'email' => $request['email'],
-                'user_type' => $request['user_type'],
-                'password' => Hash::make($request['password']),
-            ]);
-    
-            return redirect('/users')->with('success', 'User added successfully!');
+               
         }
     }
 

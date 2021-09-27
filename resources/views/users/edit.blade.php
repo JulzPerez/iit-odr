@@ -8,9 +8,9 @@
             <div>
             @if ($errors->any())
                 <div class="alert alert-danger">
-                <ul>
-                    <p>Error: Please fill in required information.</p>
-                </ul>
+                    <ul>
+                        <p>Error: Please fill in required information.</p>
+                    </ul>
                 </div><br />
             @endif
                 
@@ -21,7 +21,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                    Edit Data Form:
+                    <h4>Edit User Form</h4>
                     </div>
             
                     <form method="POST" action="{{ route('users.update', $user->id) }} ">
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <!-- <div class="form-group row">
                                 <label for="middle_name" class="col-md-4 col-form-label text-md-right">{{ __('Middle Name') }}</label>
 
                                 <div class="col-md-6">
@@ -54,7 +54,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="form-group row">
                                 <label for="last_name" class="col-md-4 col-form-label text-md-right">{{ __('Last Name') }}</label>
@@ -123,11 +123,12 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
+                        <a href="/users">
+                            <button type="button" class="btn btn-secondary float-right">Back</button>
+                        </a>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
 
-                        <a href="/users">
-                            <button type="button" class="btn btn-default float-right">Back to Users</button>
-                        </a>
+                        
                         </div>
                     </form>
                     

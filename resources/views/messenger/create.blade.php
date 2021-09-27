@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'requests', 'titlePage' => 'Welcome, '.ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name.'!') ])
+@extends('layouts.app', ['activePage' => 'request', 'titlePage' => 'Welcome, '.ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name.'!') ])
 
 @section('content')
 <div class="content">
@@ -27,11 +27,12 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <div class="float-right">
-                  
-                  <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
-                </div>
-                <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
+               
+                  <button type="submit" class="btn btn-primary">
+                    <span class="material-icons float-right">send</span> Send</button>
+            
+                   
+                <!-- <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button> -->
               </div>
               <!-- /.card-footer -->
             </div>

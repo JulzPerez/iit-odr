@@ -51,18 +51,38 @@ class DocumentController extends Controller
     {
         if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $this->validate($request, [
-                'docname' => 'required|string|max:191'
+                'docname' => 'required|string|max:191',
+                'docFee' => 'required|numeric'
             ]);
-    
-            if($request['requireFileUpload'] == '1')
-                $value = 1;
-            else $value = 0;
 
-            Document::create([
-                'docName' => $request['docname'],
-                'docParticular' => $request['particular'],
-                'require_file_upload' => $value
-            ]);
+            if ($request->has('requireFileUpload')) 
+            {
+                $require = 1;
+            }
+            else $require = 0;
+            
+            if (! $request->has('manualAssess')) 
+            {
+                $assess = 0;
+            }     
+            else $assess = 1;      
+
+
+            try{
+                Document::create([
+                    'docName' => $request['docname'],
+                    'docParticular' => $request['particular'],
+                    'require_file_upload' => $require,
+                    'auto_assess' => $assess,
+                    'doc_fee' => $request['docFee'],
+                ]);
+            }
+            catch(\Exception $exception)
+            {
+                throw new \App\Exceptions\ExceptionLogData($exception);
+            } 
+
+            
     
             return redirect('/document')->with('success', 'Record added successfully!');
         }
@@ -107,11 +127,28 @@ class DocumentController extends Controller
     {
         if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff')){
             $this->validate($request, [
-                'docname' => 'required|string|max:191'
+                'docname' => 'required|string|max:191',
+                'docFee' => 'required|numeric'
             ]);
+
+            if ($request->has('requireFileUpload')) 
+            {
+                $require = 1;
+            }
+            else $require = 0;
+            
+            if (! $request->has('manualAssess')) 
+            {
+                $assess = 0;
+            }     
+            else $assess = 1;
     
             $doc = Document::find($id);
             $doc->docName = $request->get('docname');
+            $doc->docParticular = $request->get('particular');
+            $doc->doc_fee = $request->get('docFee');
+            $doc->auto_assess = $assess;
+            $doc->require_file_upload = $require;
             $doc->save();
     
             return redirect('/document')->with('success', 'Record updated successfully!');

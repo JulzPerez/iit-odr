@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UploadPayment extends Model
 {
-    protected $table = 'upload_payment';
+    protected $table = 'payment_proof';
 
     protected $fillable = [
         'request_id',

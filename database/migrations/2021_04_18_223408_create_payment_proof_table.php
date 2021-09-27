@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUploadPaymentTable extends Migration
+class CreatePaymentProofTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUploadPaymentTable extends Migration
      */
     public function up()
     {
-        Schema::create('upload_payment', function (Blueprint $table) {
+        Schema::create('payment_proof', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('request_id');
             $table->string('proof');
@@ -34,6 +34,6 @@ class CreateUploadPaymentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('upload_payment');
+        Schema::dropIfExists('payment_proof');
     }
 }

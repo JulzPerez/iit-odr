@@ -23,32 +23,65 @@
           <div class="col-md-8">
               <div class="card card-outline card-primary">
               <div class="card-header">
-                Fill-in form:
+                <h3>New Document Form</h3>
               </div>
                   <form method="POST" action="{{ route('document.store') }} ">
                   @csrf
                       <div class="card-body">
                           <div class="form-group">
-                              <label class="float-left">Name</label>
-                              <input  type="text" class="form-control" placeholder="Enter value here" name="docname">
+                              <b>Name</b>
+                              <input  type="text" class="form-control"  name="docname">
                           </div>
                           <br>
                           <div class="form-group">
-                              <label class="float-left">Particular</label>
-                              <input  type="text" class="form-control" placeholder="Enter value here" name="particular">
+                              <b>Particular</b>
+                              <input  type="text" class="form-control"  name="particular">
                           </div>
-                          <div class="form-check">
-                            <input type="checkbox" name="requireFileUpload" value="1" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">This document requires file uploading when requested.</label>
-                          </div>
+                          <br>
+                          <div class="form-group">
+                              <b>Document Fee</b>
+                              <input  type="text" class="form-control"  name="docFee">
+                          </div>                        
+                           <br>   
+
+                              <table class="table">
+                                <tbody>
+                                  <tr>
+                                    <td>
+                                      <div class="form-check">
+                                        <label class="form-check-label">
+                                          <input class="form-check-input" name="requireFileUpload" type="checkbox"  >
+                                          <span class="form-check-sign">
+                                            <span class="check"></span>
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </td>
+                                    <td>This document requires file uploading when requested.</td>
+                                    
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div class="form-check">
+                                        <label class="form-check-label">
+                                          <input class="form-check-input" type="checkbox" name="manualAssess"  >
+                                          <span class="form-check-sign">
+                                            <span class="check"></span>
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </td>
+                                    <td>This document requires manual assessment.</td>
+                                    
+                                  </tr>
+                                </tbody>
+                              </table>
                       </div>
                       <!-- /.card-body -->
-                      <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Add</button>
-
-                        <a href="/document">
-                          <button type="button" class="btn btn-primary float-right">Cancel</button>
+                      <div class="card-footer"><a href="/document">
+                          <button type="button" class="btn btn-secondary pull-right">Back</button>
                         </a>
+                        <button type="submit" class="btn btn-primary pull-right">Add</button>
                       </div>
                   </form>
                   

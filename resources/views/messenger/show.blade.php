@@ -6,16 +6,10 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card card-primary direct-chat direct-chat-primary ">
-                    <div class="card-header">
-                        <h3 class="card-title">Subject Thread:  {{$thread->subject}}</h3>
-                        <!-- <div class="card-tools">
-                        
-                        </div> -->
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <!-- Conversations are loaded here -->
-                        <div class="direct-chat-messages">
+                    <div class="card-header"><h3 class="card-title">Subject Thread:  {{$thread->subject}}</h3></div>
+                </div>
+                <div class="card-body">
+                    <div class="direct-chat-messages">
                         <!-- Message. Default to the left -->
 
                         @foreach($thread->messages as $message)
@@ -54,21 +48,26 @@
                         </div>
                         @endif
                         @endforeach
-                        
-                    </div>
-                    
-                    <!-- /.direct-chat-pane -->
-                </div>
-                <!-- /.card-body -->
-                <div class="card-footer">
-                    <form action="{{ route('messages.update', $thread->id) }}" method="post">
-                        {{ method_field('put') }}
-                        {{ csrf_field() }}
+                    </div>   
 
-                        <!-- Message Form Input -->
-                        <div class="form-group">
-                            <textarea name="message" class="form-control">{{ old('message') }}</textarea>
-                        </div>
+                </div>
+                <div class="card-footer">
+                        <form action="{{ route('messages.update', $thread->id) }}" method="post">
+                            {{ method_field('put') }}
+                            {{ csrf_field() }}
+
+                            <!-- Message Form Input -->
+                            <div class="row" >
+                                <div class="col-md-10" style="display:inline-block">
+                                    <!-- <div class="input-group" >  -->
+                                        <textarea name="message" {{ old('message') }} style="width:100%; height:20px" ></textarea>
+                                       
+                                  <!--   </div>  -->
+                                </div>  
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary" > <span class="material-icons">send</span> Send</button>
+                                </div>
+                            </div>                           
 
                             @if($users->count() > 0)
                                 
@@ -77,25 +76,16 @@
                                     @endforeach
                                 
                             @endif
-                        <!-- Submit Form Input -->
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-block">Send</button>
-                        </div>
-                    
-                    </form>
+                        
+                            
+                        
+                        </form>                  
 
-                  
                 </div>
-                <!-- /.card-footer-->
-    </div>
-</div>
-<!--/.direct-chat -->
-            
+            </div>
             
         </div>
-
-        
-    
+                  
     </div>
 </div>
 @endsection

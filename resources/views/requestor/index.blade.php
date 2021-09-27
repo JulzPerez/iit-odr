@@ -23,7 +23,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <h5>  Requester Information </h5>
-                            
+                            @can('isRequester')
                                 <a href="{{ route('requester.edit', $requester->id) }}">
                                     <button  type="button" class="btn btn-info btn-flat float-right "><i class="material-icons">edit</i>Edit Profile</button>
                                 </a>
@@ -32,7 +32,8 @@
                                 </a>  -->     
                                 <a href="{{route('request.create') }}">
                                     <button  type="button" class="btn btn-danger btn-flat float-right  "><i class="material-icons">add</i>Create Request</button>
-                                </a>       
+                                </a>   
+                            @endcan    
                             </div>
                         </div>
                     

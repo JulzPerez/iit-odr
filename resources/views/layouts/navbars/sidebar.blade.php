@@ -43,11 +43,11 @@
               </p>
             </a>
           </li>
-          <li class="nav-item {{ $activePage == 'fees' ? ' active' : '' }} ">
-            <a href="/fees" class="nav-link ">
+          <li class="nav-item {{ $activePage == 'assignment' ? ' active' : '' }} ">
+            <a href="/workAssignment" class="nav-link ">
               <i class="material-icons">money</i>
               <p>
-                Fees         
+                Work Assignment         
               </p>
             </a>
           </li>

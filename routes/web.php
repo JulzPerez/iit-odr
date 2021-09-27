@@ -74,7 +74,7 @@ Route::group(['prefix' => 'payments'], function () {
     Route::get('requestPayment/{id}', ['as' => 'payments.showRequestorPayments', 'uses' => 'UploadPaymentController@showRequestorPayments']);
     Route::post('/', ['as' => 'payments.store', 'uses' => 'UploadPaymentController@store']);
     Route::get('{id}', ['as' => 'payments.show', 'uses' => 'UploadPaymentController@show']);
-    Route::post('verifyPayment/{id}', ['as' => 'payments.verify', 'uses' => 'UploadPaymentController@verifyPayment']);
+    Route::post('verify/{id}', ['as' => 'payments.verify', 'uses' => 'UploadPaymentController@verifyPayment']);
 });
 
 //for messenger

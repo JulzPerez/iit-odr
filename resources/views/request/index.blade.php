@@ -52,7 +52,7 @@
                                 <tbody>
                                 @foreach($all_request as $key =>$request)
                                     <tr>
-                                        <td>
+                                        <td width="35%">
                                             <div class="form-row">
                                                 <div class="col" >
                                                     <label>Document </label>
@@ -67,13 +67,13 @@
                                                     <label>Request Date: </label>
                                                 </div>
                                                 <div class="col" >
-                                                    <b>{{\Carbon\Carbon::parse($request->request_date)->toFormattedDateString()}}</b>   
+                                                    <b>{{\Carbon\Carbon::parse($request->request_date)->toDateTimeString()}}</b>   
                                                 
                                                 </div>                                     
                                             </div>
                                             
                                         </td>
-                                        <td>
+                                        <td width="35%">
                                             <div class="form-row">
                                                 <div class="col" >
                                                     <label>Request Status </label>
@@ -82,10 +82,11 @@
                                                     <b>{{$request->request_status}}</b>   
                                                 </div>                                     
                                             </div>
-                                            @if($request->auto_assess === 1 OR $request->request_status === 'assessed')
+                                            @if($request->auto_assess === 1 OR $request->request_status === 'assessed' 
+                                                OR $request->request_status === 'paid' OR $request->request_status === 'verified')
                                                 <div class="form-row">                                        
                                                         <div class="col" >
-                                                            Assessment Fee:                                                            
+                                                            <label>Assessment Fee:   </label>                                                         
                                                         </div>
                                                         <div class="col" >                                                           
                                                             <b style="color:red">Php {{$request->assessment_total}}</b>
@@ -93,29 +94,29 @@
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="col" >
-                                                        Assessed By:                                                           
+                                                        <label>Assessed By:  </label>                                                         
                                                     </div>
                                                     <div class="col" >
-                                                       <b> {{$request->assessed_by}}  </b>                                                        
+                                                     <b>{{$request->assessed_by}}  </b>                                                      
                                                     </div>
                                                 </div>
                                             @else
                                                 <div class="form-row">                                        
                                                     <div class="col" >
-                                                        Assessment Fee
+                                                        <label>Assessment Fee</label>
                                                         
                                                     </div>   
                                                     <div class="col" >
-                                                        <span class="badge bg-danger text-white ">pending for assessment</span>                                                            
+                                                        <p>pending for assessment<p>                                                          
                                                     </div>                                             
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="col" >
-                                                        Assessed By:                                                            
+                                                        <label>Assessed By:</label>                                                            
                                                     </div>
                                                     @if($request->assessed_by != 'auto assess')
                                                     <div class="col" >
-                                                        {{$request->assessed_by}}                                                          
+                                                        <b>{{$request->assessed_by}}  </b>                                                        
                                                     </div>
                                                     @endif
                                                 </div>
@@ -125,18 +126,20 @@
                                         <td class="td-actions text-right">
                                             <div class="form-row">
                                                 <div class="col">
-                                                    @if($request->thread_id === null)
-                                                    <a href="{{ route('messages.create', [$request->request_id, $request->requestor_id] ) }}" >
+                                                    @if($request->thread_id != null)
+                                                    <a href="{{ route('messages.show', $request->thread_id) }}" >
+                                                        <button type="button" class="btn btn-primary mt-2 mb-2" >
+                                                            <span class="material-icons">chat</span><br> View Message
+                                                        </button>
+                                                    </a>
+                                                    
+                                                    <!-- <a href="{{ route('messages.create', [$request->request_id, $request->requestor_id] ) }}" >
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
                                                             Create Message
                                                         </button>
-                                                    </a>
-                                                    @else
-                                                    <a href="{{ route('messages.show', $request->thread_id) }}" >
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-                                                            Message
-                                                        </button>
-                                                    </a>
+                                                    </a> -->
+                                                  
+                                                    
                                                     @endif
                                                    
                                                 </div>  
@@ -156,17 +159,13 @@
                                                                     ] 
                                                                 ) }}" >
                                                                 <button type="button" class="btn btn-info"><i class="material-icons">file_upload</i>
-                                                                 Upload Proof of Payment
+                                                                 Upload Proof <br> of Payment
                                                                 </button>
                                                             <!-- <i class="fas fa-edit"></i> -->
                                                             </a>
                                                         </div>
                                                         <br>
-                                                    @elseif($request->request_status === 'paid' AND $request->payment_status==='verified')
-                                                        <p>Assessment was verified.</p>
-                                                        <a href="{{ route('request.show', $request->request_id) }}" >View Assessment
-                                                        <!-- <i class="fas fa-edit"></i> -->
-                                                        </a>
+                                                  
                                                     @endif
                                                 </div>
                                                                                     
@@ -187,3 +186,4 @@
     </div>
 </div>
 @endsection
+
