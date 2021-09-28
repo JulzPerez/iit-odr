@@ -68,7 +68,7 @@
                                                         {{$request->docName.' '.$request->docParticular}}                                          
                                                     @endif
                                                     </td>
-                                                    <td>{{\Carbon\Carbon::parse($request->request_date)->toFormattedDateString()}}</td>
+                                                    <td>{{\Carbon\Carbon::parse($request->request_date)->toDateTimeString()()}}</td>
                                                    
                                                     <td >
                                                     <form method="POST" action="/workAssignment" > 

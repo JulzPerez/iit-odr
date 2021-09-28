@@ -57,7 +57,7 @@ class WorkAssignmentController extends Controller
                 DB::table('work_assignment')->insert([
                     'request_id' => $request_id,
                     'user_id' => $request['assigned_to'],
-                    'user_fullname' => $request['user_fullname'],
+                    'user_fullnam' => $request['user_fullname'],
                     'assigned_by' => \Auth::user()->first_name .' '.\Auth::user()->last_name,                
                     'status' => 'processing',
                 ]);
