@@ -72,6 +72,12 @@
                                 </div>
                               </div>
                             </div> 
+                           <!--  <div class="progress">
+                              <div class="bar"></div >
+                                <div class="percent">0%</div >
+                              </div>
+                            <br>
+ -->
                            
                       <div class="card-footer">
                         <button type="submit" class="btn btn-danger">Add Request</button>
@@ -151,6 +157,9 @@
                 }
               });
 
+              var bar = $('.bar');
+              var percent = $('.percent');
+
               $.ajax({
                   url:$(this).attr('action'),
                   method:$(this).attr('method'),
@@ -159,8 +168,27 @@
                   dataType:'json',
                   contentType:false,
                   beforeSend:function(){
+
+                  /*   var percentVal = '0%';
+                    bar.width(percentVal)
+                    percent.html(percentVal); */
+
                       $(document).find('span.error-text').text('');
+                      //$(document).find('span.mime_error').text('');
                   },
+                 /*  uploadProgress: function(event, position, total, percentComplete) 
+                  {
+                      var percentVal = percentComplete + '%';
+                      bar.width(percentVal)
+                      percent.html(percentVal);
+                  }, */
+
+                 /*  complete: function(xhr) 
+                  {
+                      alert('File Has Been Uploaded Successfully');
+                      //window.location.href = ";
+
+                  }, */
                   success:function(data){
                       if(data.status == 0){
                           $.each(data.error, function(prefix, val){

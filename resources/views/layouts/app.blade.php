@@ -16,6 +16,15 @@
     <link href="{{ asset('material') }}/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="{{ asset('css') }}/chat.css" rel="stylesheet" />
 
+    <style>
+
+    .progress { position:relative; width:100%; }
+    .bar { background-color: #00ff00; width:0%; height:20px; }
+    .percent { position:absolute; display:inline-block; left:50%; color: #040608;}
+
+    </style>
+
+
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
