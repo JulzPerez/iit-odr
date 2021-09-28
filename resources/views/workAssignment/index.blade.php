@@ -13,6 +13,16 @@
             </div>
         </div>
 
+        <div class="row ">
+            <div class="col-sm-12">  
+                @if(session()->get('error'))
+                    <div class="alert alert-danger">
+                    {{ session()->get('error') }}  
+                    </div>
+                @endif
+            </div>
+        </div>
+
         <div class="row mt-1">
             <div class="col-md-12">
                 <div class="card">
@@ -22,19 +32,18 @@
                             <div class="col-md-12">
                                 <!-- <div class="card card-outline card-info">               
                                     <div class="card-body" > -->
-                                    @if(count($requests)===0 )
-                                        <p class="text-danger">No Records Found</p>                                
+                                    @if($requests->isEmpty())
+                                        <p class="text-danger">No request for assignment yet.</p>                                
                                     @else
-                                        <table class="table table-sm table-condensed table-hover table-bordered">
+                                        <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th style="width:2%" class="text-center">#</th>
-                                                    <th style="width:15%" class="text-center">Requester</th>
-                                                    <th style="width:15%" class="text-center"> Requested Document</th>   
-                                                    <th style="width:15%" class="text-center"> Request Date</th>  
-                                                    <th style="width:10%" class="text-center"> Payment Status</th>  
-                                                    <!-- <th style="width:15%"> Payment Status</th> -->
-                                                    <th style="width:25%" class="text-center"> Action</th>
+                                                    <th >#</th>
+                                                    <th >Requester</th>
+                                                    <th > Requested Document</th>   
+                                                    <th > Request Date</th>  
+                                                    
+                                                    <th > Action</th>
                                                     
                                                 </tr>
                                             </thead>
@@ -59,35 +68,29 @@
                                                         {{$request->docName.' '.$request->docParticular}}                                          
                                                     @endif
                                                     </td>
-                                                    <td>{{$request->created_at}}</td>
-                                                    <td class="lead text-center">
-                                                        <span 
-                                                            class="badge badge-success text-white">                                                    
-                                                            {{$request->payment_status}} 
-                                                        <span>
-                                                    </td>
-                                                    <!-- <td>{{$request->payment_status}} </td> -->
-
-                                                
+                                                    <td>{{\Carbon\Carbon::parse($request->request_date)->toFormattedDateString()}}</td>
+                                                   
                                                     <td >
                                                     <form method="POST" action="/workAssignment" > 
                                                     @csrf   
                                                         <div class="form-group">                            
                                                             <div class="input-group">
-                                                            <div class="custom-file">
-                                                                <select class="form-control " name="assigned_to"  >
-                                                                    <option value=""> --Select-- </option>  
-                                                                    @foreach($users as $user)
-                                                                        <option value="{{$user->id}}"> {{ucfirst($user->first_name).' '.ucfirst(substr($user->first_name, 0, 1)).'.'.' '.ucfirst($user->last_name)}} </option>
-                                                                    @endforeach
-                                                                </select>
-                                                                <span class="input-group-button">
-                                                                    <button type="submit" class="btn btn-info">Assign</button>
-                                                                </span>        
-                                                            </div>
-                                                            <input type="hidden" name="request_id" value="{{ $request->request_id }}">
+                                                                <div class="custom-file">
+                                                                    <select class="form-control " name="assigned_to"  id="assigned_to">
+                                                                        <option value=""> --Select-- </option>  
+                                                                        @foreach($users as $user)
+                                                                            <option value="{{$user->id}}"> {{ucfirst($user->first_name).' '.ucfirst(substr($user->middle_name, 0, 1)).' '.ucfirst($user->last_name)}} </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    <span class="input-group-button">
+                                                                        <button type="submit" class="btn btn-info">Assign</button>
+                                                                    </span>        
+                                                                </div>
+                                                                <input type="hidden" name="request_id" value="{{ $request->request_id }}">
+                                                                <input type="hidden" name="user_fullname" id="user_fullname">
                                                             
                                                             </div>
+
                                                             @if ($errors->has('assigned_to'))
                                                                 <span class="text-danger">{{ $errors->first('assigned_to') }}</span>
                                                             @endif 
@@ -119,3 +122,21 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+
+<script type="text/javascript">
+        
+        $(document).ready(function () {    
+            $('#assigned_to').on('click',function(e) {
+
+                var select = document.getElementById('assigned_to');
+				var option = select.options[select.selectedIndex];
+
+				document.getElementById('user_fullname').value = option.text;
+
+            }); 
+        });
+
+</script>
+@endpush

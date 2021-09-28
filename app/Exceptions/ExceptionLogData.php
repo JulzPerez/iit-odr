@@ -32,7 +32,7 @@ class ExceptionLogData extends Exception
       $log->exception = $exception->getMessage();
       $log->save(); 
 
-      return \Redirect()->back()->with(['error' => 'Something Went Wrong. Please email the administrator (admin@g.com) fix the issue.']);
+      return \Redirect()->back()->with(['error' => 'Something Went Wrong. Please email the administrator (admin@g.com) to fix the issue.']);
     }
 
 }

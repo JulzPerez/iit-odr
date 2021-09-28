@@ -13,6 +13,16 @@
             </div>
         </div>
 
+        <div class="row ">
+            <div class="col-sm-12">  
+                @if(session()->get('error'))
+                    <div class="alert alert-danger">
+                    {{ session()->get('error') }}  
+                    </div>
+                @endif
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -36,7 +46,7 @@
                         </div>
                     </div> -->
                     <div class="card-body">
-                        @if(count($all_request)===0)
+                        @if($all_request->isEmpty())
                         <p class="text-danger">No request found.</p>    
                         @else
                         <div class="table-responsive">

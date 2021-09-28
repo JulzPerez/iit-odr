@@ -63,7 +63,7 @@
                                 </thead>
                                 <tbody>
                                     
-                                    @if(($requests === null)) 
+                                    @if(($requests->isEmpty())) 
                                         <p>No requests found</p>
                                     @else
                                         @foreach($requests as $request)
@@ -202,7 +202,7 @@
                                 <tbody>
                                     
                                      
-                                    @if(($paidRequests === null)) 
+                                    @if(($paidRequests->isEmpty())) 
                                         <p>No requests found</p>
                                     @else
                                         @foreach($paidRequests as $paidRequest)

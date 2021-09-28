@@ -16,6 +16,7 @@ class CreateWorkAssignmentTable extends Migration
         Schema::create('work_assignment', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('request_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('user_fullname');
             $table->string('assigned_by');
             $table->string('status');
