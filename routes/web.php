@@ -61,10 +61,8 @@ Route::get('/viewFile/{filename}', 'ViewRequestController@showFile')->name('getF
 Route::group(['prefix' => 'workAssignment'], function () {
     Route::get('/', ['as' => 'workAssignment', 'uses' => 'WorkAssignmentController@index']);
     Route::post('/', ['as' => 'workAssignment.store', 'uses' => 'WorkAssignmentController@store']);
-    Route::get('/assignments', ['as' => 'workAssignment.assignments', 'uses' => 'WorkAssignmentController@viewAssignment']);
-    /*Route::post('/', ['as' => 'payments.store', 'uses' => 'UploadPaymentController@store']);
-    Route::get('{id}', ['as' => 'payments.show', 'uses' => 'UploadPaymentController@show']);
-    Route::post('verifyPayment/{id}', ['as' => 'payments.verify', 'uses' => 'UploadPaymentController@verifyPayment']); */
+    Route::get('/assignments', ['as' => 'assignment', 'uses' => 'WorkAssignmentController@viewAssignment']);
+    Route::post('completed/{id}', ['as' => 'workAssignment.complete', 'uses' => 'WorkAssignmentController@markCompleted']); 
 });
 
 //for payments

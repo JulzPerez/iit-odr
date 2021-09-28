@@ -75,9 +75,28 @@ class WorkAssignmentController extends Controller
         }
     }
 
-    public function viewAssignment()
+    public function markCompleted($id)
     {
-        if(\Gate::allows('isAdmin') || \Gate::allows('isOtherStaff') || \Gate::allows('isWindowStaff'))
+        try
+        {
+            $updateStatus = DocRequest::find($id);
+            $updateStatus->request_status = 'completed';
+            $updateStatus->save();
+        }  
+        catch(\Exception $exception){
+
+            throw new \App\Exceptions\LogData($exception);                
+        }
+
+        if($updateStatus)
+        {
+            return redirect('/request')->with('success', 'Request has been marked completed! ');
+        }
+    }
+
+    /* public function viewAssignment()
+    {
+        if(\Gate::allows('isOtherStaff') || \Gate::allows('isWindowStaff'))
         {
             try{
                 $user_id = \Auth::user()->id;
@@ -97,5 +116,5 @@ class WorkAssignmentController extends Controller
 
             return view('workAssignment.assignedWork', compact('requests'));
         }
-    }
+    } */
 }

@@ -43,11 +43,30 @@
               </p>
             </a>
           </li>
-          <li class="nav-item {{ $activePage == 'assignment' ? ' active' : '' }} ">
-            <a href="/workAssignment" class="nav-link ">
+          <li class="nav-item {{ $activePage == 'workAssignment' ? ' active' : '' }} ">
+            <a href="{{route('workAssignment')}}" class="nav-link ">
               <i class="material-icons">money</i>
               <p>
                 Work Assignment         
+              </p>
+            </a>
+          </li>
+          <!-- <li class="nav-item {{ $activePage == 'assignments' ? ' active' : '' }} ">
+            <a href="{{route('assignment')}}" class="nav-link ">
+              <i class="material-icons">money</i>
+              <p>
+                Assignment         
+              </p>
+            </a>
+          </li> -->
+          @endcan
+
+          @can('isProcessor')
+          <li class="nav-item {{ $activePage == 'assignments' ? ' active' : '' }} ">
+            <a href="{{ route('request.index') }}" class="nav-link ">
+              <i class="material-icons">money</i>
+              <p>
+                Assignment         
               </p>
             </a>
           </li>

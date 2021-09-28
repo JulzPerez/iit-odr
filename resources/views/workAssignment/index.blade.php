@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'assignment', 'titlePage' => 'Welcome, '.ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name.'!') ])
+@extends('layouts.app', ['activePage' => 'workAssignment', 'titlePage' => 'Welcome, '.ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name.'!') ])
 
 @section('content')
 <div class="content">

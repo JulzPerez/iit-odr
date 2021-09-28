@@ -86,7 +86,7 @@
                                     <select class="form-control" name="user_type" value="{{ old('user_type') }}"  style="width: 100%;">
                                         <option value="">--Select--</option>
                                         <option value="window staff">Window Staff</option>
-                                        <option value="other staff">Other Staff</option>
+                                        <option value="processor">Processor</option>
                                         <option value="requester">Requester</option>
                                         <option value="registrar">Registrar</option>
                                         <option value="admin">Admin</option>                           

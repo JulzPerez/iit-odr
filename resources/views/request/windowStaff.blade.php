@@ -64,7 +64,7 @@
                                 <tbody>
                                     
                                     @if(($requests->isEmpty())) 
-                                        <p>No requests found</p>
+                                        <p style="color:red">No requests found</p>
                                     @else
                                         @foreach($requests as $request)
                                         <tr>

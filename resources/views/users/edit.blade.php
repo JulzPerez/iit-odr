@@ -91,7 +91,7 @@
                                     <select class="form-control" name="user_type" value="{{ old('user_type',$user->user_type) }}"  style="width: 100%;">
                                         <option value="">--Select--</option>
                                         <option  {{ old('user_type',$user->user_type) == 'window staff' ? 'selected' : '' }} value="window staff">Window Staff</option>
-                                        <option {{ old('user_type',$user->user_type) == 'other staff' ? 'selected' : '' }} value="other staff">Other Staff</option>
+                                        <option {{ old('user_type',$user->user_type) == 'processor' ? 'selected' : '' }} value="processor">Processor</option>
                                         <option {{ old('user_type',$user->user_type) == 'requester' ? 'selected' : '' }} value="requester">Requester</option>
                                         <option {{ old('user_type',$user->user_type) == 'registrar' ? 'selected' : '' }} value="registrar">Registrar</option>
                                         <option value="admin">Admin</option>                           

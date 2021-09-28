@@ -191,10 +191,7 @@ class UploadPaymentController extends Controller
         {
             return redirect('/request')->with('success', 'Payment has been verified!');
         }
-        else
-        {
-            return redirect('/request')->with('error', 'Something went wrong verifying request!');
-        }
+        
         
     }
   

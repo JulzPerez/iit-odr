@@ -42,8 +42,8 @@ class AuthServiceProvider extends ServiceProvider
             return $user->user_type === 'window staff';
         });
 
-        Gate::define('isOtherStaff',function($user){
-            return $user->user_type === 'other staff';
+        Gate::define('isProcessor',function($user){
+            return $user->user_type === 'processor';
         });
     }
 }

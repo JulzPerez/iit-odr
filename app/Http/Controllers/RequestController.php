@@ -55,6 +55,30 @@ class RequestController extends Controller
             return view('request.windowStaff', compact('requests','pendingRequests','paidRequests'));
         }
 
+        if(\Gate::allows('isProcessor') )
+        {
+            try{
+                $user_id = \Auth::user()->id;
+
+                $requests = DB::table('work_assignment')
+                    ->join('requests', 'work_assignment.request_id', '=', 'requests.id')
+                    ->join('documents', 'requests.document_id', '=', 'documents.id')  
+                    ->join('request_files', 'requests.id', '=', 'request_files.request_id') 
+                    ->join('requestor', 'requests.requestor_id', '=', 'requestor.id')       
+                    ->select('requestor.*','requestor.id as requestor_id','request_files.*','requests.id as request_id','requests.*', 'documents.*') 
+                    ->where('requests.request_status','verified')
+                    ->where('work_assignment.user_id',$user_id)  
+                    ->get(); 
+              
+            }
+            catch(\Exception $exception)
+            {
+                throw new \App\Exceptions\ExceptionLogData($exception);
+            }
+
+            return view('workAssignment.assignedWork', compact('requests'));
+        }
+
         if(\Gate::allows('isRequester') )
         {
             try{
