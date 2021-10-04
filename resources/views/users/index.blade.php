@@ -12,7 +12,18 @@
                 @endif
 
             </div>
+        </div>      
+
+        <div class="row ">
+            <div class="col-sm-12">  
+                @if(session()->get('error'))
+                    <div class="alert alert-danger">
+                    {{ session()->get('error') }}  
+                    </div>
+                @endif
+            </div>
         </div>
+
         
 
         <div class="row mt-3">

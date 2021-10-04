@@ -27,23 +27,21 @@
                 <div class="card">
                     <div class="card-body">
                         
-                        <div class="row mt-1">
-                            <div class="col-md-12">
-                                <!-- <div class="card card-outline card-info">               
-                                    <div class="card-body" > -->
+                        <div class="table-responsive">
+                            
                                     @if($requests->isEmpty() )
                                         <p class="text-danger">No requests assigned yet.</p>                                
                                     @else
-                                        <table class="table table-sm table-condensed table-hover table-bordered">
+                                        <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th style="width:2%" class="text-center">#</th>
-                                                    <th style="width:15%" class="text-center">Requester</th>
-                                                    <th style="width:15%" class="text-center"> Requested Document</th>   
-                                                    <th style="width:15%" class="text-center"> Request Date</th>  
+                                                    <th >#</th>
+                                                    <th >Requester</th>
+                                                    <th> Requested Document</th>   
+                                                    <th > Request Date</th>  
                                                     
                                                     <!-- <th style="width:15%"> Payment Status</th> -->
-                                                    <th style="width:25%" class="text-center"> Action</th>
+                                                    <th> Action</th>
                                                     
                                                 </tr>
                                             </thead>
@@ -58,42 +56,45 @@
                                                         
                                                         </a>
                                                     </td>
-                                                    <!-- <td>{{$request->docName.' '.$request->docParticular}}</td> -->
+                                                   
                                                     <td>
-                                                    @if($request->filename != '')
-                                                        <a href="{{ route('getFile', $request->filename) }}">
-                                                            {{$request->docName.' '.$request->docParticular}}
+                                                   
+                                                        {{$request->docName.' '.$request->docParticular}}
+                                                        <br>
+                                                        <br>
+                                                        <a href="">
+                                                            View Attachments
                                                         </a>  
-                                                    @else
-                                                        {{$request->docName.' '.$request->docParticular}}                                          
-                                                    @endif
+                                                  
                                                     </td>
                                                     <td>{{$request->created_at}}</td>
                                                    
                                                                                                
                                                     <td >
-                                                        
+                                                     
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
                                                       
                                                         <form action="{{ route('workAssignment.complete',$request->request_id) }}" method="POST">
                                                         @csrf
-                                                                <button type="submit" rel="tooltip" class="btn btn-success">
-                                                                    <i class="material-icons">edit</i>Mark Completed
+                                                                <button type="submit"  class="btn btn-secondary mr-1">
+                                                                    <i class="material-icons">task</i><b style="color:blue">Mark Completed</b>
                                                                 </button>                                                       
                                                         </form>
 
                                                         @if($request->thread_id === null)
                                                         <a href="{{ route('messages.create', [$request->request_id, $request->requestor_id] ) }}" >
-                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-                                                                Create Message
+                                                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+                                                            <i class="material-icons">chat</i><b style="color:purple">Send Message </b>
                                                             </button>
                                                         </a>
                                                         @else
                                                         <a href="{{ route('messages.show', $request->thread_id) }}" >
-                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-                                                                Message
+                                                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+                                                            <i class="material-icons">chat</i><b style="color:purple">View Message </b>
                                                             </button>
                                                         </a>
                                                         @endif
+                                                    </div>
                                                        
                                                     </td>
                                                     
@@ -105,12 +106,8 @@
                                         
                                         </table>
                                     
-                                <!--  </div>
-                                </div> -->
-                                <!-- /.card-body -->
-                                
-                                <!-- /.card -->
-                            </div>
+                             
+                            
                         </div> 
                     
                         

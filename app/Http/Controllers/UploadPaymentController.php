@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Requestor;
 use App\UploadPayment;
 use App\DocRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Session;
 
 class UploadPaymentController extends Controller
 {
@@ -59,16 +61,20 @@ class UploadPaymentController extends Controller
     public function store(Request $request)
     {
         //dd($request);
-        $this->validate($request, [
-            'amount' => 'required|numeric',
+        $validator = Validator::make($request->all(),[
+            'amount' => 'required|numeric|gt:0',
             'file' => 'required|file|mimes:pdf',
         ],
         [
             'amount.required' => 'Please enter the amount paid.',
             'file.required' => 'Please browse the file to be uploaded.',
         ]);
-        
 
+        if(!$validator->passes()){
+            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
+        }
+        else
+        {
             if($request->hasfile('file'))
             {
                 $file=$request->file('file');
@@ -78,42 +84,50 @@ class UploadPaymentController extends Controller
                     // Save the file
                 $path = $file->storeAs('payments', $filename);
                 //dd($path);
+
+                try{ 
+                    $query= UploadPayment::create([
+                        //'request_id' => 1000,
+                        'request_id' => $request['request_id'],
+                        'payment_for' => $request['payment_for'],
+                        'amount' => $request['amount'],
+                        'notes' => $request['notes'],
+                        'proof' => $filename
+                    ]); 
+                }catch(\Exception $exception)
+                {
+                    throw new \App\Exceptions\ExceptionLogData($exception);
+                }
+
             }    
-            else{
+          /*   else{
                 
+            }  */   
+
+            if($query)
+            {
+                try
+                {
+                    $request = DocRequest::find($request['request_id']);
+                    $request->request_status = 'paid';
+                    $request->save();
+                }
+                catch(\Exception $exception)
+                {
+
+                    throw new \App\Exceptions\LogData($exception);                
+                }            
+            }  
+            else{
+                Session::flash('error', 'Something went wrong uploading data. Please report this to the administrator.');
+                return response()->json(['status'=>0, 'msg'=>'Something went wrong.']); 
             }    
 
-            
-        //dd($request);  
+            Session::flash('success', 'Proof of payment has been successfully added!');
+            return response()->json(['status'=>1, 'msg'=>'The request has been successfully added!']);
 
-       try{ 
-            $query= UploadPayment::create([
-                //'request_id' => 1000,
-                'request_id' => $request['request_id'],
-                'payment_for' => $request['payment_for'],
-                'amount' => $request['amount'],
-                'notes' => $request['notes'],
-                'proof' => $filename
-            ]); 
-        }catch(\Exception $exception)
-        {
-            throw new \App\Exceptions\ExceptionLogData($exception);
-        }
-       
+        } 
 
-        if($query)
-        {
-            try{
-                $request = DocRequest::find($request['request_id']);
-                $request->request_status = 'paid';
-                $request->save();
-            }
-            catch(\Exception $exception){
-
-                throw new \App\Exceptions\LogData($exception);                
-            }            
-        }        
-        return redirect('/request')->with('success', 'Proof of payment was uploaded successfully! Please wait until this payment is verified.');
     }
 
     /**

@@ -41,21 +41,19 @@ Route::group(['prefix' => 'request'], function () {
 	Route::get('/', ['as' => 'request.index', 'uses' => 'RequestController@index']);
 	Route::post('/', ['as' => 'request.store', 'uses' => 'RequestController@store']);
 	Route::get('/create', ['as' => 'request.create', 'uses' => 'RequestController@create']);
-	Route::get('/{status}', ['as' => 'getRequests', 'uses' => 'RequestController@getRequests']);
     Route::post('/UpdatePages', ['as' => 'updatePages', 'uses' => 'RequestController@updatePages']);
-
+    Route::get('/getAttachments/{id}', ['as' => 'getAttachments', 'uses' => 'RequestController@getAttachments']);
+    Route::get('/downloadFile/{file}', ['as' => 'downloadFile', 'uses' => 'RequestController@downloadFile']);
 });
 
 //Request
-Route::get('getRequestForAssessment', 'RequestController@getRequestForAssessment')->name('getRequestForAssessment');
-
-
+/* Route::get('getRequestForAssessment', 'RequestController@getRequestForAssessment')->name('getRequestForAssessment');
 
 Route::get('viewRequests', 'ViewRequestController@index')->name('viewRequests');
 Route::get('/viewRequestPaymentStatus/{status}', 'ViewRequestController@viewPaymentStatus')->name('viewRequestPaymentStatus');
 Route::get('/viewRequestByStatus/{request_status}', 'ViewRequestController@viewRequestByStatus')->name('viewRequestByStatus');
 Route::get('/filterRequest', 'ViewRequestController@filterRequest')->name('filterRequest');
-Route::get('/viewFile/{filename}', 'ViewRequestController@showFile')->name('getFile');
+Route::get('/viewFile/{filename}', 'ViewRequestController@showFile')->name('getFile'); */
 
 //for work assignment
 Route::group(['prefix' => 'workAssignment'], function () {

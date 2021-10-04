@@ -17,10 +17,9 @@ class WorkAssignmentController extends Controller
             try
             {                
                 $requests = DB::table('requestor')
-                        ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
+                        ->join('requests', 'requestor.id', '=', 'requests.requestor_id')
                         ->join('documents', 'documents.id', '=', 'requests.document_id')
-                        ->join('request_files', 'requests.id', '=', 'request_files.request_id')
-                        ->select('requestor.*','request_files.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
+                        ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
                         ->where('requests.request_status','verified')  
                         ->get(); 
 
@@ -59,7 +58,7 @@ class WorkAssignmentController extends Controller
                     'user_id' => $request['assigned_to'],
                     'user_fullname' => $request['user_fullname'],
                     'assigned_by' => \Auth::user()->first_name .' '.\Auth::user()->last_name,                
-                    'status' => 'processing',
+                   
                 ]);
 
                 $request = DocRequest::find($request_id);
@@ -94,27 +93,5 @@ class WorkAssignmentController extends Controller
         }
     }
 
-    /* public function viewAssignment()
-    {
-        if(\Gate::allows('isOtherStaff') || \Gate::allows('isWindowStaff'))
-        {
-            try{
-                $user_id = \Auth::user()->id;
-
-                $requests = DB::table('work_assignment')
-                ->join('requests', 'work_assignment.request_id', '=', 'requests.id')
-                ->join('documents', 'requests.document_id', '=', 'documents.id')   
-                ->join('requestor', 'requests.requestor_id', '=', 'requestor.id')       
-                ->select('requestor.*','requests.id as request_id','requests.*', 'documents.*') 
-                ->where('work_assignment.user_id',$user_id)  
-                ->get(); 
-            }
-            catch(\Exception $exception)
-            {
-                throw new \App\Exceptions\ExceptionLogData($exception);
-            }
-
-            return view('workAssignment.assignedWork', compact('requests'));
-        }
-    } */
+   
 }

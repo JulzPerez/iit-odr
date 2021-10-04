@@ -1,8 +1,30 @@
 @extends('layouts.app', ['activePage' => 'request', 'titlePage' => 'Welcome, '.ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name) ])
 
+
 @section('content')
 <div class="content">
   <div class="container-fluid">
+     
+
+        <div class="row ">
+            <div class="col-sm-12">  
+                @if(session()->get('success'))
+                    <div class="alert alert-success">
+                    {{ session()->get('success') }}  
+                    </div>
+                @endif
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-sm-12">  
+                @if(session()->get('error'))
+                    <div class="alert alert-danger">
+                    {{ session()->get('error') }}  
+                    </div>
+                @endif
+            </div>
+        </div>
       
         <div class="row mt-3">
           <div class="col-md-8">
@@ -23,10 +45,6 @@
                                     </option>
                                   @endforeach
                                 </select>
-
-                              <!--  @if ($errors->has('docID'))
-                                    <span class="text-danger">{{ $errors->first('docID') }}</span>
-                                @endif --> 
                             </div>
 
                             <br>
@@ -39,9 +57,8 @@
                             </div>
                             <br>
                             <div class="form-group">
-                                  <label>Purpose of Request</label>
-                                  <!-- <input  type="text" class="form-control"  name="request_purpose">  -->
-                                  <textarea class="form-control" rows="2" name="request_purpose"></textarea>              
+                                  <label>Purpose of Request</label>                                  
+                                  <textarea class="form-control" rows="2" name="request_purpose" id="request_purpose"></textarea>           
                   
                                   <span class="text-danger error-text request_purpose_error"></span>
                                                       
@@ -56,12 +73,6 @@
                                   </button>                                
                                 </div>                             
                               </div>
-                              <div>
-                                  <span class="text-danger error-text filename_error"></span>
-                              </div> 
-                              <div>
-                                  <span class="text-danger error-text mime_error"></span>
-                              </div>
                               <div class="clone" style="display:none">
                                 <div class="control-group input-group" style="margin-top:10px">
                                   <input type="file" name="filename[]" class="form-control">
@@ -72,46 +83,70 @@
                                 </div>
                               </div>
                             </div> 
-                           <!--  <div class="progress">
-                              <div class="bar"></div >
-                                <div class="percent">0%</div >
-                              </div>
-                            <br>
- -->
-                           
+                            <div>
+                                <span class="text-danger error-text filename_error"></span>
+                            </div>
+                            <div>
+                                <span class="text-danger error-text mime_error"></span>
+                            </div>
+                          
                       <div class="card-footer">
-                        <button type="submit" class="btn btn-danger">Add Request</button>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="submit" class="btn btn-danger float-right">Add Request  </button>
+                            
+                        </div>
+                        <div id='loader' style='display: none; '>
+                              <span>Saving request ... </span>
+                              <img src='/images/progress-bar.gif' width='100px' height='100px'>
+                        </div> 
                       </div>
                       
                     </form>
+                   
+                                     
                   
               </div>
               <!-- /.card -->
           </div>
-        </div>    
+        </div>  
+        
 
   </div>
 </div>
 @endsection
 
+
 @push('js')
 
 <script type="text/javascript">
-     $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-      });
+    $(function()
+    {
+        $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
 
-      $(document).ready(function () {
+        window.onunload  = function (evt) {
+            $('#selectDocument').val('');
+            $('#file').val('');
+            $('#request_purpose').val('');
+        //console.log('page is reloaded');
+        }
+
+      
+        $(document).ready(function () {
              
-        $('#selectDocument').on('click',function(e) {
+          $('#selectDocument').on('change',function(e) {
           
           var doc_key = e.target.value;
           console.log(doc_key);
           
           var res = doc_key.split(',');
           var required = res[1];
+
+          $('#file').val('');
+          $('#request_purpose').val('');
       
           if(required==='1')
           {            
@@ -136,8 +171,7 @@
         
       });
 
-      $(function()
-      {
+      
           $("#request_form").on('submit', function(e){
               e.preventDefault();
 
@@ -157,9 +191,7 @@
                 }
               });
 
-              var bar = $('.bar');
-              var percent = $('.percent');
-
+              
               $.ajax({
                   url:$(this).attr('action'),
                   method:$(this).attr('method'),
@@ -167,67 +199,55 @@
                   processData:false,
                   dataType:'json',
                   contentType:false,
-                  beforeSend:function(){
-
-                  /*   var percentVal = '0%';
-                    bar.width(percentVal)
-                    percent.html(percentVal); */
-
-                      $(document).find('span.error-text').text('');
-                      //$(document).find('span.mime_error').text('');
+                  beforeSend:function(){    
+                      $(document).find('span.error-text').text('');  
+                      $(document).find('span.mime_error').text('');          
+                      $("#loader").show();
+                      
                   },
-                 /*  uploadProgress: function(event, position, total, percentComplete) 
-                  {
-                      var percentVal = percentComplete + '%';
-                      bar.width(percentVal)
-                      percent.html(percentVal);
-                  }, */
-
-                 /*  complete: function(xhr) 
-                  {
-                      alert('File Has Been Uploaded Successfully');
-                      //window.location.href = ";
-
-                  }, */
+                  complete:function(data){
+                    
+                    $("#loader").hide();
+                  },
                   success:function(data){
+                    
                       if(data.status == 0){
+                       
                           $.each(data.error, function(prefix, val){
-                              $('span.'+prefix+'_error').text(val[0]);
-                              //console.log(prefix);
-
-                              if(prefix.includes('filename'));
-                              {
-                                $(document).find('span.mime_error').text('File must be a PDF type only');
-                              }
-                          });    
+                            if(prefix.includes('filename.'))
+                            {
+                              $('span.mime_error').text('File must be of type: PDF'); 
+                            }
+                            else{
+                              $('span.'+prefix+'_error').text(val[0]); 
+                            }                                                         
+                                                         
+                          }); 
                           
-
                       }else{
-                        $('#request_form')[0].reset();
-                             /*  Swal.fire({
-                                text: data.msg,
-                                icon: 'success',
-                                showConfirmButton: true,
-                              }); */                              
+                        $('#request_form')[0].reset();                                                         
                               window.location = "{{route('request.index')}}";                           
                       }
                   }
               });
           });
-        }); 
+
+
+          $(document).ready(function() {
+
+              $("#btnAddFile").click(function(){ 
+                  var html = $(".clone").html();
+                  $(".increment").after(html);
+              });
+
+              $("#request_form").on("click",".btn-default",function(){ 
+                  $("#btnRemoveFile").parents(".control-group").remove();
+              });
+
+            });
+      }); 
         
-        $(document).ready(function() {
-
-          $("#btnAddFile").click(function(){ 
-              var html = $(".clone").html();
-              $(".increment").after(html);
-          });
-
-          $("#request_form").on("click",".btn-default",function(){ 
-              $("#btnRemoveFile").parents(".control-group").remove();
-          });
-
-        });
+        
 
 </script>
 

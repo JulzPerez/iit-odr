@@ -77,8 +77,6 @@
                                 
                             @endif
                         
-                            
-                        
                         </form>                  
 
                 </div>

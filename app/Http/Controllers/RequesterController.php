@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Requestor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Session;
 
 
 class RequesterController extends Controller
@@ -22,12 +23,12 @@ class RequesterController extends Controller
     public function index()
     {
         //$docID = \Request::get('docID');
-        $userid = \Auth::user()->id;
 
-        try{
+        try
+        {
+            $userid = \Auth::user()->id;
             if (DB::table('requestor')->where('user_id', $userid )->doesntExist() ) 
-            {
-        
+            {        
                 return view('requestor.create');  
             }
             else 
@@ -67,13 +68,13 @@ class RequesterController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
+        $validator = Validator::make($request->all(),[
             'first_name' => 'required|string|max:191',
             'middle_name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
             //'id_no' => 'required|string|max:191',
-            'contact_no' => 'required|string|max:191',
-            //'home_address' => 'string|max:191',
+            'contact_no' => 'required|string',
+            'home_address' => 'required|string|max:191',
             'requestor_type' => 'required',
             //'mailing_address' => 'required|string|max:191',
             'degree' => 'required|string|max:191',
@@ -133,43 +134,74 @@ class RequesterController extends Controller
             ]
         );
 
-        $userid = \Auth::user()->id;
+        if(!$validator->passes()){
+            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
+        }
 
-        Requestor::create([
-            'user_id' => $userid,
-            'first_name' => $request['first_name'],
-            'middle_name' => $request['middle_name'],
-            'last_name' => $request['last_name'],
-            //'maiden_name' => $request['docname'],
-            'id_no' => $request['id_no'],
-            'requestor_type' => $request['requestor_type'],
-            'contact_no' => $request['contact_no'],
-            'home_address' => $request['home_address'], 
-            'mailing_address' => $request['mailing_address'],
-            'degree' => $request['degree'],
-            'major_option' => $request['option'],
-            'academic_distinction' => $request['honor'],
-            'date_of_graduation' => $request['graduation_date'],
-            'highschool_graduated' => $request['highschool_graduated'], 
-            'highschool_address' => $request['highschool_address'],
-            'last_sem_attended' => $request['last_sem_attended'],
-            'last_sem_AY' => $request['last_AY_attended'], 
-            'last_university_attended' => $request['transferee_last_school'],
-           
-            'sex' => $request['sex'],
-            'date_of_birth' => $request['birthdate'], 
-            'religion' => $request['religion'], 
-            'place_of_birth' => $request['birth_place'], 
-            'citizenship' => $request['citizenship'],
-            'civil_status' => $request['civil_status'], 
-            'spouse' => $request['spouse_name'], 
-            'name_of_father' => $request['father_fullname'], 
-            'maiden_name_of_mother' => $request['mother_fullmaidenname'], 
-            'address_of_parents' => $request['parents_address'], 
-           
-        ]);
+        else
+        {
+            try
+            {
+                $userid = \Auth::user()->id;
 
-        return redirect('/requester')->with('success', 'Record saved successfully!');
+                if (DB::table('requestor')->where('user_id', $userid )->doesntExist() )
+                {
+                    $insertRequester = Requestor::create([
+                        'user_id' => $userid,
+                        'first_name' => $request['first_name'],
+                        'middle_name' => $request['middle_name'],
+                        'last_name' => $request['last_name'],
+                        //'maiden_name' => $request['docname'],
+                        'id_no' => $request['id_no'],
+                        'requestor_type' => $request['requestor_type'],
+                        'contact_no' => $request['contact_no'],
+                        'home_address' => $request['home_address'], 
+                        'mailing_address' => $request['mailing_address'],
+                        'degree' => $request['degree'],
+                        'major_option' => $request['option'],
+                        'academic_distinction' => $request['honor'],
+                        'date_of_graduation' => $request['graduation_date'],
+                        'highschool_graduated' => $request['highschool_graduated'], 
+                        'highschool_address' => $request['highschool_address'],
+                        'last_sem_attended' => $request['last_sem_attended'],
+                        'last_sem_AY' => $request['last_AY_attended'], 
+                        'last_university_attended' => $request['transferee_last_school'],
+                    
+                        'sex' => $request['sex'],
+                        'date_of_birth' => $request['birthdate'], 
+                        'religion' => $request['religion'], 
+                        'place_of_birth' => $request['birth_place'], 
+                        'citizenship' => $request['citizenship'],
+                        'civil_status' => $request['civil_status'], 
+                        'spouse' => $request['spouse_name'], 
+                        'name_of_father' => $request['father_fullname'], 
+                        'maiden_name_of_mother' => $request['mother_fullmaidenname'], 
+                        'address_of_parents' => $request['parents_address'], 
+                    
+                        ]);
+                }
+                else{
+                    Session::flash('error', 'You seem to have a record already. Please contact the administrator to check the issue.');
+                    return response()->json(['status'=>0, 'msg'=>'Something went wrong!']);
+                }
+
+                
+            }
+            catch(\Exception $exception)
+            {
+                throw new \App\Exceptions\ExceptionLogData($exception);
+            } 
+
+            if($insertRequester)
+            {
+                Session::flash('success', 'Requester info has been successfully added!');
+                return response()->json(['status'=>1, 'msg'=>'The request has been successfully added!']);
+            }
+            else{
+                Session::flash('error', 'Something went wrong inserting record! Please report this to the admin to fix the issue.');
+                return response()->json(['status'=>0, 'msg'=>'Something went wrong!']);
+            } 
+        }   
 
     }
 
@@ -211,12 +243,12 @@ class RequesterController extends Controller
     public function update(Request $request, $id)
     {
             //validation
-            $this->validate($request, [
+            $validator = Validator::make($request->all(),[
                 'first_name' => 'required|string|max:191',
                 'middle_name' => 'required|string|max:191',
                 'last_name' => 'required|string|max:191',
                 //'id_no' => 'required|string|max:191',
-                'contact_no' => 'required|string|max:191',
+                'contact_no' => 'required|string',
                 'home_address' => 'required|string|max:191',
                 'requestor_type' => 'required',
                 //'mailing_address' => 'required|string|max:191',
@@ -244,31 +276,31 @@ class RequesterController extends Controller
                 //'authorized_person' => 'required|string|max:191',
             ], 
                 [
-                'first_name.required' => 'required',
-                'middle_name.required' => 'required',
-                'last_name.required' => 'required',
+                'first_name.required' => 'first name is required',
+                'middle_name.required' => 'middle name is required',
+                'last_name.required' => 'last name is required',
                 //'id_no.required' => 'required|string|max:191',
-                'contact_no.required' => 'required',
-                'home_address.required' => 'required',
-                'requestor_type' => 'required',
+                'contact_no.required' => 'contact number is required',
+                'home_address.required' => 'home address is required',
+                'requestor_type' => 'requestor type is required',
                 //'mailing_address' => 'required|string|max:191',
-                'degree.required' => 'required',
+                'degree.required' => 'degree is required',
                 //'option.required' => 'required',
                 //'honor' => 'required|string|max:191',
                 //'graduation_date.required' => 'required',
-                'highschool_graduated.required' => 'required',
-                'highschool_address.required' => 'required',
+                'highschool_graduated.required' => 'high school graduated is required',
+                'highschool_address.required' => 'high school address is required',
                 //'last_sem_attended.required' => 'required',
-                'last_AY_attended.required' => 'required',
+                'last_AY_attended.required' => 'last academic year attended is required',
                 //'transferee_last_school' => 'required|string|max:191',
                 //'last_AY_attended' => 'required|string|max:191',
                
-                'sex.required' => 'required',
-                'birthdate.required' => 'required',
+                'sex.required' => 'sex is required',
+                'birthdate.required' => 'birth date is required',
                 //'religion.required' => 'required',
-                'birth_place.required' => 'required',
-                'citizenship.required' => 'required',
-                'civil_status.required' => 'required',
+                'birth_place.required' => 'birth place is required',
+                'citizenship.required' => 'citizenship required',
+                'civil_status.required' => 'civil status is required',
                 //'spouse_name' => 'required|string|max:191',
                 //'father_fullname' => 'required|string|max:191',
                 //'mother_fullmaidenname' => 'required|string|max:191',
@@ -276,44 +308,65 @@ class RequesterController extends Controller
                 //'authorized_person' => 'required|string|max:191',
                 ]
             );
-    
 
-            $req = Requestor::find($id);
+            if(!$validator->passes()){
+                return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
+            }    
+            else
+            {    
+                try
+                {
+                    $req = Requestor::find($id);
 
-            $req->first_name = $request['first_name'];
-            $req->middle_name = $request['middle_name'];
-            $req->last_name = $request['last_name'];
-            //'maiden_name' = $request['docname'];
-            $req->id_no = $request['id_no'];
-            $req->requestor_type = $request['requestor_type'];
-            $req->contact_no = $request['contact_no'];
-            $req->home_address = $request['home_address']; 
-            $req->mailing_address = $request['mailing_address'];
-            $req->degree = $request['degree'];
-            $req->major_option = $request['option'];
-            $req->academic_distinction = $request['honor'];
-            $req->date_of_graduation = $request['graduation_date'];
-            $req->highschool_graduated = $request['highschool_graduated']; 
-            $req->highschool_address = $request['highschool_address'];
-            $req->last_sem_attended = $request['last_sem_attended'];
-            $req->last_sem_AY = $request['last_AY_attended']; 
-            $req->last_university_attended = $request['transferee_last_school'];
-          
-            $req->sex = $request['sex'];
-            $req->date_of_birth = $request['birthdate']; 
-            $req->religion = $request['religion']; 
-            $req->place_of_birth = $request['birth_place']; 
-            $req->citizenship = $request['citizenship'];
-            $req->civil_status = $request['civil_status']; 
-            $req->spouse = $request['spouse_name']; 
-            $req->name_of_father = $request['father_fullname']; 
-            $req->maiden_name_of_mother = $request['mother_fullmaidenname']; 
-            $req->address_of_parents = $request['parents_address']; 
-            
+                    $req->first_name = $request['first_name'];
+                    $req->middle_name = $request['middle_name'];
+                    $req->last_name = $request['last_name'];
+                    //'maiden_name' = $request['docname'];
+                    $req->id_no = $request['id_no'];
+                    $req->requestor_type = $request['requestor_type'];
+                    $req->contact_no = $request['contact_no'];
+                    $req->home_address = $request['home_address']; 
+                    $req->mailing_address = $request['mailing_address'];
+                    $req->degree = $request['degree'];
+                    $req->major_option = $request['option'];
+                    $req->academic_distinction = $request['honor'];
+                    $req->date_of_graduation = $request['graduation_date'];
+                    $req->highschool_graduated = $request['highschool_graduated']; 
+                    $req->highschool_address = $request['highschool_address'];
+                    $req->last_sem_attended = $request['last_sem_attended'];
+                    $req->last_sem_AY = $request['last_AY_attended']; 
+                    $req->last_university_attended = $request['transferee_last_school'];
+                
+                    $req->sex = $request['sex'];
+                    $req->date_of_birth = $request['birthdate']; 
+                    $req->religion = $request['religion']; 
+                    $req->place_of_birth = $request['birth_place']; 
+                    $req->citizenship = $request['citizenship'];
+                    $req->civil_status = $request['civil_status']; 
+                    $req->spouse = $request['spouse_name']; 
+                    $req->name_of_father = $request['father_fullname']; 
+                    $req->maiden_name_of_mother = $request['mother_fullmaidenname']; 
+                    $req->address_of_parents = $request['parents_address'];
 
-            $req->save();
+                    $req->save();
+                }
+                catch(\Exception $exception)
+                {
+                    throw new \App\Exceptions\ExceptionLogData($exception);
+                } 
+            }
 
-            return redirect('/requester')->with('success', 'Record updated successfully!');
+            if($req)
+            {
+                Session::flash('success', 'Requester info has been successfully updated!');
+                return response()->json(['status'=>1, 'msg'=>'The requester info has been successfully updated!']);
+            }
+            else
+            {
+                Session::flash('error', 'Something went wrong!');
+                return response()->json(['status'=>0, 'msg'=>'Something went wrong!']);
+            }            
+           
     }
 
     /**

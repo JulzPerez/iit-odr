@@ -8,6 +8,7 @@
     <title>{{ __('OIR | MSU-IIT ') }}</title>
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('material') }}/img/apple-icon.png">
     <link rel="icon" type="image/png" href="{{ asset('material') }}/img/favicon.png">
+    <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -16,14 +17,8 @@
     <link href="{{ asset('material') }}/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="{{ asset('css') }}/chat.css" rel="stylesheet" />
 
-    <style>
-
-    .progress { position:relative; width:100%; }
-    .bar { background-color: #00ff00; width:0%; height:20px; }
-    .percent { position:absolute; display:inline-block; left:50%; color: #040608;}
-
-    </style>
-
+    
+    @stack('css')
 
     </head>
     <body class="{{ $class ?? '' }}">
@@ -67,6 +62,7 @@
         <script src="{{ asset('material') }}/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
        
         <script src="/js/app.js"></script>
+        <script src="/js/inputmask/jquery.inputmask.js"></script>
 
         @stack('js')
     </body>

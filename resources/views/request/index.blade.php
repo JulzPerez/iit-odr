@@ -47,7 +47,7 @@
                     </div> -->
                     <div class="card-body">
                         @if($all_request->isEmpty())
-                        <p class="text-danger">No request found.</p>    
+                        <p class="text-danger">You have no request created so far.</p>    
                         @else
                         <div class="table-responsive">
                             <table class="table ">
@@ -61,7 +61,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($all_request as $key =>$request)
-                                    <tr>
+                                    <tr style="height:200px">
                                         <td width="35%">
                                             <div class="form-row">
                                                 <div class="col" >
@@ -137,9 +137,13 @@
                                             <div class="form-row">
                                                 <div class="col">
                                                     @if($request->thread_id != null)
+                                                        <?php $count = Auth::user()->newThreadsCount(); ?>
                                                     <a href="{{ route('messages.show', $request->thread_id) }}" >
-                                                        <button type="button" class="btn btn-primary mt-2 mb-2" >
-                                                            <span class="material-icons">chat</span><br> View Message
+                                                        <button type="button" class="btn btn-secondary mt-1 mb-1" >
+                                                            <i class="material-icons">chat</i><b style="color:purple">View Message</b>
+                                                                @if($count > 0)
+                                                                    <span class="text-danger">New</span>
+                                                                @endif
                                                         </button>
                                                     </a>
                                                     
@@ -147,8 +151,7 @@
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
                                                             Create Message
                                                         </button>
-                                                    </a> -->
-                                                  
+                                                    </a> -->                                                  
                                                     
                                                     @endif
                                                    
@@ -164,12 +167,11 @@
                                                             <a href="{{ route('showUploadPaymentForm',
                                                                     [
                                                                     $request->request_id,
-                                                                    $request->docName.' '.$request->docParticular,
-                                                                    
+                                                                    $request->docName.' '.$request->docParticular,                                                                    
                                                                     ] 
                                                                 ) }}" >
-                                                                <button type="button" class="btn btn-info"><i class="material-icons">file_upload</i>
-                                                                 Upload Proof <br> of Payment
+                                                                <button type="button" class="btn btn-secondary"><i class="material-icons">file_upload</i>
+                                                                 <b style="color:blue">Upload Proof of Payment</b>
                                                                 </button>
                                                             <!-- <i class="fas fa-edit"></i> -->
                                                             </a>

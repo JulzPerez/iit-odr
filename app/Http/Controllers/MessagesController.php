@@ -131,7 +131,7 @@ class MessagesController extends Controller
         } 
 
         
-        return redirect()->back();
+        return redirect()->route('request.index');
     }
 
     /**
@@ -174,4 +174,6 @@ class MessagesController extends Controller
 
         return redirect()->route('messages.show', $id);
     }
+
+    
 }

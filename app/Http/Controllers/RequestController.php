@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 use App\Document;
@@ -31,16 +32,17 @@ class RequestController extends Controller
 
             try{
                 $requests = DB::table('requestor')
-                    ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
-                    ->join('documents', 'documents.id', '=', 'requests.document_id')
-                    ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
-                    ->where('requests.request_status','pending')  
-                    ->orWhere('requests.request_status','paid')
-                    ->get(); 
+                        ->join('requests', 'requestor.id', '=', 'requests.requestor_id')
+                        ->join('documents', 'documents.id', '=', 'requests.document_id')                      
+                        ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date') 
+                        ->whereNotIn('requests.request_status',['completed'])
+                        ->orderBy('request_date', 'asc')
+                        ->paginate(10); 
 
-                $pendingRequests = $requests->filter(function ($pending) {
+                $pending = $requests->filter(function ($pending) {
                     return $pending->request_status == 'pending';
                 });
+                $pendingRequests = $pending->all();
 
                 $paidRequests = $requests->filter(function ($paid) {
                     return $paid->request_status == 'paid';
@@ -60,15 +62,16 @@ class RequestController extends Controller
             try{
                 $user_id = \Auth::user()->id;
 
-                $requests = DB::table('work_assignment')
-                    ->join('requests', 'work_assignment.request_id', '=', 'requests.id')
-                    ->join('documents', 'requests.document_id', '=', 'documents.id')  
-                    ->join('request_files', 'requests.id', '=', 'request_files.request_id') 
-                    ->join('requestor', 'requests.requestor_id', '=', 'requestor.id')       
-                    ->select('requestor.*','requestor.id as requestor_id','request_files.*','requests.id as request_id','requests.*', 'documents.*') 
-                    ->where('requests.request_status','verified')
-                    ->where('work_assignment.user_id',$user_id)  
-                    ->get(); 
+                $requests = DB::table('requestor')
+                        ->join('requests', 'requestor.id', '=', 'requests.requestor_id')
+                        ->join('documents', 'documents.id', '=', 'requests.document_id')
+                        ->join('work_assignment', 'requests.id','=','work_assignment.request_id')
+                        ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
+                        ->where('requests.request_status','processing') 
+                        ->where('work_assignment.user_id',$user_id) 
+                        ->orderBy('work_assignment.created_at', 'desc')
+                        ->get(); 
+                //dd($requests);
               
             }
             catch(\Exception $exception)
@@ -142,13 +145,15 @@ class RequestController extends Controller
 
                 'copy' => 'required|numeric|gt:0',
                 'request_purpose' => 'required|string|max:255',
-                'filename' => 'required',
+                'filename' => 'required|max:1024',
                 'filename.*' => 'mimes:pdf',
             ],
             [
                 'copy.gt' => "Input must be number greater than 0.",
                 'request_purpose.required' => 'Please write the purpose of request.',
-                'filename.required' => 'Uploading of file is required for this document request!',
+                'filename.required' => 'Please upload file for this document request!',
+                'filename.*.mimes' => 'The file must be a file of type: pdf',
+                'filename.*.max' => 'File must only be <= 512KB'
             ]);
         }
         else{
@@ -167,7 +172,8 @@ class RequestController extends Controller
         if(!$validator->passes()){
             return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
         }
-        else{
+        else
+        {
             try
             {
                 $userid = \Auth::user()->id;
@@ -212,11 +218,14 @@ class RequestController extends Controller
                 
                         if($requestID)
                         {
+                            $file_data = [];
+
                             if($request->hasfile('filename'))
-                            {
+                            {                               
+
                                 foreach($request->file('filename') as $file)
                                 {
-                                    $fname = $user_fname.'_'.$user_lname.'_'.time().'_'.$file->getClientOriginalName();            
+                                    $fname = time().'_'.$file->getClientOriginalName();            
                                     // File upload location
 
                                     $path = $file->storeAs('file_upload', $fname);
@@ -236,111 +245,113 @@ class RequestController extends Controller
                             }
                             $file_insert = DB::table('request_files')->insert($dataset);
                         }
+                        else{
+                            Session::flash('error', 'Something went wrong adding request. Please report this to the administrator.');
+                            return response()->json(['status'=>0, 'msg'=>'Something went wrong.']);
+                        }
                     
                 }    
             }
             catch(\Exception $exception)
             {
                 throw new \App\Exceptions\ExceptionLogData($exception);
-            }        
-                 
-        }
-
-        if($requestID){
-
-            Session::flash('success', 'Request has been successfully added!');
-            return response()->json(['status'=>1, 'msg'=>'The request has been successfully added!']);
-        }
-        else{
-            Session::flash('error', 'Something went wrong!');
-            return response()->json(['status'=>0, 'msg'=>'Something went wrong!']);
-        }        
-
-    }
-
-    public function getRequests($status)
-    {
-       
-        try{
-            $requests = DB::table('requestor')
-                ->join('requests', 'requests.requestor_id', '=', 'requestor.id')
-                ->join('documents', 'documents.id', '=', 'requests.document_id')
-                ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
-                ->where('requests.request_status',$status)  
-                ->get(); 
+            }   
             
-        }
-        catch(\Exception $exception)
-        {
-            throw new \App\Exceptions\ExceptionLogData($exception);
-        }
+            if($requestID){
 
-        return view('request.windowStaff', compact('requests','status'));
-       
+                Session::flash('success', 'Request has been successfully added!');
+                return response()->json(['status'=>1, 'msg'=>'The request has been successfully added!']);
+            }
+                 
+        }       
+
     }
+
+    
 
     public function updatePages(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(),[
             'pages' => 'required|numeric|gt:0',
         ]);
 
-
-        try{
-            $updateRequest = DocRequest::find($request['requestID']);
-
-            $copy = $updateRequest->number_of_copy;
-            $pages = $request['pages'];
-            $fee = $request['docFee'];
-
-            $updateRequest->number_of_pages = $request['pages'];
-            $updateRequest->assessed_by = \Auth::user()->first_name .' '. \Auth::user()->last_name;
-            $updateRequest->assessed_date = Carbon::now();
-            $updateRequest->assessment_total =  $copy * $pages * $fee;
-            $updateRequest->request_status = 'assessed';
-
-            $updateRequest->save();
+        if(!$validator->passes()){
+            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
         }
-        catch(\Exception $exception)
+        else
         {
-            throw new \App\Exceptions\ExceptionLogData($exception);
-        } 
+            try{
+                $updateRequest = DocRequest::find($request['requestID']);
+
+                $copy = $updateRequest->number_of_copy;
+                $pages = $request['pages'];
+                $fee = $request['docFee'];
+
+                $updateRequest->number_of_pages = $request['pages'];
+                $updateRequest->assessed_by = \Auth::user()->first_name .' '. \Auth::user()->last_name;
+                $updateRequest->assessed_date = Carbon::now();
+                $updateRequest->assessment_total =  $copy * $pages * $fee;
+                $updateRequest->request_status = 'assessed';
+
+                $updateRequest->save();
+            }
+            catch(\Exception $exception)
+            {
+                throw new \App\Exceptions\ExceptionLogData($exception);
+            } 
+        }
 
         if($updateRequest){
 
             Session::flash('success', 'Request has been assessed!');
             return response()->json(['status'=>1, 'msg'=>'Assessed successfully!']);
         }
-        else{
-            Session::flash('error', 'Something went wrong!');
-            return response()->json(['status'=>0, 'msg'=>'Something went wrong!']);
-        } 
+      
     }
 
-      
-    /* public function show($id)
+    public function getAttachments($id)
     {
-            $request_id = $id;
+        try
+        {
+            $attachments = DB::table('request_files')
+                ->where('request_id',$id)
+                ->get();
+        }
+        catch(\Exception $exception)
+        {
+            throw new \App\Exceptions\ExceptionLogData($exception);
+        } 
 
-            $assessments = DB::table('assessment_of_fees')
-            ->leftJoin('fees', 'fees.id', '=', 'assessment_of_fees.fees_id')
-            ->select('fees.id as f_id','fees.fee_name as f_name','fees.unit as f_unit','fees.amount as f_amount', 'assessment_of_fees.*')
-            ->where('assessment_of_fees.requests_id',$id)
-            ->get();
-
-            $total = collect($assessments)->sum('amount');
-
-            $payment_status = DB::table('requests')
-                ->select('payment_status')
-                ->where('id',$id)->value('payment_status');
-
-            //dd($payment_status);
-
-            return view('request.show', compact('assessments','total','payment_status'));
-
-            //dd($assessments);
-    } */
-
-       
+        if($attachments)
+        {
+            $html = '';
     
+            if(!$attachments->isEmpty())
+            {
+                foreach ($attachments as $attachment) 
+                {
+                    $html .=    '<tr>                                
+                                    <td>'.$attachment->filename. '</td>
+                                    <td>
+                                        <a href="/request/downloadFile/'. $attachment->filename. '" >download
+                                        </a>
+                                    </td>
+                                  
+                                </tr>';
+                }
+            }
+            else{
+                $html .= "<p>There are no attachments for this request</p>";
+            }
+
+            return response()->json(['html' => $html]);
+           
+        }
+    }
+
+    public function downloadFile($file)
+    {       
+        return response()->download(storage_path('app/public/file_upload/' . $file));      
+        
+    }      
 }

@@ -13,7 +13,16 @@
             </div>
         </div>
         <br>
-        
+     
+        <div class="row ">
+            <div class="col-sm-12">  
+                @if(session()->get('error'))
+                    <div class="alert alert-danger">
+                    {{ session()->get('error') }}  
+                    </div>
+                @endif
+            </div>
+        </div>
 
         <div class="row ">
                 
@@ -22,6 +31,12 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
+                            @canany(['isAdmin', 'isWindowStaff','isProcessor'])
+                                <a href="{{ route('request.index') }}">
+                                    <button  type="button" class="btn btn-secondary float-right "><i class="material-icons">chevron_left</i>Back</button>
+                                </a>
+                                 
+                            @endcan  
                                 <h5>  Requester Information </h5>
                             @can('isRequester')
                                 <a href="{{ route('requester.edit', $requester->id) }}">
@@ -33,7 +48,8 @@
                                 <a href="{{route('request.create') }}">
                                     <button  type="button" class="btn btn-danger btn-flat float-right  "><i class="material-icons">add</i>Create Request</button>
                                 </a>   
-                            @endcan    
+                            @endcan  
+                             
                             </div>
                         </div>
                     

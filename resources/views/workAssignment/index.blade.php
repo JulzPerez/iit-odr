@@ -60,13 +60,14 @@
                                                     </td>
                                                     <!-- <td>{{$request->docName.' '.$request->docParticular}}</td> -->
                                                     <td>
-                                                    @if($request->filename != '')
-                                                        <a href="{{ route('getFile', $request->filename) }}">
-                                                            {{$request->docName.' '.$request->docParticular}}
-                                                        </a>  
-                                                    @else
-                                                        {{$request->docName.' '.$request->docParticular}}                                          
-                                                    @endif
+                                                    
+                                                        {{$request->docName.' '.$request->docParticular}}
+                                                        <br>
+                                                        <br>
+                                                        <a href="">
+                                                            View Attachments
+                                                        </a> 
+                                                   
                                                     </td>
                                                     <td>{{\Carbon\Carbon::parse($request->request_date)->toDateTimeString()}}</td>
                                                    

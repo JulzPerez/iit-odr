@@ -19,6 +19,26 @@
           </div>
         </div>
       </div>
+      <div class="row ">
+            <div class="col-sm-12">  
+                @if(session()->get('success'))
+                    <div class="alert alert-success">
+                    {{ session()->get('success') }}  
+                    </div>
+                @endif
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-sm-12">  
+                @if(session()->get('error'))
+                    <div class="alert alert-danger">
+                    {{ session()->get('error') }}  
+                    </div>
+                @endif
+            </div>
+        </div>
+
       <div class="row justify-content-center">
           <div class="col-md-8">
               <div class="card card-outline card-primary">
