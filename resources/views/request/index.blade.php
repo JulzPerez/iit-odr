@@ -93,7 +93,9 @@
                                                 </div>                                     
                                             </div>
                                             @if($request->auto_assess === 1 OR $request->request_status === 'assessed' 
-                                                OR $request->request_status === 'paid' OR $request->request_status === 'verified')
+                                                OR $request->request_status === 'paid' OR $request->request_status === 'verified' 
+                                                OR $request->request_status === 'completed'
+                                                OR $request->request_status === 'processing')
                                                 <div class="form-row">                                        
                                                         <div class="col" >
                                                             <label>Assessment Fee:   </label>                                                         
