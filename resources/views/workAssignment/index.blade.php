@@ -72,7 +72,7 @@
                                                     <td>{{\Carbon\Carbon::parse($request->request_date)->toDateTimeString()}}</td>
                                                    
                                                     <td >
-                                                    <form method="POST" action="/workAssignment" > 
+                                                    <form method="POST" action="{{ route('workAssignment') }}" id="formAssignWork"> 
                                                     @csrf   
                                                         <div class="form-group">                            
                                                             <div class="input-group">
@@ -88,13 +88,13 @@
                                                                     </span>        
                                                                 </div>
                                                                 <input type="hidden" name="request_id" value="{{ $request->request_id }}">
-                                                                <input type="hidden" name="user_fullname" id="user_fullname">
-                                                            
+                                                                <input type="hidden" name="user_fullname" id="user_fullname">                                                            
                                                             </div>
+                                                            <span class="text-danger error-text user_fullname_error"></span>
 
-                                                            @if ($errors->has('assigned_to'))
+                                                            <!-- @if ($errors->has('assigned_to'))
                                                                 <span class="text-danger">{{ $errors->first('assigned_to') }}</span>
-                                                            @endif 
+                                                            @endif  -->
                                                         </div>
                                                     </form>
                                                     </td>                                                
@@ -137,6 +137,46 @@
 				document.getElementById('user_fullname').value = option.text;
 
             }); 
+        });
+
+        $("#formAssignWork").on('submit', function(e){
+              e.preventDefault();
+
+              $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+              });
+
+              
+              $.ajax({
+                  url:$(this).attr('action'),
+                  method:$(this).attr('method'),
+                  data:new FormData(this),
+                  processData:false,
+                  dataType:'json',
+                  contentType:false,
+                  beforeSend:function(){    
+                      $(document).find('span.error-text').text('');  
+           
+                      //$("#loader").show();                      
+                  },
+                
+                  success:function(data){
+                    
+                      if(data.status == 0){
+                       
+                          $.each(data.error, function(prefix, val){
+                           
+                              $('span.'+prefix+'_error').text(val[0]); 
+                          }); 
+                          
+                      }else
+                      {                                                                             
+                        window.location = "{{route('workAssignment')}}";                           
+                      }
+                  }
+              });
         });
 
 </script>
