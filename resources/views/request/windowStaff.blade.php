@@ -84,10 +84,14 @@
                                                 </button>
                                             </td>
                                             <td>{{\Carbon\Carbon::parse($request->request_date)->toDateTimeString()}}</td> 
-                                            <td>
+                                            <td style="text-align: center">
                                                 @if($request->request_status === 'paid')
                                                     {{$request->request_status}} 
-                                                    <a href="{{route('payments.show', $request->request_id )}}">(proof of payment)
+                                                    <br>
+                                                    <a href="{{route('payments.show', $request->request_id )}}">
+                                                        <button type="button" class="btn btn-link btn-sm attachment_requestID mr-1" id="attachment">
+                                                        <i class="material-icons">attach_money</i><b style="color:orange">proof of payment</b>
+                                                        </button>
                                                     </a>
                                                 @else 
                                                     {{$request->request_status}}
