@@ -39,7 +39,7 @@ class WorkAssignmentController extends Controller
 
     public function store(Request $request )
     {
-        //dd($request);
+        dd($request);
         if(\Gate::allows('isAdmin') || \Gate::allows('isWindowStaff'))
         {
             $this->validate($request, [
