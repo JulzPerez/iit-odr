@@ -60,13 +60,15 @@ class WorkAssignmentController extends Controller
                 try
                 {
                     $request_id = $request['request_id'];
+                    $assign = explode(',',$request['assigned_to']);
+                    $user_fullname = trim($assign[1]);
 
+                    
                     DB::table('work_assignment')->insert([
                         'request_id' => $request_id,
-                        'user_id' => $request['assigned_to'],
-                        'user_fullname' => $request['user_fullname'],
+                        'user_id' => $assign[0],
+                        'user_fullname' => $user_fullname,
                         'assigned_by' => \Auth::user()->first_name .' '.\Auth::user()->last_name,                
-                    
                     ]);
 
                     $updateRequest = DocRequest::find($request_id);

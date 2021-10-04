@@ -80,7 +80,8 @@
                                                                     <select class="form-control " name="assigned_to"  id="assigned_to">
                                                                         <option value=""> --Select-- </option>  
                                                                         @foreach($users as $user)
-                                                                            <option value="{{$user->id}}"> {{ucfirst($user->first_name).' '.ucfirst(substr($user->middle_name, 0, 1)).' '.ucfirst($user->last_name)}} </option>
+                                                                            <?php $user_fullname = $user->first_name." ".$user->middle_name." ".$user->last_name; ?>
+                                                                            <option value="{{$user->id}},{{$user_fullname}}"> {{ucfirst($user->first_name).' '.ucfirst(substr($user->middle_name, 0, 1)).' '.ucfirst($user->last_name)}} </option>
                                                                         @endforeach
                                                                     </select>
                                                                     <span class="input-group-button">
