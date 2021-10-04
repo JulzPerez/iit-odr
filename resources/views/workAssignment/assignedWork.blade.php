@@ -57,17 +57,19 @@
                                                         </a>
                                                     </td>
                                                    
-                                                    <td>
-                                                   
+                                                    <td style="text-align: center">
+                                                    
                                                         {{$request->docName.' '.$request->docParticular}}
                                                         <br>
                                                         <br>
-                                                        <a href="">
-                                                            View Attachments
-                                                        </a>  
-                                                  
+                                                        <input type="hidden" class="attachment_request" name="requestID" value="{{$request->request_id}}">
+                                                        <button type="button" class="btn btn-link btn-sm attachment_requestID mr-1" id="attachment">
+                                                            <i class="material-icons">attachment</i><b style="color:red"> Attachment</b>
+                                                        </button>
+                                                   
                                                     </td>
-                                                    <td>{{$request->created_at}}</td>
+                                                    
+                                                    <td>{{$request->request_date}}</td>
                                                    
                                                                                                
                                                     <td >
@@ -114,8 +116,60 @@
                     </div>              
                 </div> 
             </div>       
-        </div>    
+        </div>  
+
+<!-- View attachments Modal -->
+<div class="modal fade" id="viewAttachmentModal" tabindex="-1" role="dialog" aria-labelledby="viewAttachment" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id=""><b style="color:blue">Attachments</b></h5>
+        
+      </div>
+        
+     
+        <div class="table-responsive">
+                <table class="table" id="tblAttachments">
+
+                </table>
+        </div>
+   
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           
+      </div>
+     
+    </div>
+  </div>
+</div>  
 
     </div>
 </div>
 @endsection
+
+@push('js')
+
+<script type="text/javascript">
+        
+        $('button.attachment_requestID').on("click", function(e) {
+                var row = $(this).closest('tr');
+                var request_id = row.find('.attachment_request').val();  
+                console.log(request_id);
+
+                $.ajax({
+                    url: "/request/getAttachments/"+ request_id,
+                    method: 'GET',
+                    success: function(data) {
+                       //console.log(data.html);
+                       $('#tblAttachments').html(data.html);
+                       $("#viewAttachmentModal").modal('show');
+                    }
+                });
+               
+            });
+
+       
+
+</script>
+@endpush
