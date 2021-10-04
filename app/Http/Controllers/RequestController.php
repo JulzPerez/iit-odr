@@ -35,7 +35,7 @@ class RequestController extends Controller
                         ->join('requests', 'requestor.id', '=', 'requests.requestor_id')
                         ->join('documents', 'documents.id', '=', 'requests.document_id')                      
                         ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date') 
-                        ->whereNotIn('requests.request_status',['completed'])
+                        ->whereNotIn('requests.request_status',['completed','verified'])
                         ->orderBy('request_date', 'asc')
                         ->paginate(10); 
 
