@@ -43,7 +43,7 @@
                                                     <th > Requested Document</th>   
                                                     <th > Request Date</th>  
                                                     
-                                                    <th > Action</th>
+                                                    <th > Assign Request</th>
                                                     
                                                 </tr>
                                             </thead>
@@ -63,11 +63,13 @@
                                                     
                                                         {{$request->docName.' '.$request->docParticular}}
                                                         <br>
+                                                    @if($request->require_file_upload === 1) 
                                                         <br>
                                                         <input type="hidden" class="attachment_request" name="requestID" value="{{$request->request_id}}">
                                                         <button type="button" class="btn btn-link btn-sm attachment_requestID mr-1" id="attachment">
                                                             <i class="material-icons">attachment</i><b style="color:red"> Attachment</b>
                                                         </button>
+                                                    @endif
                                                    
                                                     </td>
                                                     <td>{{\Carbon\Carbon::parse($request->request_date)->toDateTimeString()}}</td>

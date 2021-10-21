@@ -50,7 +50,7 @@
                         <p class="text-danger">You have no request created so far.</p>    
                         @else
                         <div class="table-responsive">
-                            <table class="table ">
+                            <table class="table table-bordered ">
                                 <thead>
                                     <tr>
                                         <th><strong>REQUEST</strong></th>

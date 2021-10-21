@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -58,6 +59,7 @@ class UserController extends Controller
                 'email' => 'required|string|unique:odr_users|max:191',
                 'password' => 'required|string|min:8|confirmed',
                 'user_type' => 'required|string|max:191',
+
     
             ]);
 
@@ -69,6 +71,7 @@ class UserController extends Controller
                     'email' => $request['email'],
                     'user_type' => $request['user_type'],
                     'password' => Hash::make($request['password']),
+                    'email_verified_at' => Carbon::now()
                 ]);
             }
             catch(\Exception $exception)

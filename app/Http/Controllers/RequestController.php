@@ -35,26 +35,30 @@ class RequestController extends Controller
                         ->join('requests', 'requestor.id', '=', 'requests.requestor_id')
                         ->join('documents', 'documents.id', '=', 'requests.document_id')                      
                         ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date') 
-                        ->whereNotIn('requests.request_status',['completed','verified','processing'])
+                        //->whereNotIn('requests.request_status',['completed','verified','processing'])
                         ->orderBy('request_date', 'asc')
                         ->paginate(10); 
 
-                $pending = $requests->filter(function ($pending) {
+                $pendingRequests = $requests->filter(function ($pending) {
                     return $pending->request_status == 'pending';
                 });
-                $pendingRequests = $pending->all();
+                
 
                 $paidRequests = $requests->filter(function ($paid) {
                     return $paid->request_status == 'paid';
                 });
-                
+
+                $completedRequests = $requests->filter(function ($completed) {
+                    return $completed->request_status == 'completed';
+                });
+               
             }
             catch(\Exception $exception)
             {
                 throw new \App\Exceptions\ExceptionLogData($exception);
             }
 
-            return view('request.windowStaff', compact('requests','pendingRequests','paidRequests'));
+            return view('request.windowStaff', compact('pendingRequests','paidRequests','completedRequests'));
         }
 
         if(\Gate::allows('isProcessor') )

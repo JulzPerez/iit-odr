@@ -109,5 +109,24 @@ class WorkAssignmentController extends Controller
         }
     }
 
+    public function markReleased($id)
+    {
+        try
+        {
+            $updateStatus = DocRequest::find($id);
+            $updateStatus->request_status = 'released';
+            $updateStatus->save();
+        }  
+        catch(\Exception $exception){
+
+            throw new \App\Exceptions\LogData($exception);                
+        }
+
+        if($updateStatus)
+        {
+            return redirect('/request')->with('success', 'Request has been released! ');
+        }
+    }
+
    
 }

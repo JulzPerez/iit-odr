@@ -32,16 +32,16 @@
                                     @if($requests->isEmpty() )
                                         <p class="text-danger">No requests assigned yet.</p>                                
                                     @else
-                                        <table class="table">
+                                        <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th >#</th>
-                                                    <th >Requester</th>
-                                                    <th> Requested Document</th>   
-                                                    <th > Request Date</th>  
+                                                    <th ><strong>#</th>
+                                                    <th > <strong>Requester</th>
+                                                    <th> <strong>Requested Document</th>   
+                                                    <th><strong>Purpose of Request</strong></th>  
                                                     
                                                     <!-- <th style="width:15%"> Payment Status</th> -->
-                                                    <th> Action</th>
+                                                    <th><strong> Action</th>
                                                     
                                                 </tr>
                                             </thead>
@@ -61,16 +61,17 @@
                                                     
                                                         {{$request->docName.' '.$request->docParticular}}
                                                         <br>
+                                                        @if($request->require_file_upload === 1)
                                                         <br>
                                                         <input type="hidden" class="attachment_request" name="requestID" value="{{$request->request_id}}">
                                                         <button type="button" class="btn btn-link btn-sm attachment_requestID mr-1" id="attachment">
                                                             <i class="material-icons">attachment</i><b style="color:red"> Attachment</b>
                                                         </button>
+                                                        @endif
                                                    
                                                     </td>
                                                     
-                                                    <td>{{$request->request_date}}</td>
-                                                   
+                                                    <td>{{$request->purpose_of_request}}</td>                                                   
                                                                                                
                                                     <td >
                                                      
