@@ -71,7 +71,7 @@ class RequestController extends Controller
                         ->join('documents', 'documents.id', '=', 'requests.document_id')
                         ->join('work_assignment', 'requests.id','=','work_assignment.request_id')
                         ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
-                        ->where('requests.request_status','processing') 
+                        ->where('work_assignment.work_status','processing') 
                         ->where('work_assignment.user_id',$user_id) 
                         ->orderBy('work_assignment.created_at', 'desc')
                         ->get(); 

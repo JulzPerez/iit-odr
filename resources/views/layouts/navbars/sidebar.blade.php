@@ -51,14 +51,14 @@
               </p>
             </a>
           </li>
-          <!-- <li class="nav-item {{ $activePage == 'assignments' ? ' active' : '' }} ">
-            <a href="{{route('assignment')}}" class="nav-link ">
+          <li class="nav-item {{ $activePage == 'assignments' ? ' active' : '' }} ">
+            <a href="{{route('assignments')}}" class="nav-link ">
               <i class="material-icons">money</i>
               <p>
-                Assignment         
+                View Work Status         
               </p>
             </a>
-          </li> -->
+          </li>
           @endcan
 
           @can('isProcessor')

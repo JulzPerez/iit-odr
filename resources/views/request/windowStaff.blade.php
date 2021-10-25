@@ -34,8 +34,8 @@
                             
                                    
                                     <button type="button" class="btn btn-primary" id="btnPending">For Assessment</button>
-                                    <button type="button" class="btn btn-secondary" id="btnPaid">For Verification</button>
-                                    <button type="button" class="btn btn-secondary" id="btnCompleted">For Releasing</button>
+                                    <button type="button" class="btn btn-warning" id="btnPaid">For Verification</button>
+                                   <!--  <button type="button" class="btn btn-secondary" id="btnCompleted">For Releasing</button> -->
                                     
                                 </div>                              
                             </div>
@@ -213,83 +213,7 @@
                             </table>
                         </div>
 
-                        <div class="table-responsive" id="tblCompleted" style="display:none">
-                        <h4 style="color:blue"><strong>For Releasing</strong></h4>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th><strong>#<strong></th>
-                                        <th><strong>Requestor</strong></th>
-                                        <th><strong>Document</strong></th>
-                                        <th><strong>Purpose of Request</strong></th>
-                                        <th><strong>Request Status</strong></th>
-                                        <th class="text-center"><strong>Actions</strong></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                     
-                                    @if(($completedRequests->isEmpty())) 
-                                        <p>No requests found</p>
-                                    @else
-                                    <?php $count=0 ?>
-                                        @foreach($completedRequests as $completedRequest)
-                                        <tr>
-                                            <td>{{++$count}}</td>
-                                            <td>
-                                                <a href="{{ route('requester.show', $completedRequest->requestor_id) }}" >
-                                                    {{ucfirst($completedRequest->first_name).' '.ucfirst($completedRequest->last_name)}}</td>                                                    
-                                                </a>
-                                            </td>
-                                            <td style="text-align: center">{{$completedRequest->docName." ".$completedRequest->docParticular}}
-
-                                                <br>
-                                            @if($completedRequest->require_file_upload === 1)
-                                                <input type="hidden" class="attachment_request" name="requestID" value="{{$completedRequest->request_id}}">
-                                                <button type="button" class="btn btn-link btn-sm attachment_requestID mr-1" id="attachment">
-                                                    <i class="material-icons">attachment</i><b style="color:red"> Attachment</b>
-                                                </button>
-                                            @endif
-                                            </td>
-                                            <td>{{$completedRequest->purpose_of_request}}</td> 
-                                            <td>{{$completedRequest->request_status}}</td>
-                                                                
-                                            <td class="td-actions">
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-
-                                                    <form action="{{ route('workAssignment.release',$completedRequest->request_id) }}" method="POST">
-                                                        @csrf
-                                                            <button type="submit" rel="tooltip" class="btn btn-secondary">
-                                                                <i class="material-icons">task_alt</i><b style="color:green">{{_('Released')}}</b>
-                                                            </button>                                                       
-                                                    </form>
-                                               
-                                                   <!--  <button id="btnAssess" type="button" class="btn btn-warning request_id" data-toggle="modal" data-target="#exampleModal">
-                                                        Additional Fees
-                                                    </button> -->
-
-                                                    @if($completedRequest->thread_id === null)
-                                                    <a href="{{ route('messages.create', [$completedRequest->request_id, $completedRequest->requestor_id] ) }}" >
-                                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
-                                                        <i class="material-icons">chat</i><b style="color:purple">Send Message </b>
-                                                        </button>
-                                                    </a>
-                                                    @else
-                                                    <a href="{{ route('messages.show', $completedRequest->thread_id) }}" >
-                                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
-                                                        <i class="material-icons">chat</i>  <b style="color:purple">View Message </b>
-                                                        </button>
-                                                    </a>
-                                                    @endif   
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    @endif
-
-                                </tbody>
-                            </table>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -467,7 +391,7 @@
                  
                  document.getElementById("tblPaid").style.display = "none";
 
-                 document.getElementById("tblCompleted").style.display = "none";
+                 //document.getElementById("tblCompleted").style.display = "none";
          
              });   
 
@@ -479,7 +403,7 @@
                  
                  document.getElementById("tblPaid").style.display = "block";
 
-                 document.getElementById("tblCompleted").style.display = "none";
+                // document.getElementById("tblCompleted").style.display = "none";
 
             });
 
@@ -491,7 +415,7 @@
                 
                 document.getElementById("tblPaid").style.display = "none";
 
-                document.getElementById("tblCompleted").style.display = "block";
+                //document.getElementById("tblCompleted").style.display = "block";
 
             });
              

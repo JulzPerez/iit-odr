@@ -41,14 +41,13 @@
                                                     <th >#</th>
                                                     <th >Requester</th>
                                                     <th > Requested Document</th>   
-                                                    <th > Request Date</th>  
-                                                    
+                                                    <th > Request Date</th>                                                      
                                                     <th > Assign Request</th>
                                                     
                                                 </tr>
                                             </thead>
 
-                                            <tbody style="line-height: 0.75">
+                                            <tbody >
                                                 @foreach($requests as $key => $request)
                                                 <tr>
                                                     <td>{{ ++$key }}</td>

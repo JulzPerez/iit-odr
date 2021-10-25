@@ -25,6 +25,8 @@ class CreateRequestsTable extends Migration
             $table->timestamp('assessed_date')->nullable();
             $table->string('request_status')->default('pending');  
             $table->string('purpose_of_request');
+            $table->string('remarks')->nullable();
+            $table->timestamp('release_date')->nullable();
             $table->timestamps();
 
             $table->foreign('requestor_id')->references('id')->on('requestor')->onDelete('cascade');
