@@ -31,7 +31,7 @@ class CreateRequestsTable extends Migration
 
             $table->foreign('requestor_id')->references('id')->on('requestor')->onDelete('cascade');
             $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');
-            $table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
+            //$table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
          
         });
     }
