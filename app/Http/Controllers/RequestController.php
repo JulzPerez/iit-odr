@@ -157,7 +157,7 @@ class RequestController extends Controller
                 'request_purpose.required' => 'Please write the purpose of request.',
                 'filename.required' => 'Please upload file for this document request!',
                 'filename.*.mimes' => 'The file must be a file of type: pdf',
-                'filename.*.max' => 'File must only be <= 512KB'
+                'filename.*.max' => 'File must only be <= 1MB'
             ]);
         }
         else{
