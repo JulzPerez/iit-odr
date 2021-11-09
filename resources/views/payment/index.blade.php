@@ -58,13 +58,19 @@
                             <br>
                             <div class="row">
                                 <div class="col">
-                                    <label>Click to browse file</label>
-                                    <div class="fileinput fileinput-new " data-provides="fileinput">
-                                        <input type="file" name="file" class="form-control" id="file">
+                                 
+                                       <!--  <label>Click to browse file</label> -->
+                                       <!-- <div class="form-group form-file-upload form-file-simple">
+                                            <input type="text" class="form-control inputFileVisible" placeholder="Simple chooser...">
+                                            <input type="file" class="inputFileHidden">
+                                        </div> -->
+                                        <div class="fileinput fileinput-new " data-provides="fileinput">
+                                            <input type="file" name="file" class="form-control" id="file">
 
-                                        <span class="text-danger error-text file_error"></span>
-                                        
-                                    </div>  
+                                            <span class="text-danger error-text file_error"></span>
+                                            
+                                        </div>  
+                                  
                                 </div>
                             </div>
                             <br>

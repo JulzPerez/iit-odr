@@ -38,11 +38,11 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th >#</th>
-                                                    <th >Requester</th>
-                                                    <th > Requested Document</th>   
-                                                    <th > Request Date</th>                                                      
-                                                    <th > Assign Request</th>
+                                                    <th style="width:5%">#</th>
+                                                    <th style="width:15%"> <b>Requester</b></th>
+                                                    <th style="width:20%"> <b>Requested Document </b></th>   
+                                                    <th style="width:20%"> <b>Request Date </b></th>                                                      
+                                                    <th style="width:40%"> <b>Assign Request </b></th>
                                                     
                                                 </tr>
                                             </thead>
@@ -79,7 +79,7 @@
                                                         <div class="form-group">                            
                                                             <div class="input-group">
                                                                 <div class="custom-file">
-                                                                    <select class="form-control " name="assigned_to"  id="assigned_to">
+                                                                    <select class="selectpicker" data-style="btn btn-primary btn-round" name="assigned_to"  id="assigned_to">
                                                                         <option value=""> --Select-- </option>  
                                                                         @foreach($users as $user)
                                                                             <?php $user_fullname = $user->first_name." ".$user->middle_name." ".$user->last_name; ?>
@@ -87,7 +87,7 @@
                                                                         @endforeach
                                                                     </select>
                                                                     <span class="input-group-button">
-                                                                        <button type="submit" class="btn btn-info">Assign</button>
+                                                                        <button type="submit" class="btn btn-primary btn-link btn-sm">Assign</button>
                                                                     </span>        
                                                                 </div>
                                                                 <input type="hidden" name="request_id" value="{{ $request->request_id }}">

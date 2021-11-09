@@ -18,9 +18,10 @@ class CreateWorkAssignmentTable extends Migration
             $table->unsignedBigInteger('request_id');
             $table->unsignedBigInteger('user_id');
             $table->string('user_fullname');
-            $table->string('assigned_by');
+            $table->string('work_type');
+            $table->string('assignedTo_id')->nullable();
+            $table->string('assignedTo_fullname')->nullable();
             $table->string('work_status');
-            $table->timestamp('completed_date')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
 

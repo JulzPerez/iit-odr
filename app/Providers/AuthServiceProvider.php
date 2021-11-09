@@ -45,5 +45,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('isProcessor',function($user){
             return $user->user_type === 'processor';
         });
+
+        Gate::define('isRegistrar',function($user){
+            return $user->user_type === 'registrar';
+        });
     }
 }

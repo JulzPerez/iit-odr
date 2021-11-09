@@ -64,8 +64,7 @@
                                         <th class="text-center"><strong>Actions</strong></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    
+                                <tbody>                                    
                                      
                                     @if(($pendingRequests === null)) 
                                         <p>No requests found</p>
@@ -88,7 +87,7 @@
                                             @endif
                                             </td>
                                             <td>{{$pendingRequest->purpose_of_request}}</td> 
-                                            <td>{{$pendingRequest->request_status}}</td>
+                                            <td><span class="badge badge-primary">{{$pendingRequest->request_status}}</span></td>
                                             <!-- <td>{{\Carbon\Carbon::parse($pendingRequest->request_date)->toDateTimeString()}}</td>  -->                       
                                             <td class="td-actions text-right">      
                                                 <div class="btn-group" role="group" aria-label="Basic example">                 
@@ -248,8 +247,6 @@
             <div >
                 <span class="text-danger error-text pages_error"></span>
             </div>
-            
-           
         
       </div>
       <div class="modal-footer">

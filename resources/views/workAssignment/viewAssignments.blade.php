@@ -46,6 +46,7 @@
                                             <tbody >
                                                 @foreach($assignments as $key => $assignment)
                                                 <tr>
+                                                    
                                                     <td>{{ ++$key }}</td>
                                                     <td>
                                                         <a href="{{ route('requester.show', $assignment->requestor_id) }}" >

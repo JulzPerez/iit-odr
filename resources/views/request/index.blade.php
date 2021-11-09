@@ -85,7 +85,8 @@
                                                     <label>Request Status </label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <b>{{$request->request_status}}</b>   
+                                                    <span class="badge badge-primary">{{$request->request_status}}</span>
+                                                    
                                                 </div>                                     
                                             </div>
 
@@ -123,15 +124,7 @@
                                                         
                                                                                                                                                               
                                                 </div>
-                                                <div class="form-row">
-                                                    <div class="col-md-6" >
-                                                        <label>Assessed By:  </label>                                                         
-                                                    </div>
-                                                    <div class="col-md-6" >
-                                                     <b>{{$request->assessed_by}}  </b> 
-                                                                                                          
-                                                    </div>
-                                                </div>
+                                                
                                             @else
                                                 <div class="form-row">                                        
                                                     <div class="col-md-6" >

@@ -35,9 +35,9 @@
                   <form method="POST" action="{{ route('request.store') }} " enctype="multipart/form-data" id="request_form">
                   @csrf
                       <div class="card-body">
-                            <div class="form-group">
+                            <div class="form-group col-lg-5 col-md-6 col-sm-3">
                                 <label>Document to Request</label>
-                                <select class="form-control " name="docID" id="selectDocument"  style="width: 100%;">
+                                <select class="form-control selectpicker" data-style="btn btn-primary btn-round" name="docID" id="selectDocument"  style="width: 100%;">
                                   <option value=''> --Select-- </option>  
                                   @foreach($docs as $doc)
                                     <option value="{{$doc->id}},{{$doc->require_file_upload}},{{$doc->doc_fee}},{{$doc->auto_assess}}"> 

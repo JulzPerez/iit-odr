@@ -21,12 +21,9 @@ class CreateRequestsTable extends Migration
             $table->smallInteger('number_of_copy')->default(1);
             $table->smallInteger('number_of_pages')->default(1);
             $table->decimal('assessment_total',8,2);
-            $table->string('assessed_by')->nullable();
-            $table->timestamp('assessed_date')->nullable();
             $table->string('request_status')->default('pending');  
             $table->string('purpose_of_request');
             $table->string('remarks')->nullable();
-            $table->timestamp('release_date')->nullable();
             $table->timestamps();
 
             $table->foreign('requestor_id')->references('id')->on('requestor')->onDelete('cascade');

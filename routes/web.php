@@ -29,6 +29,9 @@ Route::Resource('users', 'UserController');
 //Route::Resource('payments', 'UploadPaymentController');
 Route::Resource('files', 'FileUploadController');
 
+Route::get('monitoring',['as' => 'monitoring', 'uses' => 'MonitoringController@index']);
+Route::get('getStat',['as' => 'getStat', 'uses' => 'MonitoringController@getStat']);
+
 //assessment
 Route::group(['prefix' => 'assessment'], function () {
 	Route::get('/', ['as' => 'getAssessment', 'uses' => 'AssessmentController@getAssessment']);

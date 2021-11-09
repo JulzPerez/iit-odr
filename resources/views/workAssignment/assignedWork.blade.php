@@ -77,7 +77,8 @@
                                                      
                                                     <div class="btn-group" role="group" aria-label="Basic example">
                                                       
-                                                        <form action="{{ route('workAssignment.complete',$request->request_id) }}" method="POST">
+                                                    <?php $updateRequest = $request->request_id.','.$request->assignment_id; ?>
+                                                        <form action="{{ route('workAssignment.complete', $updateRequest) }}" method="POST">
                                                         @csrf
                                                                 <button type="submit"  class="btn btn-secondary mr-1">
                                                                     <i class="material-icons">task</i><b style="color:blue">Mark Completed</b>

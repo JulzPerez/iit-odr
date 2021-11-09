@@ -10,6 +10,7 @@ use App\DocRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Session;
+use Carbon\Carbon;
 
 class UploadPaymentController extends Controller
 {
@@ -195,10 +196,28 @@ class UploadPaymentController extends Controller
             $updatePayment = DocRequest::find($id);
             $updatePayment->request_status = 'verified';
             $updatePayment->save();
+
+                if($updatePayment)
+                {
+                    $workStatus = DB::table('work_assignment')->insert(
+                        [
+                            
+                            'request_id' => $id,
+                            'user_id' => \Auth::user()->id,
+                            'user_fullname' => \Auth::user()->first_name .' '. \Auth::user()->last_name,
+                            'work_type' => 'verify',
+                            'assignedTo_id' => null,
+                            'assignedTo_fullname' => null,
+                            'work_status' => 'done',
+                            'created_at' => Carbon::now()
+                            
+                        ]
+                    );
+                }
         }  
         catch(\Exception $exception){
 
-            throw new \App\Exceptions\LogData($exception);                
+            throw new \App\Exceptions\ExceptionLogData($exception);                
         }
 
         if($updatePayment)

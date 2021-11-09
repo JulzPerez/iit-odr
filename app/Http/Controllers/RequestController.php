@@ -70,10 +70,14 @@ class RequestController extends Controller
                         ->join('requests', 'requestor.id', '=', 'requests.requestor_id')
                         ->join('documents', 'documents.id', '=', 'requests.document_id')
                         ->join('work_assignment', 'requests.id','=','work_assignment.request_id')
-                        ->select('requestor.*','requestor.id as requestor_id','requests.id as request_id','requests.*', 'documents.*','requests.created_at as request_date')
+                        ->select('requestor.first_name','requestor.last_name',
+                                'requestor.id as requestor_id','requests.id as request_id','requests.purpose_of_request', 
+                                'documents.*','requests.created_at as request_date','requests.request_status','requests.thread_id',
+                                'work_assignment.id as assignment_id')
+                        ->where('work_assignment.work_type','assign') 
                         ->where('work_assignment.work_status','processing') 
-                        ->where('work_assignment.user_id',$user_id) 
-                        ->orderBy('work_assignment.created_at', 'desc')
+                        ->where('work_assignment.assignedTo_id',$user_id) 
+                        ->orderBy('work_assignment.created_at', 'asc')
                         ->get(); 
                 //dd($requests);
               
@@ -106,6 +110,11 @@ class RequestController extends Controller
             {
                 throw new \App\Exceptions\ExceptionLogData($exception);
             }  
+        }
+
+        if(\Gate::allows('isRegistrar'))
+        {
+            return redirect()->route('monitoring');
         }
     }
     
@@ -140,7 +149,7 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
-       
+       //dd($request);
         $docKey = explode(',',$request['docID']);
 
         if($docKey[1]==1)
@@ -168,7 +177,7 @@ class RequestController extends Controller
             ],
             [
                 'copy.gt' => "Input must be number greater than 0.",
-                'request_purpose.required' => 'Please write the purpose of request.',
+                'request_purpose.required' => 'Please fill in the purpose of request.',
             ]);
         }
                                
@@ -188,15 +197,8 @@ class RequestController extends Controller
                 if($docKey[3]==1)
                 {
                     $request_status = 'assessed';
-                    $assessed_by = 'auto assessed';
-                    $assessed_date = Carbon::now();
                 }
-                else 
-                {
-                    $request_status = 'pending';
-                    $assessed_by = '';
-                    $assessed_date = null;
-                }
+                else $request_status = 'pending';
                
                 $requestID = DB::table('requests')->insertGetId(
                     [
@@ -205,14 +207,31 @@ class RequestController extends Controller
                         'document_id' => $docKey[0],
                         'number_of_copy' => $request['copy'],
                         'assessment_total' => $request['copy'] * $docKey[2],
-                        'assessed_by' => $assessed_by,
-                        'assessed_date' => $assessed_date,
                         'purpose_of_request' => $request['request_purpose'],
                         'request_status' => $request_status,
                         'created_at' => Carbon::now(),
                         
                     ]
-                );                        
+                );   
+                
+                if($docKey[3]==1)
+                {
+                    $workStatus = DB::table('work_assignment')->insert(
+                        [
+                            //'requestor_id' => 1000,
+                            'request_id' => $requestID,
+                            'user_id' => 0,
+                            'user_fullname' => 'auto assessed',
+                            'work_type' => 'assess',
+                            'assignedTo_id' => null,
+                            'assignedTo_fullname' => null,
+                            'work_status' => 'done',
+                            'created_at' => Carbon::now()
+                            
+                        ]
+                    );
+                }
+                
 
                 if($docKey[1]==1)
                 {
@@ -292,12 +311,30 @@ class RequestController extends Controller
                 $fee = $request['docFee'];
 
                 $updateRequest->number_of_pages = $request['pages'];
-                $updateRequest->assessed_by = \Auth::user()->first_name .' '. \Auth::user()->last_name;
-                $updateRequest->assessed_date = Carbon::now();
+                /* $updateRequest->assessed_by = \Auth::user()->first_name .' '. \Auth::user()->last_name;
+                $updateRequest->assessed_date = Carbon::now(); */
                 $updateRequest->assessment_total =  $copy * $pages * $fee;
                 $updateRequest->request_status = 'assessed';
 
                 $updateRequest->save();
+
+                if($updateRequest)
+                {
+                    $workStatus = DB::table('work_assignment')->insert(
+                        [
+                            
+                            'request_id' => $request['requestID'],
+                            'user_id' => \Auth::user()->id,
+                            'user_fullname' => \Auth::user()->first_name .' '. \Auth::user()->last_name,
+                            'work_type' => 'assess',
+                            'assignedTo_id' => null,
+                            'assignedTo_fullname' => null,
+                            'work_status' => 'done',
+                            'created_at' => Carbon::now()
+                            
+                        ]
+                    );
+                }
             }
             catch(\Exception $exception)
             {

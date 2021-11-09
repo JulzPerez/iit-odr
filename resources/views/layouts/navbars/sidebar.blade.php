@@ -72,6 +72,15 @@
           </li>
           @endcan
 
+          @can('isRegistrar')
+          <li class="nav-item {{ $activePage == 'monitoring' ? ' active' : '' }}">
+            <a href="{{ route('monitoring') }}" class="nav-link ">
+            <i class="material-icons">people</i>
+              <p>Monitoring</p>
+            </a>
+          </li>
+          @endcan
+
           @can('isAdmin')
           <li class="nav-item {{ $activePage == 'users' ? ' active' : '' }}">
             <a href="{{ route('users.index') }}" class="nav-link ">
