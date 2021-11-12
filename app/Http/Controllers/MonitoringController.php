@@ -50,4 +50,12 @@ class MonitoringController extends Controller
 
         
     }
+
+    public function generatePDF()
+    {
+        $data = ['title' => 'Welcome to ItSolutionStuff.com'];
+        $pdf = PDF::loadView('Monitoring.reportPDFview', $data);
+  
+        return $pdf->download('work-report.pdf');
+    }
 }

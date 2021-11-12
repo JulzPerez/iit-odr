@@ -169,7 +169,7 @@
                           <div class="col-md-3">
                             <div class="form-group">
                                 <label>Date of Birth</label>                             
-                                <input type="date" class="date form-control" name="birthdate" value="{{ old('birthdate',$requester->date_of_birth) }}">
+                                <input type="text" class="datepicker form-control" name="birthdate" value="{{ old('birthdate',$requester->date_of_birth) }}">
                               
                                 <span class="text-danger error-text birthdate_error"></span>
                               
@@ -263,7 +263,7 @@
                           <div class="col-md-4">
                             <div class="form-group">
                               <label>Date of Graduation</label>
-                              <input type="date" class="form-control" name="graduation_date" value="{{ old('graduation_date',$requester->date_of_graduation) }}" >
+                              <input type="text" class="form-control datepicker" name="graduation_date" value="{{ old('graduation_date',$requester->date_of_graduation) }}" >
                               
                               <span class="text-danger error-text graduation_date_error"></span>
                               
@@ -431,6 +431,23 @@
             $('#AY_attended').inputmask({"mask": "9999 - 9999"}); 
            
           });
+
+          $('.datepicker').datetimepicker({
+            //defaultDate:'now',
+            format: 'YYYY-MM-DD',
+
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
 
         
       }); 

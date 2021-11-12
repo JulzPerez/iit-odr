@@ -31,6 +31,7 @@ Route::Resource('files', 'FileUploadController');
 
 Route::get('monitoring',['as' => 'monitoring', 'uses' => 'MonitoringController@index']);
 Route::get('getStat',['as' => 'getStat', 'uses' => 'MonitoringController@getStat']);
+Route::get('generate-pdf','MonitoringController@generatePDF');
 
 //assessment
 Route::group(['prefix' => 'assessment'], function () {

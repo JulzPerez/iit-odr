@@ -130,21 +130,7 @@
                {
                 e.preventDefault();
                 $('span.date_error').text('Invalid Date! From date must be lesser than To date!');
-                
-                
-               /*  const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 4000
-                    })        
-
-                    Toast.fire({
-                    icon: 'error',
-                    title: 'From Date shoud not be greater than To Date!'
-                    })
- */
-                 
+                                 
                }
             });
 

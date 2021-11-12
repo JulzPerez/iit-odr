@@ -47,7 +47,7 @@
             <a href="{{route('workAssignment')}}" class="nav-link ">
               <i class="material-icons">money</i>
               <p>
-                Work Assignment         
+                Assign Work         
               </p>
             </a>
           </li>
